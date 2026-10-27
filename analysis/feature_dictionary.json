@@ -1,0 +1,272 @@
+{
+  "IPV4_SRC_ADDR": {
+    "category": "Identity (Layer 3)",
+    "description": "Địa chỉ IPv4 của máy nguồn gửi lưu lượng.",
+    "network_meaning": "Xác định danh tính node phát sinh kết nối.",
+    "leakage_risk": "CRITICAL: Nếu đưa trực tiếp vào mô hình, mô hình sẽ học vẹt IP thay vì học hành vi tấn công."
+  },
+  "L4_SRC_PORT": {
+    "category": "Identity (Layer 4)",
+    "description": "Cổng (Port) dịch vụ của máy nguồn (0 - 65535).",
+    "network_meaning": "Thường là ephemeral port ngẫu nhiên của client, nhưng trong tấn công quét cổng (Port Scan) nó có quy luật.",
+    "leakage_risk": "HIGH: Có thể bị khai thác để nhớ cổng cố định của máy tấn công."
+  },
+  "IPV4_DST_ADDR": {
+    "category": "Identity (Layer 3)",
+    "description": "Địa chỉ IPv4 của máy đích nhận lưu lượng.",
+    "network_meaning": "Xác định server/endpoint là mục tiêu của lưu lượng hoặc cuộc tấn công.",
+    "leakage_risk": "CRITICAL: Rò rỉ danh tính máy chủ nạn nhân."
+  },
+  "L4_DST_PORT": {
+    "category": "Identity (Layer 4)",
+    "description": "Cổng (Port) dịch vụ của máy đích (VD: 80-HTTP, 443-HTTPS, 22-SSH).",
+    "network_meaning": "Chỉ định dịch vụ mục tiêu đang bị truy vấn hoặc tấn công.",
+    "leakage_risk": "MEDIUM: Cần giữ lại ngữ cảnh dịch vụ nhưng tránh overfit vào số cổng."
+  },
+  "PROTOCOL": {
+    "category": "Protocol (Layer 3)",
+    "description": "Giao thức mạng IP (6: TCP, 17: UDP, 1: ICMP).",
+    "network_meaning": "Loại giao thức điều khiển tầng truyền tải.",
+    "leakage_risk": "LOW: Đặc trưng hành vi hợp lệ."
+  },
+  "L7_PROTO": {
+    "category": "Protocol (Layer 7)",
+    "description": "Giao thức tầng ứng dụng được nDPI nhận diện (VD: DNS, HTTP, SSL).",
+    "network_meaning": "Dịch vụ ứng dụng thực tế chạy trên flow.",
+    "leakage_risk": "LOW: Đặc trưng hành vi hợp lệ."
+  },
+  "IN_BYTES": {
+    "category": "Payload Volumetrics",
+    "description": "Tổng số bytes gửi từ máy nguồn sang máy đích trong flow.",
+    "network_meaning": "Độ lớn dữ liệu tải lên (Upload volume).",
+    "leakage_risk": "SAFE: Thuộc tính hành vi cốt lõi."
+  },
+  "OUT_BYTES": {
+    "category": "Payload Volumetrics",
+    "description": "Tổng số bytes phản hồi từ máy đích về máy nguồn.",
+    "network_meaning": "Độ lớn dữ liệu tải xuống (Download volume).",
+    "leakage_risk": "SAFE: Thuộc tính hành vi cốt lõi."
+  },
+  "IN_PKTS": {
+    "category": "Payload Volumetrics",
+    "description": "Tổng số gói tin (packets) gửi từ nguồn sang đích.",
+    "network_meaning": "Mật độ gói tin đi (tấn công DoS thường có số packet cực lớn).",
+    "leakage_risk": "SAFE: Thuộc tính hành vi cốt lõi."
+  },
+  "OUT_PKTS": {
+    "category": "Payload Volumetrics",
+    "description": "Tổng số gói tin phản hồi từ đích về nguồn.",
+    "network_meaning": "Mật độ gói tin phản hồi.",
+    "leakage_risk": "SAFE: Thuộc tính hành vi cốt lõi."
+  },
+  "TCP_FLAGS": {
+    "category": "TCP Control",
+    "description": "Tổng hợp (tích lũy bitwise) tất cả các cờ TCP xuất hiện trong flow (SYN, ACK, FIN, RST, PSH, URG).",
+    "network_meaning": "Trạng thái bắt tay và kết thúc TCP. Tấn công SYN Flood hoặc FIN Scan sẽ có cờ bất thường.",
+    "leakage_risk": "SAFE: Dấu hiệu nhận diện tấn công cực mạnh."
+  },
+  "CLIENT_TCP_FLAGS": {
+    "category": "TCP Control",
+    "description": "Các cờ TCP do máy khách gửi đi.",
+    "network_meaning": "Hành vi khởi tạo kết nối của client.",
+    "leakage_risk": "SAFE: Dấu hiệu hành vi hợp lệ."
+  },
+  "SERVER_TCP_FLAGS": {
+    "category": "TCP Control",
+    "description": "Các cờ TCP do máy chủ phản hồi.",
+    "network_meaning": "Phản ứng của server đối với yêu cầu.",
+    "leakage_risk": "SAFE: Dấu hiệu hành vi hợp lệ."
+  },
+  "FLOW_DURATION_MILLISECONDS": {
+    "category": "Time & Duration",
+    "description": "Thời gian tồn tại của flow mạng tính bằng mili-giây (ms).",
+    "network_meaning": "Flow kéo dài bao lâu (Quét cổng thường cực ngắn < 1ms, DoS/Tải file thường dài).",
+    "leakage_risk": "SAFE: Thuộc tính thời gian cốt lõi."
+  },
+  "DURATION_IN": {
+    "category": "Time & Duration",
+    "description": "Thời lượng luồng gửi đi từ Client sang Server (ms).",
+    "network_meaning": "Thời gian client tích cực phát dữ liệu.",
+    "leakage_risk": "SAFE: Thuộc tính thời gian."
+  },
+  "DURATION_OUT": {
+    "category": "Time & Duration",
+    "description": "Thời lượng luồng phản hồi từ Server về Client (ms).",
+    "network_meaning": "Thời gian server tích cực phản hồi.",
+    "leakage_risk": "SAFE: Thuộc tính thời gian."
+  },
+  "MIN_TTL": {
+    "category": "Network Topology / Hop",
+    "description": "Giá trị Time-To-Live nhỏ nhất của gói tin trong flow.",
+    "network_meaning": "Ước lượng khoảng cách hop mạng và hệ điều hành nguồn (Windows thường TTL=128, Linux TTL=64).",
+    "leakage_risk": "MEDIUM: Có thể gián tiếp rò rỉ loại OS của máy trong lab."
+  },
+  "MAX_TTL": {
+    "category": "Network Topology / Hop",
+    "description": "Giá trị Time-To-Live lớn nhất của gói tin trong flow.",
+    "network_meaning": "Ước lượng khoảng cách hop mạng.",
+    "leakage_risk": "MEDIUM: Tương tự MIN_TTL."
+  },
+  "LONGEST_FLOW_PKT": {
+    "category": "Packet Geometry",
+    "description": "Kích thước gói tin lớn nhất trong flow (bytes).",
+    "network_meaning": "Dấu hiệu phát hiện tràn bộ đệm (Buffer Overflow / Exploit payload) hoặc MTU 1500.",
+    "leakage_risk": "SAFE: Phản ánh cấu trúc packet."
+  },
+  "SHORTEST_FLOW_PKT": {
+    "category": "Packet Geometry",
+    "description": "Kích thước gói tin nhỏ nhất trong flow (bytes).",
+    "network_meaning": "Các gói TCP ACK thuần túy thường là 40-54 bytes.",
+    "leakage_risk": "SAFE: Phản ánh cấu trúc packet."
+  },
+  "MIN_IP_PKT_LEN": {
+    "category": "Packet Geometry",
+    "description": "Độ dài IP packet nhỏ nhất quan sát được.",
+    "network_meaning": "Kích thước header + payload tối thiểu.",
+    "leakage_risk": "SAFE: Thuộc tính hình học packet."
+  },
+  "MAX_IP_PKT_LEN": {
+    "category": "Packet Geometry",
+    "description": "Độ dài IP packet lớn nhất quan sát được.",
+    "network_meaning": "Kích thước header + payload tối đa.",
+    "leakage_risk": "SAFE: Thuộc tính hình học packet."
+  },
+  "SRC_TO_DST_SECOND_BYTES": {
+    "category": "Throughput Dynamics",
+    "description": "Tốc độ truyền dữ liệu chiều đi (Bytes/giây).",
+    "network_meaning": "Băng thông chiều gửi.",
+    "leakage_risk": "SAFE: Động lực học băng thông."
+  },
+  "DST_TO_SRC_SECOND_BYTES": {
+    "category": "Throughput Dynamics",
+    "description": "Tốc độ truyền dữ liệu chiều về (Bytes/giây).",
+    "network_meaning": "Băng thông chiều nhận.",
+    "leakage_risk": "SAFE: Động lực học băng thông."
+  },
+  "RETRANSMITTED_IN_BYTES": {
+    "category": "Congestion & Loss",
+    "description": "Số bytes TCP bị truyền lại (retransmitted) chiều đi.",
+    "network_meaning": "Biểu hiện nghẽn mạng, rớt gói hoặc tấn công làm nghẽn switch/router.",
+    "leakage_risk": "SAFE: Chỉ số chất lượng truyền tin."
+  },
+  "RETRANSMITTED_IN_PKTS": {
+    "category": "Congestion & Loss",
+    "description": "Số gói tin TCP bị truyền lại chiều đi.",
+    "network_meaning": "Tần suất rớt gói chiều đi.",
+    "leakage_risk": "SAFE: Chỉ số chất lượng truyền tin."
+  },
+  "RETRANSMITTED_OUT_BYTES": {
+    "category": "Congestion & Loss",
+    "description": "Số bytes TCP bị truyền lại chiều về.",
+    "network_meaning": "Nghẽn chiều phản hồi.",
+    "leakage_risk": "SAFE: Chỉ số chất lượng truyền tin."
+  },
+  "RETRANSMITTED_OUT_PKTS": {
+    "category": "Congestion & Loss",
+    "description": "Số gói tin TCP bị truyền lại chiều về.",
+    "network_meaning": "Tần suất rớt gói chiều về.",
+    "leakage_risk": "SAFE: Chỉ số chất lượng truyền tin."
+  },
+  "SRC_TO_DST_AVG_THROUGHPUT": {
+    "category": "Throughput Dynamics",
+    "description": "Băng thông trung bình chiều đi (bits per second - bps).",
+    "network_meaning": "Tốc độ trung bình truyền tải.",
+    "leakage_risk": "SAFE: Động lực học lưu lượng."
+  },
+  "DST_TO_SRC_AVG_THROUGHPUT": {
+    "category": "Throughput Dynamics",
+    "description": "Băng thông trung bình chiều về (bps).",
+    "network_meaning": "Tốc độ trung bình phản hồi.",
+    "leakage_risk": "SAFE: Động lực học lưu lượng."
+  },
+  "NUM_PKTS_UP_TO_128_BYTES": {
+    "category": "Packet Size Bins",
+    "description": "Số gói tin trong flow có kích thước <= 128 bytes.",
+    "network_meaning": "Phần lớn là gói tin điều khiển (Control packets, TCP Handshake, Ping, ACK).",
+    "leakage_risk": "SAFE: Phân bố kích thước gói."
+  },
+  "NUM_PKTS_128_TO_256_BYTES": {
+    "category": "Packet Size Bins",
+    "description": "Số gói tin có kích thước từ 129 đến 256 bytes.",
+    "network_meaning": "Yêu cầu HTTP nhỏ, DNS query/response, SSH payload nhỏ.",
+    "leakage_risk": "SAFE: Phân bố kích thước gói."
+  },
+  "NUM_PKTS_256_TO_512_BYTES": {
+    "category": "Packet Size Bins",
+    "description": "Số gói tin có kích thước từ 257 đến 512 bytes.",
+    "network_meaning": "Dữ liệu trung bình, chứng chỉ SSL sơ bộ.",
+    "leakage_risk": "SAFE: Phân bố kích thước gói."
+  },
+  "NUM_PKTS_512_TO_1024_BYTES": {
+    "category": "Packet Size Bins",
+    "description": "Số gói tin có kích thước từ 513 đến 1024 bytes.",
+    "network_meaning": "Dữ liệu lớn hơn, truyền tải text/HTML.",
+    "leakage_risk": "SAFE: Phân bố kích thước gói."
+  },
+  "NUM_PKTS_1024_TO_1514_BYTES": {
+    "category": "Packet Size Bins",
+    "description": "Số gói tin kích thước tối đa chuẩn MTU Ethernet (1025 đến 1514 bytes).",
+    "network_meaning": "Truyền file dung lượng lớn, streaming, hoặc tấn công ngập lụt băng thông.",
+    "leakage_risk": "SAFE: Phân bố kích thước gói."
+  },
+  "TCP_WIN_MAX_IN": {
+    "category": "TCP Window Control",
+    "description": "Kích thước TCP Window tối đa phía client gửi.",
+    "network_meaning": "Dung lượng bộ đệm nhận của client, thể hiện cấu hình stack mạng của HĐH.",
+    "leakage_risk": "LOW: Hành vi điều khiển luồng."
+  },
+  "TCP_WIN_MAX_OUT": {
+    "category": "TCP Window Control",
+    "description": "Kích thước TCP Window tối đa phía server phản hồi.",
+    "network_meaning": "Dung lượng bộ đệm nhận của server.",
+    "leakage_risk": "LOW: Hành vi điều khiển luồng."
+  },
+  "ICMP_TYPE": {
+    "category": "ICMP Control",
+    "description": "Mã loại ICMP (VD: 8: Echo Request / Ping, 0: Echo Reply, 3: Destination Unreachable).",
+    "network_meaning": "Đặc trưng của lưu lượng Ping và quét mạng ICMP.",
+    "leakage_risk": "SAFE: Dấu hiệu nhận diện ICMP Flood."
+  },
+  "ICMP_IPV4_TYPE": {
+    "category": "ICMP Control",
+    "description": "Loại ICMP dành riêng cho IPv4.",
+    "network_meaning": "Chi tiết subtype của ICMP.",
+    "leakage_risk": "SAFE: Dấu hiệu kiểm soát mạng."
+  },
+  "DNS_QUERY_ID": {
+    "category": "Application Layer (DNS)",
+    "description": "Mã định danh giao dịch của truy vấn DNS (Transaction ID).",
+    "network_meaning": "Số ngẫu nhiên 16-bit dùng để ghép cặp câu hỏi và câu trả lời DNS.",
+    "leakage_risk": "SAFE: Giá trị ngẫu nhiên trong DNS."
+  },
+  "DNS_QUERY_TYPE": {
+    "category": "Application Layer (DNS)",
+    "description": "Loại bản ghi DNS được hỏi (VD: 1: A, 28: AAAA, 15: MX).",
+    "network_meaning": "Mục đích truy vấn tên miền.",
+    "leakage_risk": "SAFE: Dấu hiệu ứng dụng."
+  },
+  "DNS_TTL_ANSWER": {
+    "category": "Application Layer (DNS)",
+    "description": "Thời gian tồn tại trong bộ nhớ đệm (Time To Live) của câu trả lời DNS.",
+    "network_meaning": "Chính sách cache của máy chủ DNS.",
+    "leakage_risk": "SAFE: Thuộc tính ứng dụng."
+  },
+  "FTP_COMMAND_RET_CODE": {
+    "category": "Application Layer (FTP)",
+    "description": "Mã phản hồi của lệnh FTP (VD: 220: Service Ready, 530: Not logged in / Brute force).",
+    "network_meaning": "Trạng thái đăng nhập hoặc lỗi lệnh FTP. Dấu hiệu phát hiện tấn công vét cạn mật khẩu FTP.",
+    "leakage_risk": "SAFE: Dấu hiệu ứng dụng cực kỳ giá trị."
+  },
+  "Label": {
+    "category": "Ground Truth",
+    "description": "Nhãn nhị phân: 0 = Benign (Bình thường), 1 = Attack (Tấn công).",
+    "network_meaning": "Mục tiêu dự đoán cơ bản (Binary Classification).",
+    "leakage_risk": "TARGET"
+  },
+  "Attack": {
+    "category": "Ground Truth",
+    "description": "Tên chi tiết của lớp tấn công (Benign, Exploits, Fuzzers, DoS, Worms,...).",
+    "network_meaning": "Mục tiêu phân loại đa lớp (Multiclass Classification) để kiểm chứng per-class recall.",
+    "leakage_risk": "TARGET"
+  }
+}

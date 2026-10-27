@@ -1,0 +1,2097 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trust-NIDS Audit Report - NF-UNSW-NB15-v2</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --border: #334155;
+    --text: #f8fafc;
+    --muted: #94a3b8;
+    --accent: #38bdf8;
+    --danger: #f87171;
+    --success: #4ade80;
+    --warning: #fbbf24;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 2rem;
+    line-height: 1.6;
+  }
+  .container { max-width: 1200px; margin: 0 auto; }
+  h1, h2, h3 { color: var(--accent); }
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+  .kpi-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+  }
+  .kpi-title { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .kpi-val { font-size: 1.75rem; font-weight: bold; margin-top: 0.5rem; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2.5rem;
+    overflow-x: auto;
+  }
+  table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+  th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+  th { background: #0b1120; color: var(--muted); font-size: 0.85rem; }
+  tr:hover { background: rgba(56, 189, 248, 0.05); }
+  .badge { display: inline-block; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
+  .badge-danger { background: rgba(248, 113, 113, 0.2); color: var(--danger); }
+  .badge-safe { background: rgba(74, 222, 128, 0.2); color: var(--success); }
+  .badge-warning { background: rgba(251, 191, 36, 0.2); color: var(--warning); }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>🛡️ Trust-NIDS Benchmark: Exploratory Data Audit</h1>
+    <p style="color: var(--muted);">Báo cáo thẩm định dữ liệu mạng chuyên sâu cho tập tin <code>NF-UNSW-NB15-v2.parquet</code></p>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-title">Tổng số Flows Mạng</div>
+      <div class="kpi-val">2,390,275</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-title">Tỷ lệ Tấn công (Attack)</div>
+      <div class="kpi-val" style="color: var(--danger);">3.98%</div>
+      <div style="font-size: 0.8rem; color: var(--muted);">95,053 flows</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-title">Số IP Nguồn (Nodes)</div>
+      <div class="kpi-val" style="color: var(--warning);">40 IPs</div>
+      <div style="font-size: 0.8rem; color: var(--muted);">Nguy cơ Identity Leakage cao</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-title">Thời lượng Flow TB</div>
+      <div class="kpi-val">259111.7 ms</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🎯 1. Phân bố Hành vi Tấn công (Attack Breakdown)</h2>
+    <table border="1" class="dataframe table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Attack</th>
+      <th>count</th>
+      <th>pct</th>
+      <th>avg_in_bytes</th>
+      <th>avg_out_bytes</th>
+      <th>avg_in_pkts</th>
+      <th>avg_out_pkts</th>
+      <th>avg_dur_ms</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Benign</td>
+      <td>2295222</td>
+      <td>96.02</td>
+      <td>4159.1</td>
+      <td>36203.6</td>
+      <td>36.7</td>
+      <td>46.9</td>
+      <td>251113.1</td>
+    </tr>
+    <tr>
+      <td>Exploits</td>
+      <td>31551</td>
+      <td>1.32</td>
+      <td>34233.2</td>
+      <td>21891.3</td>
+      <td>38.4</td>
+      <td>29.0</td>
+      <td>697651.3</td>
+    </tr>
+    <tr>
+      <td>Fuzzers</td>
+      <td>22310</td>
+      <td>0.93</td>
+      <td>6722.3</td>
+      <td>502.2</td>
+      <td>12.5</td>
+      <td>5.9</td>
+      <td>437577.9</td>
+    </tr>
+    <tr>
+      <td>Generic</td>
+      <td>16560</td>
+      <td>0.69</td>
+      <td>1783.5</td>
+      <td>12459.7</td>
+      <td>6.5</td>
+      <td>10.9</td>
+      <td>178955.5</td>
+    </tr>
+    <tr>
+      <td>Reconnaissance</td>
+      <td>12779</td>
+      <td>0.53</td>
+      <td>530.3</td>
+      <td>231.4</td>
+      <td>6.5</td>
+      <td>3.9</td>
+      <td>302820.4</td>
+    </tr>
+    <tr>
+      <td>DoS</td>
+      <td>5794</td>
+      <td>0.24</td>
+      <td>39717.6</td>
+      <td>47395.6</td>
+      <td>47.1</td>
+      <td>47.2</td>
+      <td>513700.6</td>
+    </tr>
+    <tr>
+      <td>Analysis</td>
+      <td>2299</td>
+      <td>0.10</td>
+      <td>621.6</td>
+      <td>215.3</td>
+      <td>4.8</td>
+      <td>1.6</td>
+      <td>216706.2</td>
+    </tr>
+    <tr>
+      <td>Backdoor</td>
+      <td>2169</td>
+      <td>0.09</td>
+      <td>926.8</td>
+      <td>272.3</td>
+      <td>6.0</td>
+      <td>1.3</td>
+      <td>257416.2</td>
+    </tr>
+    <tr>
+      <td>Shellcode</td>
+      <td>1427</td>
+      <td>0.06</td>
+      <td>524.6</td>
+      <td>139.6</td>
+      <td>6.0</td>
+      <td>3.3</td>
+      <td>159518.1</td>
+    </tr>
+    <tr>
+      <td>Worms</td>
+      <td>164</td>
+      <td>0.01</td>
+      <td>2256.1</td>
+      <td>74949.8</td>
+      <td>17.9</td>
+      <td>61.4</td>
+      <td>733284.2</td>
+    </tr>
+  </tbody>
+</table>
+  </div>
+
+  <div class="card">
+    <h2>🌐 2. Top Talkers: Phân bố Lưu lượng theo IP Nguồn</h2>
+    <table border="1" class="dataframe table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>IPV4_SRC_ADDR</th>
+      <th>flows</th>
+      <th>pct</th>
+      <th>attacks</th>
+      <th>benign</th>
+      <th>distinct_targets</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>59.166.0.1</td>
+      <td>230357</td>
+      <td>9.64</td>
+      <td>0.0</td>
+      <td>230357.0</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>59.166.0.2</td>
+      <td>230214</td>
+      <td>9.63</td>
+      <td>0.0</td>
+      <td>230214.0</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>59.166.0.4</td>
+      <td>230209</td>
+      <td>9.63</td>
+      <td>0.0</td>
+      <td>230209.0</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>59.166.0.0</td>
+      <td>230068</td>
+      <td>9.63</td>
+      <td>0.0</td>
+      <td>230068.0</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>59.166.0.3</td>
+      <td>228573</td>
+      <td>9.56</td>
+      <td>0.0</td>
+      <td>228573.0</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>59.166.0.5</td>
+      <td>228093</td>
+      <td>9.54</td>
+      <td>0.0</td>
+      <td>228093.0</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>59.166.0.9</td>
+      <td>221404</td>
+      <td>9.26</td>
+      <td>0.0</td>
+      <td>221404.0</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>59.166.0.8</td>
+      <td>220524</td>
+      <td>9.23</td>
+      <td>0.0</td>
+      <td>220524.0</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>59.166.0.6</td>
+      <td>219536</td>
+      <td>9.18</td>
+      <td>0.0</td>
+      <td>219536.0</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>59.166.0.7</td>
+      <td>219433</td>
+      <td>9.18</td>
+      <td>0.0</td>
+      <td>219433.0</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
+  </div>
+
+  <div class="card">
+    <h2>📡 3. Phân bố Giao thức Tầng Vận chuyển</h2>
+    <table border="1" class="dataframe table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>protocol_name</th>
+      <th>flows</th>
+      <th>pct</th>
+      <th>attacks</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>TCP (6)</td>
+      <td>1830978</td>
+      <td>76.60</td>
+      <td>58254.0</td>
+    </tr>
+    <tr>
+      <td>UDP (17)</td>
+      <td>544501</td>
+      <td>22.78</td>
+      <td>22977.0</td>
+    </tr>
+    <tr>
+      <td>ICMP (1)</td>
+      <td>1556</td>
+      <td>0.07</td>
+      <td>1209.0</td>
+    </tr>
+    <tr>
+      <td>Proto-89</td>
+      <td>1358</td>
+      <td>0.06</td>
+      <td>811.0</td>
+    </tr>
+    <tr>
+      <td>Proto-2</td>
+      <td>104</td>
+      <td>0.00</td>
+      <td>102.0</td>
+    </tr>
+    <tr>
+      <td>Proto-47</td>
+      <td>88</td>
+      <td>0.00</td>
+      <td>88.0</td>
+    </tr>
+    <tr>
+      <td>Proto-41</td>
+      <td>85</td>
+      <td>0.00</td>
+      <td>85.0</td>
+    </tr>
+    <tr>
+      <td>Proto-103</td>
+      <td>81</td>
+      <td>0.00</td>
+      <td>81.0</td>
+    </tr>
+    <tr>
+      <td>Proto-77</td>
+      <td>81</td>
+      <td>0.00</td>
+      <td>81.0</td>
+    </tr>
+    <tr>
+      <td>Proto-55</td>
+      <td>81</td>
+      <td>0.00</td>
+      <td>81.0</td>
+    </tr>
+    <tr>
+      <td>Proto-53</td>
+      <td>81</td>
+      <td>0.00</td>
+      <td>81.0</td>
+    </tr>
+    <tr>
+      <td>Proto-33</td>
+      <td>81</td>
+      <td>0.00</td>
+      <td>81.0</td>
+    </tr>
+    <tr>
+      <td>Proto-132</td>
+      <td>78</td>
+      <td>0.00</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <td>Proto-0</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-3</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-9</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-10</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-11</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-12</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-13</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-14</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-15</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-16</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-18</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-19</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-20</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-21</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-22</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-23</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-24</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-25</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-26</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-27</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-28</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-29</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-30</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-31</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-32</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-34</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-35</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-36</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-37</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-38</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-8</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-40</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-42</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-43</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-44</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-45</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-46</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-48</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-49</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-50</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-51</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-52</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-4</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-54</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-7</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-56</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-57</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-59</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-60</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-61</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-62</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-63</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-64</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-65</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-66</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-67</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-68</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-69</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-70</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-71</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-72</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-73</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-74</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-75</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-76</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-5</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-78</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-79</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-80</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-81</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-82</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-83</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-84</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-85</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-86</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-87</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-88</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-90</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-91</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-92</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-93</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-94</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-95</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-96</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-97</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-98</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-99</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-100</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-101</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-102</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-131</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-104</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-105</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-106</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-107</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-108</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-109</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-110</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-111</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-112</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-113</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-114</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-115</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-116</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-117</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-118</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-119</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-120</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-121</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-122</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-123</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-124</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-125</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-126</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-127</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-128</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-129</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-130</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-39</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-133</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-134</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-135</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-136</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-137</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-138</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-139</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-140</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-141</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-142</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-143</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-144</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-145</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-146</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-147</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-148</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-149</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-150</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-151</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-152</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-153</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-154</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-155</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-156</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-157</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-158</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-159</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-160</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-161</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-162</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-163</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-164</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-165</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-166</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-167</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-168</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-169</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-170</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-171</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-172</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-173</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-174</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-175</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-176</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-177</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-178</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-179</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-180</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-181</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-182</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-183</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-184</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-185</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-186</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-187</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-188</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-189</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-190</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-191</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-192</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-195</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-196</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-197</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-198</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-199</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-200</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-201</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-202</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-203</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-204</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-205</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-206</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-207</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-208</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-209</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-210</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-211</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-212</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-213</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-214</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-215</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-216</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-217</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-218</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-219</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-220</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-221</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-222</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-223</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-224</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-225</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-226</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-227</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-228</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-229</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-230</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-231</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-232</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-233</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-234</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-235</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-236</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-237</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-238</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-239</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-240</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-241</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-242</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-243</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-244</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-245</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-246</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-247</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-248</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-249</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-250</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-251</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-252</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-253</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-254</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-255</td>
+      <td>46</td>
+      <td>0.00</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <td>Proto-193</td>
+      <td>41</td>
+      <td>0.00</td>
+      <td>41.0</td>
+    </tr>
+    <tr>
+      <td>Proto-194</td>
+      <td>41</td>
+      <td>0.00</td>
+      <td>41.0</td>
+    </tr>
+  </tbody>
+</table>
+  </div>
+
+  <div class="card">
+    <h2>📖 4. Từ điển 45 Đặc trưng NetFlow v9 & Đánh giá Rò rỉ Dữ liệu</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Tên Đặc Trưng</th>
+          <th>Phân Loại</th>
+          <th>Ý Nghĩa Mạng Máy Tính</th>
+          <th>Rủi Ro Rò Rỉ (Leakage Risk)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>IPV4_SRC_ADDR</code></td>
+          <td>Identity (Layer 3)</td>
+          <td>Địa chỉ IPv4 của máy nguồn gửi lưu lượng.</td>
+          <td><span class="badge badge-danger">CRITICAL: Nếu đưa trực tiếp vào mô hình, mô hình sẽ học vẹt IP thay vì học hành vi tấn công.</span></td>
+        </tr><tr>
+          <td><code>L4_SRC_PORT</code></td>
+          <td>Identity (Layer 4)</td>
+          <td>Cổng (Port) dịch vụ của máy nguồn (0 - 65535).</td>
+          <td><span class="badge badge-warning">HIGH: Có thể bị khai thác để nhớ cổng cố định của máy tấn công.</span></td>
+        </tr><tr>
+          <td><code>IPV4_DST_ADDR</code></td>
+          <td>Identity (Layer 3)</td>
+          <td>Địa chỉ IPv4 của máy đích nhận lưu lượng.</td>
+          <td><span class="badge badge-danger">CRITICAL: Rò rỉ danh tính máy chủ nạn nhân.</span></td>
+        </tr><tr>
+          <td><code>L4_DST_PORT</code></td>
+          <td>Identity (Layer 4)</td>
+          <td>Cổng (Port) dịch vụ của máy đích (VD: 80-HTTP, 443-HTTPS, 22-SSH).</td>
+          <td><span class="badge badge-warning">MEDIUM: Cần giữ lại ngữ cảnh dịch vụ nhưng tránh overfit vào số cổng.</span></td>
+        </tr><tr>
+          <td><code>PROTOCOL</code></td>
+          <td>Protocol (Layer 3)</td>
+          <td>Giao thức mạng IP (6: TCP, 17: UDP, 1: ICMP).</td>
+          <td><span class="badge badge-safe">LOW: Đặc trưng hành vi hợp lệ.</span></td>
+        </tr><tr>
+          <td><code>L7_PROTO</code></td>
+          <td>Protocol (Layer 7)</td>
+          <td>Giao thức tầng ứng dụng được nDPI nhận diện (VD: DNS, HTTP, SSL).</td>
+          <td><span class="badge badge-safe">LOW: Đặc trưng hành vi hợp lệ.</span></td>
+        </tr><tr>
+          <td><code>IN_BYTES</code></td>
+          <td>Payload Volumetrics</td>
+          <td>Tổng số bytes gửi từ máy nguồn sang máy đích trong flow.</td>
+          <td><span class="badge badge-safe">SAFE: Thuộc tính hành vi cốt lõi.</span></td>
+        </tr><tr>
+          <td><code>OUT_BYTES</code></td>
+          <td>Payload Volumetrics</td>
+          <td>Tổng số bytes phản hồi từ máy đích về máy nguồn.</td>
+          <td><span class="badge badge-safe">SAFE: Thuộc tính hành vi cốt lõi.</span></td>
+        </tr><tr>
+          <td><code>IN_PKTS</code></td>
+          <td>Payload Volumetrics</td>
+          <td>Tổng số gói tin (packets) gửi từ nguồn sang đích.</td>
+          <td><span class="badge badge-safe">SAFE: Thuộc tính hành vi cốt lõi.</span></td>
+        </tr><tr>
+          <td><code>OUT_PKTS</code></td>
+          <td>Payload Volumetrics</td>
+          <td>Tổng số gói tin phản hồi từ đích về nguồn.</td>
+          <td><span class="badge badge-safe">SAFE: Thuộc tính hành vi cốt lõi.</span></td>
+        </tr><tr>
+          <td><code>TCP_FLAGS</code></td>
+          <td>TCP Control</td>
+          <td>Tổng hợp (tích lũy bitwise) tất cả các cờ TCP xuất hiện trong flow (SYN, ACK, FIN, RST, PSH, URG).</td>
+          <td><span class="badge badge-safe">SAFE: Dấu hiệu nhận diện tấn công cực mạnh.</span></td>
+        </tr><tr>
+          <td><code>CLIENT_TCP_FLAGS</code></td>
+          <td>TCP Control</td>
+          <td>Các cờ TCP do máy khách gửi đi.</td>
+          <td><span class="badge badge-safe">SAFE: Dấu hiệu hành vi hợp lệ.</span></td>
+        </tr><tr>
+          <td><code>SERVER_TCP_FLAGS</code></td>
+          <td>TCP Control</td>
+          <td>Các cờ TCP do máy chủ phản hồi.</td>
+          <td><span class="badge badge-safe">SAFE: Dấu hiệu hành vi hợp lệ.</span></td>
+        </tr><tr>
+          <td><code>FLOW_DURATION_MILLISECONDS</code></td>
+          <td>Time & Duration</td>
+          <td>Thời gian tồn tại của flow mạng tính bằng mili-giây (ms).</td>
+          <td><span class="badge badge-safe">SAFE: Thuộc tính thời gian cốt lõi.</span></td>
+        </tr><tr>
+          <td><code>DURATION_IN</code></td>
+          <td>Time & Duration</td>
+          <td>Thời lượng luồng gửi đi từ Client sang Server (ms).</td>
+          <td><span class="badge badge-safe">SAFE: Thuộc tính thời gian.</span></td>
+        </tr><tr>
+          <td><code>DURATION_OUT</code></td>
+          <td>Time & Duration</td>
+          <td>Thời lượng luồng phản hồi từ Server về Client (ms).</td>
+          <td><span class="badge badge-safe">SAFE: Thuộc tính thời gian.</span></td>
+        </tr><tr>
+          <td><code>MIN_TTL</code></td>
+          <td>Network Topology / Hop</td>
+          <td>Giá trị Time-To-Live nhỏ nhất của gói tin trong flow.</td>
+          <td><span class="badge badge-warning">MEDIUM: Có thể gián tiếp rò rỉ loại OS của máy trong lab.</span></td>
+        </tr><tr>
+          <td><code>MAX_TTL</code></td>
+          <td>Network Topology / Hop</td>
+          <td>Giá trị Time-To-Live lớn nhất của gói tin trong flow.</td>
+          <td><span class="badge badge-warning">MEDIUM: Tương tự MIN_TTL.</span></td>
+        </tr><tr>
+          <td><code>LONGEST_FLOW_PKT</code></td>
+          <td>Packet Geometry</td>
+          <td>Kích thước gói tin lớn nhất trong flow (bytes).</td>
+          <td><span class="badge badge-safe">SAFE: Phản ánh cấu trúc packet.</span></td>
+        </tr><tr>
+          <td><code>SHORTEST_FLOW_PKT</code></td>
+          <td>Packet Geometry</td>
+          <td>Kích thước gói tin nhỏ nhất trong flow (bytes).</td>
+          <td><span class="badge badge-safe">SAFE: Phản ánh cấu trúc packet.</span></td>
+        </tr><tr>
+          <td><code>MIN_IP_PKT_LEN</code></td>
+          <td>Packet Geometry</td>
+          <td>Độ dài IP packet nhỏ nhất quan sát được.</td>
+          <td><span class="badge badge-safe">SAFE: Thuộc tính hình học packet.</span></td>
+        </tr><tr>
+          <td><code>MAX_IP_PKT_LEN</code></td>
+          <td>Packet Geometry</td>
+          <td>Độ dài IP packet lớn nhất quan sát được.</td>
+          <td><span class="badge badge-safe">SAFE: Thuộc tính hình học packet.</span></td>
+        </tr><tr>
+          <td><code>SRC_TO_DST_SECOND_BYTES</code></td>
+          <td>Throughput Dynamics</td>
+          <td>Tốc độ truyền dữ liệu chiều đi (Bytes/giây).</td>
+          <td><span class="badge badge-safe">SAFE: Động lực học băng thông.</span></td>
+        </tr><tr>
+          <td><code>DST_TO_SRC_SECOND_BYTES</code></td>
+          <td>Throughput Dynamics</td>
+          <td>Tốc độ truyền dữ liệu chiều về (Bytes/giây).</td>
+          <td><span class="badge badge-safe">SAFE: Động lực học băng thông.</span></td>
+        </tr><tr>
+          <td><code>RETRANSMITTED_IN_BYTES</code></td>
+          <td>Congestion & Loss</td>
+          <td>Số bytes TCP bị truyền lại (retransmitted) chiều đi.</td>
+          <td><span class="badge badge-safe">SAFE: Chỉ số chất lượng truyền tin.</span></td>
+        </tr><tr>
+          <td><code>RETRANSMITTED_IN_PKTS</code></td>
+          <td>Congestion & Loss</td>
+          <td>Số gói tin TCP bị truyền lại chiều đi.</td>
+          <td><span class="badge badge-safe">SAFE: Chỉ số chất lượng truyền tin.</span></td>
+        </tr><tr>
+          <td><code>RETRANSMITTED_OUT_BYTES</code></td>
+          <td>Congestion & Loss</td>
+          <td>Số bytes TCP bị truyền lại chiều về.</td>
+          <td><span class="badge badge-safe">SAFE: Chỉ số chất lượng truyền tin.</span></td>
+        </tr><tr>
+          <td><code>RETRANSMITTED_OUT_PKTS</code></td>
+          <td>Congestion & Loss</td>
+          <td>Số gói tin TCP bị truyền lại chiều về.</td>
+          <td><span class="badge badge-safe">SAFE: Chỉ số chất lượng truyền tin.</span></td>
+        </tr><tr>
+          <td><code>SRC_TO_DST_AVG_THROUGHPUT</code></td>
+          <td>Throughput Dynamics</td>
+          <td>Băng thông trung bình chiều đi (bits per second - bps).</td>
+          <td><span class="badge badge-safe">SAFE: Động lực học lưu lượng.</span></td>
+        </tr><tr>
+          <td><code>DST_TO_SRC_AVG_THROUGHPUT</code></td>
+          <td>Throughput Dynamics</td>
+          <td>Băng thông trung bình chiều về (bps).</td>
+          <td><span class="badge badge-safe">SAFE: Động lực học lưu lượng.</span></td>
+        </tr><tr>
+          <td><code>NUM_PKTS_UP_TO_128_BYTES</code></td>
+          <td>Packet Size Bins</td>
+          <td>Số gói tin trong flow có kích thước <= 128 bytes.</td>
+          <td><span class="badge badge-safe">SAFE: Phân bố kích thước gói.</span></td>
+        </tr><tr>
+          <td><code>NUM_PKTS_128_TO_256_BYTES</code></td>
+          <td>Packet Size Bins</td>
+          <td>Số gói tin có kích thước từ 129 đến 256 bytes.</td>
+          <td><span class="badge badge-safe">SAFE: Phân bố kích thước gói.</span></td>
+        </tr><tr>
+          <td><code>NUM_PKTS_256_TO_512_BYTES</code></td>
+          <td>Packet Size Bins</td>
+          <td>Số gói tin có kích thước từ 257 đến 512 bytes.</td>
+          <td><span class="badge badge-safe">SAFE: Phân bố kích thước gói.</span></td>
+        </tr><tr>
+          <td><code>NUM_PKTS_512_TO_1024_BYTES</code></td>
+          <td>Packet Size Bins</td>
+          <td>Số gói tin có kích thước từ 513 đến 1024 bytes.</td>
+          <td><span class="badge badge-safe">SAFE: Phân bố kích thước gói.</span></td>
+        </tr><tr>
+          <td><code>NUM_PKTS_1024_TO_1514_BYTES</code></td>
+          <td>Packet Size Bins</td>
+          <td>Số gói tin kích thước tối đa chuẩn MTU Ethernet (1025 đến 1514 bytes).</td>
+          <td><span class="badge badge-safe">SAFE: Phân bố kích thước gói.</span></td>
+        </tr><tr>
+          <td><code>TCP_WIN_MAX_IN</code></td>
+          <td>TCP Window Control</td>
+          <td>Kích thước TCP Window tối đa phía client gửi.</td>
+          <td><span class="badge badge-safe">LOW: Hành vi điều khiển luồng.</span></td>
+        </tr><tr>
+          <td><code>TCP_WIN_MAX_OUT</code></td>
+          <td>TCP Window Control</td>
+          <td>Kích thước TCP Window tối đa phía server phản hồi.</td>
+          <td><span class="badge badge-safe">LOW: Hành vi điều khiển luồng.</span></td>
+        </tr><tr>
+          <td><code>ICMP_TYPE</code></td>
+          <td>ICMP Control</td>
+          <td>Mã loại ICMP (VD: 8: Echo Request / Ping, 0: Echo Reply, 3: Destination Unreachable).</td>
+          <td><span class="badge badge-safe">SAFE: Dấu hiệu nhận diện ICMP Flood.</span></td>
+        </tr><tr>
+          <td><code>ICMP_IPV4_TYPE</code></td>
+          <td>ICMP Control</td>
+          <td>Loại ICMP dành riêng cho IPv4.</td>
+          <td><span class="badge badge-safe">SAFE: Dấu hiệu kiểm soát mạng.</span></td>
+        </tr><tr>
+          <td><code>DNS_QUERY_ID</code></td>
+          <td>Application Layer (DNS)</td>
+          <td>Mã định danh giao dịch của truy vấn DNS (Transaction ID).</td>
+          <td><span class="badge badge-safe">SAFE: Giá trị ngẫu nhiên trong DNS.</span></td>
+        </tr><tr>
+          <td><code>DNS_QUERY_TYPE</code></td>
+          <td>Application Layer (DNS)</td>
+          <td>Loại bản ghi DNS được hỏi (VD: 1: A, 28: AAAA, 15: MX).</td>
+          <td><span class="badge badge-safe">SAFE: Dấu hiệu ứng dụng.</span></td>
+        </tr><tr>
+          <td><code>DNS_TTL_ANSWER</code></td>
+          <td>Application Layer (DNS)</td>
+          <td>Thời gian tồn tại trong bộ nhớ đệm (Time To Live) của câu trả lời DNS.</td>
+          <td><span class="badge badge-safe">SAFE: Thuộc tính ứng dụng.</span></td>
+        </tr><tr>
+          <td><code>FTP_COMMAND_RET_CODE</code></td>
+          <td>Application Layer (FTP)</td>
+          <td>Mã phản hồi của lệnh FTP (VD: 220: Service Ready, 530: Not logged in / Brute force).</td>
+          <td><span class="badge badge-safe">SAFE: Dấu hiệu ứng dụng cực kỳ giá trị.</span></td>
+        </tr><tr>
+          <td><code>Label</code></td>
+          <td>Ground Truth</td>
+          <td>Nhãn nhị phân: 0 = Benign (Bình thường), 1 = Attack (Tấn công).</td>
+          <td><span class="badge badge-safe">TARGET</span></td>
+        </tr><tr>
+          <td><code>Attack</code></td>
+          <td>Ground Truth</td>
+          <td>Tên chi tiết của lớp tấn công (Benign, Exploits, Fuzzers, DoS, Worms,...).</td>
+          <td><span class="badge badge-safe">TARGET</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>
