@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trust-NIDS: Sơ Đồ Đồ Thị Tấn Công & Phòng Thủ (Topology Graph)</title>
+<style>
+  :root {
+    --bg: #090d16;
+    --card: #131c2e;
+    --border: #22324e;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --attacker: #ef4444;
+    --victim: #3b82f6;
+    --benign: #10b981;
+    --router: #8b5cf6;
+    --warning: #f59e0b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+  .app-container { display: flex; height: 100vh; flex-direction: column; }
+  header {
+    background: #0d1527;
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .title-group h1 { font-size: 1.3rem; color: #38bdf8; }
+  .title-group p { font-size: 0.85rem; color: var(--muted); }
+  .controls { display: flex; gap: 1rem; align-items: center; }
+  .btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn.active, .btn:hover {
+    background: #38bdf8;
+    color: #000;
+    border-color: #38bdf8;
+    font-weight: 600;
+  }
+  .main-area { display: flex; flex: 1; overflow: hidden; }
+  .graph-pane { flex: 1; position: relative; background: radial-gradient(circle at center, #111a2e 0%, #090d16 100%); }
+  #graphCanvas { width: 100%; height: 100%; display: block; }
+  .side-pane {
+    width: 380px;
+    background: var(--card);
+    border-left: 1px solid var(--border);
+    padding: 1.5rem;
+    overflow-y: auto;
+  }
+  .card {
+    background: #0d1527;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .card h3 { font-size: 0.95rem; color: #38bdf8; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .stat-row { display: flex; justify-content: space-between; padding: 0.35rem 0; font-size: 0.85rem; border-bottom: 1px dashed #1e293b; }
+  .stat-label { color: var(--muted); }
+  .stat-val { font-weight: 600; }
+  .legend-item { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; font-size: 0.85rem; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+  .dot-attacker { background: var(--attacker); box-shadow: 0 0 8px var(--attacker); }
+  .dot-victim { background: var(--victim); box-shadow: 0 0 8px var(--victim); }
+  .dot-benign { background: var(--benign); }
+  .dot-router { background: var(--router); }
+  .tooltip {
+    position: absolute;
+    display: none;
+    background: rgba(13, 21, 39, 0.95);
+    border: 1px solid #38bdf8;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    pointer-events: none;
+    z-index: 100;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  }
+</style>
+</head>
+<body>
+<div class="app-container">
+  <header>
+    <div class="title-group">
+      <h1>🌐 Trust-NIDS: Sơ Đồ Đồ Thị Tấn Công & Phòng Thủ Hai Phía (Bipartite Graph)</h1>
+      <p>Trực quan hóa luồng kết nối Nguồn (Source IP) ➔ Đích (Destination IP) qua Cổng Biên (Edge Router)</p>
+    </div>
+    <div class="controls">
+      <span>Chế độ hiển thị:</span>
+      <button class="btn active" id="btnAll" onclick="setFilter('all')">Tất cả Luồng</button>
+      <button class="btn" id="btnAttacks" onclick="setFilter('attacks')">🚨 Chỉ Tấn Công</button>
+      <button class="btn" id="btnBenign" onclick="setFilter('benign')">✅ Chỉ Lưu Lượng Sạch</button>
+    </div>
+  </header>
+
+  <div class="main-area">
+    <div class="graph-pane">
+      <canvas id="graphCanvas"></canvas>
+      <div class="tooltip" id="tooltip"></div>
+    </div>
+
+    <div class="side-pane">
+      <div class="card">
+        <h3>🔍 Thông Tin Node Được Chọn</h3>
+        <div id="nodeDetails">
+          <p style="color: var(--muted); font-size: 0.85rem;">Rê chuột vào một địa chỉ IP hoặc đường nối (cạnh) để xem thông số chi tiết.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🗺️ Chú Giải & Phân Vùng Mạng</h3>
+        <div class="legend-item">
+          <span class="dot dot-attacker"></span>
+          <span><b>Kẻ Tấn Công (Attackers)</b>: <code>175.45.176.0/24</code></span>
+        </div>
+        <div class="legend-item">
+          <span class="dot dot-benign"></span>
+          <span><b>Người Dùng Sạch (Clients)</b>: <code>59.166.0.0/24</code></span>
+        </div>
+        <div class="legend-item">
+          <span class="dot dot-router"></span>
+          <span><b>Cổng Biên (Edge Gateway)</b>: Router/Firewall</span>
+        </div>
+        <div class="legend-item">
+          <span class="dot dot-victim"></span>
+          <span><b>Server Nạn Nhân (DMZ)</b>: <code>149.171.126.0/24</code></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📊 Phát Hiện Chiến Lược NIDS</h3>
+        <div class="stat-row">
+          <span class="stat-label">Tổng số IP nguồn:</span>
+          <span class="stat-val">40 IPs</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Số IP phát động tấn công:</span>
+          <span class="stat-val" style="color: var(--attacker);">Chỉ 4 IPs (100% đòn đánh)</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Số Server DMZ mục tiêu:</span>
+          <span class="stat-val" style="color: var(--victim);">10 Servers (.10 ➔ .19)</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Các loại tấn công:</span>
+          <span class="stat-val">9 lớp (DoS, Fuzzers,...)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const nodesData = [{"id": "175.45.176.1", "role": "ATTACKER", "flows_src": 31473, "attacks_sent": 27505, "benign_sent": 3968, "flows_dst": 4018, "attacks_recv": 0, "benign_recv": 4018, "targets": 10}, {"id": "175.45.176.0", "role": "ATTACKER", "flows_src": 29507, "attacks_sent": 25745, "benign_sent": 3762, "flows_dst": 3875, "attacks_recv": 0, "benign_recv": 3875, "targets": 10}, {"id": "175.45.176.3", "role": "ATTACKER", "flows_src": 30023, "attacks_sent": 23030, "benign_sent": 6993, "flows_dst": 3950, "attacks_recv": 0, "benign_recv": 3950, "targets": 10}, {"id": "175.45.176.2", "role": "ATTACKER", "flows_src": 22502, "attacks_sent": 18773, "benign_sent": 3729, "flows_dst": 108, "attacks_recv": 0, "benign_recv": 108, "targets": 10}, {"id": "149.171.126.17", "role": "VICTIM_SERVER", "flows_src": 71, "attacks_sent": 0, "benign_sent": 71, "flows_dst": 14659, "attacks_recv": 12627, "benign_recv": 2032, "targets": 4}, {"id": "149.171.126.10", "role": "VICTIM_SERVER", "flows_src": 1839, "attacks_sent": 0, "benign_sent": 1839, "flows_dst": 11960, "attacks_recv": 11056, "benign_recv": 904, "targets": 4}, {"id": "149.171.126.18", "role": "VICTIM_SERVER", "flows_src": 3900, "attacks_sent": 0, "benign_sent": 3900, "flows_dst": 12413, "attacks_recv": 10469, "benign_recv": 1944, "targets": 4}, {"id": "149.171.126.12", "role": "VICTIM_SERVER", "flows_src": 1990, "attacks_sent": 0, "benign_sent": 1990, "flows_dst": 10603, "attacks_recv": 9821, "benign_recv": 782, "targets": 4}, {"id": "149.171.126.15", "role": "VICTIM_SERVER", "flows_src": 1986, "attacks_sent": 0, "benign_sent": 1986, "flows_dst": 11922, "attacks_recv": 9489, "benign_recv": 2433, "targets": 4}, {"id": "149.171.126.14", "role": "VICTIM_SERVER", "flows_src": 1932, "attacks_sent": 0, "benign_sent": 1932, "flows_dst": 10771, "attacks_recv": 9448, "benign_recv": 1323, "targets": 4}, {"id": "149.171.126.13", "role": "VICTIM_SERVER", "flows_src": 64, "attacks_sent": 0, "benign_sent": 64, "flows_dst": 11676, "attacks_recv": 9431, "benign_recv": 2245, "targets": 4}, {"id": "149.171.126.19", "role": "VICTIM_SERVER", "flows_src": 45, "attacks_sent": 0, "benign_sent": 45, "flows_dst": 9988, "attacks_recv": 7926, "benign_recv": 2062, "targets": 4}, {"id": "149.171.126.11", "role": "VICTIM_SERVER", "flows_src": 58, "attacks_sent": 0, "benign_sent": 58, "flows_dst": 10063, "attacks_recv": 7772, "benign_recv": 2291, "targets": 5}, {"id": "149.171.126.16", "role": "VICTIM_SERVER", "flows_src": 47, "attacks_sent": 0, "benign_sent": 47, "flows_dst": 9451, "attacks_recv": 7014, "benign_recv": 2437, "targets": 4}, {"id": "59.166.0.1", "role": "BENIGN_CLIENT", "flows_src": 230357, "attacks_sent": 0, "benign_sent": 230357, "flows_dst": 602, "attacks_recv": 0, "benign_recv": 602, "targets": 10}, {"id": "59.166.0.2", "role": "BENIGN_CLIENT", "flows_src": 230214, "attacks_sent": 0, "benign_sent": 230214, "flows_dst": 587, "attacks_recv": 0, "benign_recv": 587, "targets": 10}, {"id": "59.166.0.4", "role": "BENIGN_CLIENT", "flows_src": 230209, "attacks_sent": 0, "benign_sent": 230209, "flows_dst": 550, "attacks_recv": 0, "benign_recv": 550, "targets": 10}, {"id": "59.166.0.0", "role": "BENIGN_CLIENT", "flows_src": 230068, "attacks_sent": 0, "benign_sent": 230068, "flows_dst": 608, "attacks_recv": 0, "benign_recv": 608, "targets": 10}, {"id": "59.166.0.3", "role": "BENIGN_CLIENT", "flows_src": 228573, "attacks_sent": 0, "benign_sent": 228573, "flows_dst": 530, "attacks_recv": 0, "benign_recv": 530, "targets": 10}, {"id": "59.166.0.5", "role": "BENIGN_CLIENT", "flows_src": 228093, "attacks_sent": 0, "benign_sent": 228093, "flows_dst": 522, "attacks_recv": 0, "benign_recv": 522, "targets": 10}, {"id": "59.166.0.9", "role": "BENIGN_CLIENT", "flows_src": 221404, "attacks_sent": 0, "benign_sent": 221404, "flows_dst": 574, "attacks_recv": 0, "benign_recv": 574, "targets": 10}, {"id": "59.166.0.8", "role": "BENIGN_CLIENT", "flows_src": 220524, "attacks_sent": 0, "benign_sent": 220524, "flows_dst": 525, "attacks_recv": 0, "benign_recv": 525, "targets": 10}, {"id": "59.166.0.6", "role": "BENIGN_CLIENT", "flows_src": 219536, "attacks_sent": 0, "benign_sent": 219536, "flows_dst": 532, "attacks_recv": 0, "benign_recv": 532, "targets": 10}, {"id": "59.166.0.7", "role": "BENIGN_CLIENT", "flows_src": 219433, "attacks_sent": 0, "benign_sent": 219433, "flows_dst": 518, "attacks_recv": 0, "benign_recv": 518, "targets": 10}, {"id": "149.171.126.4", "role": "INFRASTRUCTURE", "flows_src": 592, "attacks_sent": 0, "benign_sent": 592, "flows_dst": 230043, "attacks_recv": 0, "benign_recv": 230043, "targets": 10}, {"id": "149.171.126.0", "role": "INFRASTRUCTURE", "flows_src": 590, "attacks_sent": 0, "benign_sent": 590, "flows_dst": 229472, "attacks_recv": 0, "benign_recv": 229472, "targets": 10}, {"id": "149.171.126.5", "role": "INFRASTRUCTURE", "flows_src": 570, "attacks_sent": 0, "benign_sent": 570, "flows_dst": 228812, "attacks_recv": 0, "benign_recv": 228812, "targets": 10}, {"id": "149.171.126.8", "role": "INFRASTRUCTURE", "flows_src": 565, "attacks_sent": 0, "benign_sent": 565, "flows_dst": 217886, "attacks_recv": 0, "benign_recv": 217886, "targets": 10}, {"id": "149.171.126.3", "role": "INFRASTRUCTURE", "flows_src": 562, "attacks_sent": 0, "benign_sent": 562, "flows_dst": 229688, "attacks_recv": 0, "benign_recv": 229688, "targets": 10}, {"id": "149.171.126.6", "role": "INFRASTRUCTURE", "flows_src": 551, "attacks_sent": 0, "benign_sent": 551, "flows_dst": 220567, "attacks_recv": 0, "benign_recv": 220567, "targets": 10}, {"id": "149.171.126.1", "role": "INFRASTRUCTURE", "flows_src": 550, "attacks_sent": 0, "benign_sent": 550, "flows_dst": 229292, "attacks_recv": 0, "benign_recv": 229292, "targets": 10}, {"id": "149.171.126.2", "role": "INFRASTRUCTURE", "flows_src": 548, "attacks_sent": 0, "benign_sent": 548, "flows_dst": 229983, "attacks_recv": 0, "benign_recv": 229983, "targets": 10}, {"id": "149.171.126.9", "role": "INFRASTRUCTURE", "flows_src": 525, "attacks_sent": 0, "benign_sent": 525, "flows_dst": 220528, "attacks_recv": 0, "benign_recv": 220528, "targets": 10}, {"id": "149.171.126.7", "role": "INFRASTRUCTURE", "flows_src": 495, "attacks_sent": 0, "benign_sent": 495, "flows_dst": 222140, "attacks_recv": 0, "benign_recv": 222140, "targets": 10}, {"id": "10.40.85.1", "role": "INFRASTRUCTURE", "flows_src": 294, "attacks_sent": 0, "benign_sent": 294, "flows_dst": 0, "attacks_recv": 0, "benign_recv": 0, "targets": 5}, {"id": "10.40.85.10", "role": "INFRASTRUCTURE", "flows_src": 289, "attacks_sent": 0, "benign_sent": 289, "flows_dst": 0, "attacks_recv": 0, "benign_recv": 0, "targets": 2}, {"id": "10.40.182.1", "role": "INFRASTRUCTURE", "flows_src": 278, "attacks_sent": 0, "benign_sent": 278, "flows_dst": 0, "attacks_recv": 0, "benign_recv": 0, "targets": 2}, {"id": "192.168.241.243", "role": "INFRASTRUCTURE", "flows_src": 16, "attacks_sent": 0, "benign_sent": 16, "flows_dst": 16, "attacks_recv": 0, "benign_recv": 16, "targets": 1}, {"id": "10.40.182.6", "role": "INFRASTRUCTURE", "flows_src": 1, "attacks_sent": 0, "benign_sent": 1, "flows_dst": 0, "attacks_recv": 0, "benign_recv": 0, "targets": 1}, {"id": "127.0.0.1", "role": "INFRASTRUCTURE", "flows_src": 1, "attacks_sent": 0, "benign_sent": 1, "flows_dst": 1, "attacks_recv": 0, "benign_recv": 1, "targets": 1}, {"id": "192.168.241.50", "role": "INFRASTRUCTURE", "flows_src": 0, "attacks_sent": 0, "benign_sent": 0, "flows_dst": 34, "attacks_recv": 0, "benign_recv": 34, "targets": 0}, {"id": "224.0.0.5", "role": "INFRASTRUCTURE", "flows_src": 0, "attacks_sent": 0, "benign_sent": 0, "flows_dst": 547, "attacks_recv": 0, "benign_recv": 547, "targets": 0}, {"id": "10.40.182.255", "role": "INFRASTRUCTURE", "flows_src": 0, "attacks_sent": 0, "benign_sent": 0, "flows_dst": 1, "attacks_recv": 0, "benign_recv": 1, "targets": 0}, {"id": "10.40.198.10", "role": "INFRASTRUCTURE", "flows_src": 0, "attacks_sent": 0, "benign_sent": 0, "flows_dst": 260, "attacks_recv": 0, "benign_recv": 260, "targets": 0}];
+const edgesData = [{"source": "175.45.176.1", "target": "149.171.126.18", "total_flows": 4180, "attack_flows": 3898, "benign_flows": 282, "in_mb": 22.3, "out_mb": 30.55, "attacks": "Exploits, Reconnaissance, Generic, DoS, Shellcode, Worms, Fuzzers, Backdoor"}, {"source": "175.45.176.0", "target": "149.171.126.10", "total_flows": 4091, "attack_flows": 3836, "benign_flows": 255, "in_mb": 31.1, "out_mb": 17.43, "attacks": "Exploits, Generic, Reconnaissance, DoS, Shellcode, Worms, Fuzzers, Backdoor"}, {"source": "175.45.176.0", "target": "149.171.126.13", "total_flows": 4403, "attack_flows": 3827, "benign_flows": 576, "in_mb": 55.38, "out_mb": 27.2, "attacks": "Backdoor, DoS, Fuzzers, Reconnaissance, Generic, Analysis, Exploits, Shellcode, Worms"}, {"source": "175.45.176.1", "target": "149.171.126.17", "total_flows": 4628, "attack_flows": 3746, "benign_flows": 882, "in_mb": 46.89, "out_mb": 30.27, "attacks": "Analysis, Generic, Reconnaissance, Shellcode, Worms, Backdoor, Fuzzers, Exploits, DoS"}, {"source": "175.45.176.0", "target": "149.171.126.17", "total_flows": 3888, "attack_flows": 3726, "benign_flows": 162, "in_mb": 31.75, "out_mb": 30.28, "attacks": "Analysis, Exploits, Generic, Reconnaissance, DoS, Worms, Shellcode, Fuzzers, Backdoor"}, {"source": "175.45.176.3", "target": "149.171.126.15", "total_flows": 5274, "attack_flows": 3676, "benign_flows": 1598, "in_mb": 36.29, "out_mb": 28.89, "attacks": "Backdoor, DoS, Fuzzers, Generic, Reconnaissance, Exploits, Shellcode, Worms"}, {"source": "175.45.176.0", "target": "149.171.126.12", "total_flows": 3889, "attack_flows": 3652, "benign_flows": 237, "in_mb": 39.53, "out_mb": 40.68, "attacks": "Generic, Reconnaissance, Shellcode, Worms, DoS, Backdoor, Fuzzers, Exploits"}, {"source": "175.45.176.1", "target": "149.171.126.14", "total_flows": 3825, "attack_flows": 3599, "benign_flows": 226, "in_mb": 32.35, "out_mb": 20.61, "attacks": "Reconnaissance, Generic, Exploits, Backdoor, DoS, Fuzzers, Worms, Shellcode"}, {"source": "175.45.176.1", "target": "149.171.126.10", "total_flows": 3739, "attack_flows": 3598, "benign_flows": 141, "in_mb": 42.81, "out_mb": 59.77, "attacks": "Fuzzers, DoS, Shellcode, Worms, Exploits, Analysis, Reconnaissance, Generic, Backdoor"}, {"source": "175.45.176.3", "target": "149.171.126.18", "total_flows": 3760, "attack_flows": 3413, "benign_flows": 347, "in_mb": 33.62, "out_mb": 31.91, "attacks": "Reconnaissance, Generic, Shellcode, Worms, DoS, Backdoor, Fuzzers, Exploits"}, {"source": "175.45.176.2", "target": "149.171.126.17", "total_flows": 3519, "attack_flows": 3239, "benign_flows": 280, "in_mb": 62.04, "out_mb": 30.92, "attacks": "Fuzzers, DoS, Shellcode, Worms, Exploits, Analysis, Reconnaissance, Generic, Backdoor"}, {"source": "175.45.176.3", "target": "149.171.126.19", "total_flows": 4538, "attack_flows": 3226, "benign_flows": 1312, "in_mb": 41.64, "out_mb": 26.96, "attacks": "Fuzzers, Backdoor, Exploits, Reconnaissance, Generic, Shellcode, Worms, Analysis, DoS"}, {"source": "175.45.176.1", "target": "149.171.126.12", "total_flows": 3240, "attack_flows": 3038, "benign_flows": 202, "in_mb": 34.62, "out_mb": 22.13, "attacks": "Analysis, Reconnaissance, Generic, Shellcode, Worms, Backdoor, Fuzzers, Exploits, DoS"}, {"source": "175.45.176.1", "target": "149.171.126.11", "total_flows": 2893, "attack_flows": 2245, "benign_flows": 648, "in_mb": 55.25, "out_mb": 43.53, "attacks": "DoS, Backdoor, Reconnaissance, Generic, Exploits, Fuzzers, Shellcode, Worms, Analysis"}, {"source": "175.45.176.0", "target": "149.171.126.15", "total_flows": 2341, "attack_flows": 2132, "benign_flows": 209, "in_mb": 68.66, "out_mb": 35.12, "attacks": "DoS, Backdoor, Reconnaissance, Generic, Exploits, Fuzzers, Shellcode, Worms, Analysis"}, {"source": "175.45.176.3", "target": "149.171.126.14", "total_flows": 2297, "attack_flows": 2093, "benign_flows": 204, "in_mb": 61.36, "out_mb": 23.67, "attacks": "Backdoor, DoS, Fuzzers, Analysis, Shellcode, Worms, Reconnaissance, Generic, Exploits"}, {"source": "175.45.176.1", "target": "149.171.126.15", "total_flows": 2391, "attack_flows": 2080, "benign_flows": 311, "in_mb": 78.59, "out_mb": 29.63, "attacks": "Shellcode, Worms, Exploits, Analysis, Reconnaissance, Generic, Fuzzers, Backdoor, DoS"}, {"source": "175.45.176.1", "target": "149.171.126.13", "total_flows": 2771, "attack_flows": 2024, "benign_flows": 747, "in_mb": 24.02, "out_mb": 46.97, "attacks": "Fuzzers, Backdoor, Shellcode, Worms, Analysis, DoS, Reconnaissance, Generic, Exploits"}, {"source": "175.45.176.3", "target": "149.171.126.10", "total_flows": 2335, "attack_flows": 1943, "benign_flows": 392, "in_mb": 25.36, "out_mb": 23.27, "attacks": "DoS, Backdoor, Analysis, Shellcode, Worms, Exploits, Reconnaissance, Generic, Fuzzers"}, {"source": "175.45.176.2", "target": "149.171.126.14", "total_flows": 2264, "attack_flows": 1939, "benign_flows": 325, "in_mb": 29.53, "out_mb": 28.94, "attacks": "Fuzzers, Backdoor, Shellcode, Worms, DoS, Reconnaissance, Generic, Exploits"}, {"source": "175.45.176.2", "target": "149.171.126.13", "total_flows": 2072, "attack_flows": 1922, "benign_flows": 150, "in_mb": 64.01, "out_mb": 30.0, "attacks": "Shellcode, Worms, Generic, Reconnaissance, Exploits, Fuzzers, DoS, Backdoor"}, {"source": "175.45.176.3", "target": "149.171.126.17", "total_flows": 2624, "attack_flows": 1916, "benign_flows": 708, "in_mb": 32.16, "out_mb": 18.01, "attacks": "Exploits, Worms, Shellcode, Fuzzers, Reconnaissance, Generic, Backdoor, DoS"}, {"source": "175.45.176.3", "target": "149.171.126.11", "total_flows": 2310, "attack_flows": 1867, "benign_flows": 443, "in_mb": 19.75, "out_mb": 18.54, "attacks": "Fuzzers, Backdoor, Shellcode, Worms, Analysis, DoS, Reconnaissance, Generic, Exploits"}, {"source": "175.45.176.0", "target": "149.171.126.11", "total_flows": 2276, "attack_flows": 1866, "benign_flows": 410, "in_mb": 18.99, "out_mb": 28.75, "attacks": "Backdoor, DoS, Fuzzers, Generic, Reconnaissance, Exploits, Shellcode, Worms"}, {"source": "175.45.176.2", "target": "149.171.126.16", "total_flows": 1993, "attack_flows": 1854, "benign_flows": 139, "in_mb": 36.85, "out_mb": 25.18, "attacks": "Fuzzers, DoS, Exploits, Backdoor, Reconnaissance, Generic, Analysis, Shellcode, Worms"}, {"source": "175.45.176.0", "target": "149.171.126.14", "total_flows": 2385, "attack_flows": 1817, "benign_flows": 568, "in_mb": 29.03, "out_mb": 22.3, "attacks": "Backdoor, DoS, Fuzzers, Reconnaissance, Generic, Analysis, Exploits, Shellcode, Worms"}, {"source": "175.45.176.2", "target": "149.171.126.11", "total_flows": 2583, "attack_flows": 1794, "benign_flows": 789, "in_mb": 24.53, "out_mb": 18.65, "attacks": "Worms, Shellcode, Exploits, Analysis, Reconnaissance, Generic, Fuzzers, Backdoor, DoS"}, {"source": "175.45.176.1", "target": "149.171.126.16", "total_flows": 2209, "attack_flows": 1774, "benign_flows": 435, "in_mb": 10.07, "out_mb": 34.33, "attacks": "Fuzzers, DoS, Shellcode, Worms, Exploits, Reconnaissance, Generic, Backdoor"}, {"source": "175.45.176.3", "target": "149.171.126.16", "total_flows": 2670, "attack_flows": 1702, "benign_flows": 968, "in_mb": 32.71, "out_mb": 24.33, "attacks": "Reconnaissance, Generic, Analysis, Shellcode, Worms, DoS, Backdoor, Fuzzers, Exploits"}, {"source": "175.45.176.0", "target": "149.171.126.16", "total_flows": 2579, "attack_flows": 1684, "benign_flows": 895, "in_mb": 26.95, "out_mb": 32.8, "attacks": "Fuzzers, DoS, Shellcode, Worms, Exploits, Reconnaissance, Generic, Backdoor"}, {"source": "175.45.176.2", "target": "149.171.126.10", "total_flows": 1795, "attack_flows": 1679, "benign_flows": 116, "in_mb": 69.1, "out_mb": 50.92, "attacks": "Fuzzers, Backdoor, Shellcode, Worms, Analysis, DoS, Generic, Reconnaissance, Exploits"}, {"source": "175.45.176.3", "target": "149.171.126.13", "total_flows": 2430, "attack_flows": 1658, "benign_flows": 772, "in_mb": 46.89, "out_mb": 46.57, "attacks": "Analysis, Exploits, Reconnaissance, Generic, DoS, Shellcode, Worms, Fuzzers, Backdoor"}, {"source": "175.45.176.0", "target": "149.171.126.19", "total_flows": 1787, "attack_flows": 1648, "benign_flows": 139, "in_mb": 18.59, "out_mb": 18.41, "attacks": "Analysis, Generic, Reconnaissance, Shellcode, Worms, Backdoor, Fuzzers, Exploits, DoS"}, {"source": "175.45.176.2", "target": "149.171.126.18", "total_flows": 2605, "attack_flows": 1601, "benign_flows": 1004, "in_mb": 46.84, "out_mb": 54.73, "attacks": "Fuzzers, Backdoor, Exploits, Reconnaissance, Generic, Shellcode, Worms, Analysis, DoS"}, {"source": "175.45.176.2", "target": "149.171.126.15", "total_flows": 1916, "attack_flows": 1601, "benign_flows": 315, "in_mb": 46.73, "out_mb": 29.09, "attacks": "Backdoor, DoS, Fuzzers, Analysis, Shellcode, Worms, Reconnaissance, Generic, Exploits"}, {"source": "175.45.176.2", "target": "149.171.126.12", "total_flows": 1689, "attack_flows": 1595, "benign_flows": 94, "in_mb": 28.91, "out_mb": 36.29, "attacks": "Shellcode, Worms, Exploits, Reconnaissance, Generic, Fuzzers, Backdoor, DoS"}, {"source": "175.45.176.0", "target": "149.171.126.18", "total_flows": 1868, "attack_flows": 1557, "benign_flows": 311, "in_mb": 33.96, "out_mb": 18.68, "attacks": "Exploits, Shellcode, Worms, Fuzzers, Reconnaissance, Generic, Backdoor, DoS"}, {"source": "175.45.176.2", "target": "149.171.126.19", "total_flows": 2066, "attack_flows": 1549, "benign_flows": 517, "in_mb": 50.25, "out_mb": 34.57, "attacks": "Backdoor, DoS, Fuzzers, Generic, Reconnaissance, Analysis, Exploits, Shellcode, Worms"}, {"source": "175.45.176.3", "target": "149.171.126.12", "total_flows": 1785, "attack_flows": 1536, "benign_flows": 249, "in_mb": 31.79, "out_mb": 22.06, "attacks": "DoS, Backdoor, Reconnaissance, Generic, Exploits, Fuzzers, Shellcode, Worms, Analysis"}, {"source": "175.45.176.1", "target": "149.171.126.19", "total_flows": 1597, "attack_flows": 1503, "benign_flows": 94, "in_mb": 39.67, "out_mb": 34.67, "attacks": "Backdoor, DoS, Fuzzers, Shellcode, Worms, Reconnaissance, Generic, Exploits"}, {"source": "59.166.0.2", "target": "149.171.126.2", "total_flows": 23767, "attack_flows": 0, "benign_flows": 23767, "in_mb": 86.46, "out_mb": 819.66, "attacks": ""}, {"source": "59.166.0.2", "target": "149.171.126.1", "total_flows": 23673, "attack_flows": 0, "benign_flows": 23673, "in_mb": 86.34, "out_mb": 852.0, "attacks": ""}, {"source": "59.166.0.4", "target": "149.171.126.4", "total_flows": 23662, "attack_flows": 0, "benign_flows": 23662, "in_mb": 86.52, "out_mb": 803.78, "attacks": ""}, {"source": "59.166.0.3", "target": "149.171.126.1", "total_flows": 23661, "attack_flows": 0, "benign_flows": 23661, "in_mb": 85.81, "out_mb": 811.14, "attacks": ""}, {"source": "59.166.0.4", "target": "149.171.126.2", "total_flows": 23648, "attack_flows": 0, "benign_flows": 23648, "in_mb": 86.4, "out_mb": 782.45, "attacks": ""}, {"source": "59.166.0.1", "target": "149.171.126.0", "total_flows": 23645, "attack_flows": 0, "benign_flows": 23645, "in_mb": 87.89, "out_mb": 850.22, "attacks": ""}, {"source": "59.166.0.4", "target": "149.171.126.0", "total_flows": 23621, "attack_flows": 0, "benign_flows": 23621, "in_mb": 85.62, "out_mb": 819.18, "attacks": ""}, {"source": "59.166.0.1", "target": "149.171.126.5", "total_flows": 23582, "attack_flows": 0, "benign_flows": 23582, "in_mb": 83.33, "out_mb": 810.25, "attacks": ""}, {"source": "59.166.0.2", "target": "149.171.126.4", "total_flows": 23571, "attack_flows": 0, "benign_flows": 23571, "in_mb": 87.35, "out_mb": 828.75, "attacks": ""}, {"source": "59.166.0.4", "target": "149.171.126.3", "total_flows": 23537, "attack_flows": 0, "benign_flows": 23537, "in_mb": 85.25, "out_mb": 768.6, "attacks": ""}, {"source": "59.166.0.5", "target": "149.171.126.4", "total_flows": 23523, "attack_flows": 0, "benign_flows": 23523, "in_mb": 85.7, "out_mb": 827.96, "attacks": ""}, {"source": "59.166.0.5", "target": "149.171.126.3", "total_flows": 23521, "attack_flows": 0, "benign_flows": 23521, "in_mb": 83.97, "out_mb": 798.89, "attacks": ""}, {"source": "59.166.0.2", "target": "149.171.126.3", "total_flows": 23493, "attack_flows": 0, "benign_flows": 23493, "in_mb": 85.5, "out_mb": 842.53, "attacks": ""}, {"source": "59.166.0.1", "target": "149.171.126.4", "total_flows": 23492, "attack_flows": 0, "benign_flows": 23492, "in_mb": 84.54, "out_mb": 775.43, "attacks": ""}, {"source": "59.166.0.2", "target": "149.171.126.5", "total_flows": 23456, "attack_flows": 0, "benign_flows": 23456, "in_mb": 84.31, "out_mb": 829.52, "attacks": ""}, {"source": "59.166.0.0", "target": "149.171.126.4", "total_flows": 23408, "attack_flows": 0, "benign_flows": 23408, "in_mb": 86.55, "out_mb": 842.85, "attacks": ""}, {"source": "59.166.0.0", "target": "149.171.126.3", "total_flows": 23401, "attack_flows": 0, "benign_flows": 23401, "in_mb": 85.52, "out_mb": 852.41, "attacks": ""}, {"source": "59.166.0.1", "target": "149.171.126.1", "total_flows": 23390, "attack_flows": 0, "benign_flows": 23390, "in_mb": 85.32, "out_mb": 770.1, "attacks": ""}, {"source": "59.166.0.0", "target": "149.171.126.0", "total_flows": 23370, "attack_flows": 0, "benign_flows": 23370, "in_mb": 84.11, "out_mb": 844.03, "attacks": ""}, {"source": "59.166.0.1", "target": "149.171.126.2", "total_flows": 23363, "attack_flows": 0, "benign_flows": 23363, "in_mb": 84.5, "out_mb": 813.44, "attacks": ""}, {"source": "59.166.0.1", "target": "149.171.126.3", "total_flows": 23336, "attack_flows": 0, "benign_flows": 23336, "in_mb": 87.39, "out_mb": 921.66, "attacks": ""}, {"source": "59.166.0.4", "target": "149.171.126.5", "total_flows": 23311, "attack_flows": 0, "benign_flows": 23311, "in_mb": 83.24, "out_mb": 795.58, "attacks": ""}, {"source": "59.166.0.3", "target": "149.171.126.5", "total_flows": 23302, "attack_flows": 0, "benign_flows": 23302, "in_mb": 83.8, "out_mb": 798.1, "attacks": ""}, {"source": "59.166.0.3", "target": "149.171.126.2", "total_flows": 23272, "attack_flows": 0, "benign_flows": 23272, "in_mb": 86.14, "out_mb": 885.3, "attacks": ""}, {"source": "59.166.0.5", "target": "149.171.126.1", "total_flows": 23237, "attack_flows": 0, "benign_flows": 23237, "in_mb": 85.7, "out_mb": 837.76, "attacks": ""}, {"source": "59.166.0.0", "target": "149.171.126.2", "total_flows": 23224, "attack_flows": 0, "benign_flows": 23224, "in_mb": 83.7, "out_mb": 813.3, "attacks": ""}, {"source": "59.166.0.2", "target": "149.171.126.0", "total_flows": 23223, "attack_flows": 0, "benign_flows": 23223, "in_mb": 84.96, "out_mb": 842.75, "attacks": ""}, {"source": "59.166.0.4", "target": "149.171.126.1", "total_flows": 23214, "attack_flows": 0, "benign_flows": 23214, "in_mb": 86.79, "out_mb": 895.48, "attacks": ""}, {"source": "59.166.0.0", "target": "149.171.126.5", "total_flows": 23175, "attack_flows": 0, "benign_flows": 23175, "in_mb": 85.2, "out_mb": 799.79, "attacks": ""}, {"source": "59.166.0.3", "target": "149.171.126.4", "total_flows": 23159, "attack_flows": 0, "benign_flows": 23159, "in_mb": 84.18, "out_mb": 703.15, "attacks": ""}, {"source": "59.166.0.5", "target": "149.171.126.5", "total_flows": 23038, "attack_flows": 0, "benign_flows": 23038, "in_mb": 84.32, "out_mb": 848.07, "attacks": ""}, {"source": "59.166.0.0", "target": "149.171.126.6", "total_flows": 23024, "attack_flows": 0, "benign_flows": 23024, "in_mb": 82.62, "out_mb": 787.46, "attacks": ""}, {"source": "59.166.0.1", "target": "149.171.126.7", "total_flows": 22985, "attack_flows": 0, "benign_flows": 22985, "in_mb": 84.14, "out_mb": 816.5, "attacks": ""}, {"source": "59.166.0.6", "target": "149.171.126.2", "total_flows": 22950, "attack_flows": 0, "benign_flows": 22950, "in_mb": 84.97, "out_mb": 775.01, "attacks": ""}, {"source": "59.166.0.5", "target": "149.171.126.2", "total_flows": 22932, "attack_flows": 0, "benign_flows": 22932, "in_mb": 84.65, "out_mb": 770.48, "attacks": ""}, {"source": "59.166.0.3", "target": "149.171.126.0", "total_flows": 22907, "attack_flows": 0, "benign_flows": 22907, "in_mb": 82.53, "out_mb": 771.94, "attacks": ""}, {"source": "59.166.0.9", "target": "149.171.126.1", "total_flows": 22885, "attack_flows": 0, "benign_flows": 22885, "in_mb": 84.26, "out_mb": 844.05, "attacks": ""}, {"source": "59.166.0.0", "target": "149.171.126.7", "total_flows": 22879, "attack_flows": 0, "benign_flows": 22879, "in_mb": 82.79, "out_mb": 772.73, "attacks": ""}, {"source": "59.166.0.3", "target": "149.171.126.3", "total_flows": 22879, "attack_flows": 0, "benign_flows": 22879, "in_mb": 84.17, "out_mb": 799.57, "attacks": ""}, {"source": "59.166.0.9", "target": "149.171.126.5", "total_flows": 22844, "attack_flows": 0, "benign_flows": 22844, "in_mb": 83.91, "out_mb": 868.7, "attacks": ""}, {"source": "59.166.0.0", "target": "149.171.126.1", "total_flows": 22764, "attack_flows": 0, "benign_flows": 22764, "in_mb": 84.68, "out_mb": 821.15, "attacks": ""}, {"source": "59.166.0.7", "target": "149.171.126.0", "total_flows": 22704, "attack_flows": 0, "benign_flows": 22704, "in_mb": 79.25, "out_mb": 736.19, "attacks": ""}, {"source": "59.166.0.9", "target": "149.171.126.0", "total_flows": 22678, "attack_flows": 0, "benign_flows": 22678, "in_mb": 79.94, "out_mb": 738.05, "attacks": ""}, {"source": "59.166.0.0", "target": "149.171.126.9", "total_flows": 22657, "attack_flows": 0, "benign_flows": 22657, "in_mb": 80.65, "out_mb": 798.02, "attacks": ""}, {"source": "59.166.0.5", "target": "149.171.126.9", "total_flows": 22565, "attack_flows": 0, "benign_flows": 22565, "in_mb": 85.09, "out_mb": 888.78, "attacks": ""}, {"source": "59.166.0.9", "target": "149.171.126.3", "total_flows": 22505, "attack_flows": 0, "benign_flows": 22505, "in_mb": 85.87, "out_mb": 901.97, "attacks": ""}, {"source": "59.166.0.3", "target": "149.171.126.7", "total_flows": 22499, "attack_flows": 0, "benign_flows": 22499, "in_mb": 82.82, "out_mb": 810.31, "attacks": ""}, {"source": "59.166.0.2", "target": "149.171.126.9", "total_flows": 22499, "attack_flows": 0, "benign_flows": 22499, "in_mb": 82.66, "out_mb": 779.53, "attacks": ""}, {"source": "59.166.0.9", "target": "149.171.126.2", "total_flows": 22487, "attack_flows": 0, "benign_flows": 22487, "in_mb": 83.93, "out_mb": 819.86, "attacks": ""}, {"source": "59.166.0.8", "target": "149.171.126.0", "total_flows": 22485, "attack_flows": 0, "benign_flows": 22485, "in_mb": 83.95, "out_mb": 789.99, "attacks": ""}, {"source": "59.166.0.8", "target": "149.171.126.5", "total_flows": 22483, "attack_flows": 0, "benign_flows": 22483, "in_mb": 81.03, "out_mb": 750.84, "attacks": ""}, {"source": "59.166.0.8", "target": "149.171.126.1", "total_flows": 22470, "attack_flows": 0, "benign_flows": 22470, "in_mb": 80.94, "out_mb": 733.53, "attacks": ""}, {"source": "59.166.0.2", "target": "149.171.126.7", "total_flows": 22467, "attack_flows": 0, "benign_flows": 22467, "in_mb": 80.08, "out_mb": 728.58, "attacks": ""}, {"source": "59.166.0.4", "target": "149.171.126.7", "total_flows": 22466, "attack_flows": 0, "benign_flows": 22466, "in_mb": 83.98, "out_mb": 791.68, "attacks": ""}, {"source": "59.166.0.5", "target": "149.171.126.7", "total_flows": 22460, "attack_flows": 0, "benign_flows": 22460, "in_mb": 80.84, "out_mb": 763.56, "attacks": ""}, {"source": "59.166.0.1", "target": "149.171.126.6", "total_flows": 22453, "attack_flows": 0, "benign_flows": 22453, "in_mb": 81.31, "out_mb": 756.89, "attacks": ""}, {"source": "59.166.0.6", "target": "149.171.126.0", "total_flows": 22435, "attack_flows": 0, "benign_flows": 22435, "in_mb": 81.48, "out_mb": 803.13, "attacks": ""}, {"source": "59.166.0.7", "target": "149.171.126.3", "total_flows": 22433, "attack_flows": 0, "benign_flows": 22433, "in_mb": 80.56, "out_mb": 770.7, "attacks": ""}, {"source": "59.166.0.8", "target": "149.171.126.4", "total_flows": 22430, "attack_flows": 0, "benign_flows": 22430, "in_mb": 79.78, "out_mb": 732.12, "attacks": ""}, {"source": "59.166.0.5", "target": "149.171.126.6", "total_flows": 22421, "attack_flows": 0, "benign_flows": 22421, "in_mb": 85.68, "out_mb": 830.31, "attacks": ""}, {"source": "59.166.0.5", "target": "149.171.126.0", "total_flows": 22404, "attack_flows": 0, "benign_flows": 22404, "in_mb": 81.55, "out_mb": 747.41, "attacks": ""}, {"source": "59.166.0.8", "target": "149.171.126.3", "total_flows": 22391, "attack_flows": 0, "benign_flows": 22391, "in_mb": 78.99, "out_mb": 733.76, "attacks": ""}, {"source": "59.166.0.3", "target": "149.171.126.8", "total_flows": 22380, "attack_flows": 0, "benign_flows": 22380, "in_mb": 82.56, "out_mb": 837.76, "attacks": ""}, {"source": "59.166.0.7", "target": "149.171.126.2", "total_flows": 22326, "attack_flows": 0, "benign_flows": 22326, "in_mb": 80.89, "out_mb": 797.33, "attacks": ""}, {"source": "59.166.0.9", "target": "149.171.126.4", "total_flows": 22318, "attack_flows": 0, "benign_flows": 22318, "in_mb": 82.06, "out_mb": 784.76, "attacks": ""}, {"source": "59.166.0.3", "target": "149.171.126.6", "total_flows": 22318, "attack_flows": 0, "benign_flows": 22318, "in_mb": 82.41, "out_mb": 757.98, "attacks": ""}, {"source": "59.166.0.4", "target": "149.171.126.6", "total_flows": 22275, "attack_flows": 0, "benign_flows": 22275, "in_mb": 81.67, "out_mb": 752.79, "attacks": ""}, {"source": "59.166.0.4", "target": "149.171.126.8", "total_flows": 22266, "attack_flows": 0, "benign_flows": 22266, "in_mb": 80.24, "out_mb": 717.94, "attacks": ""}, {"source": "59.166.0.6", "target": "149.171.126.4", "total_flows": 22250, "attack_flows": 0, "benign_flows": 22250, "in_mb": 82.87, "out_mb": 847.91, "attacks": ""}, {"source": "59.166.0.7", "target": "149.171.126.4", "total_flows": 22230, "attack_flows": 0, "benign_flows": 22230, "in_mb": 80.09, "out_mb": 755.15, "attacks": ""}, {"source": "59.166.0.4", "target": "149.171.126.9", "total_flows": 22209, "attack_flows": 0, "benign_flows": 22209, "in_mb": 80.7, "out_mb": 770.08, "attacks": ""}, {"source": "59.166.0.3", "target": "149.171.126.9", "total_flows": 22196, "attack_flows": 0, "benign_flows": 22196, "in_mb": 81.86, "out_mb": 763.16, "attacks": ""}, {"source": "59.166.0.6", "target": "149.171.126.3", "total_flows": 22192, "attack_flows": 0, "benign_flows": 22192, "in_mb": 78.84, "out_mb": 768.72, "attacks": ""}, {"source": "59.166.0.2", "target": "149.171.126.6", "total_flows": 22180, "attack_flows": 0, "benign_flows": 22180, "in_mb": 80.21, "out_mb": 789.98, "attacks": ""}, {"source": "59.166.0.0", "target": "149.171.126.8", "total_flows": 22166, "attack_flows": 0, "benign_flows": 22166, "in_mb": 81.71, "out_mb": 779.94, "attacks": ""}, {"source": "59.166.0.1", "target": "149.171.126.8", "total_flows": 22091, "attack_flows": 0, "benign_flows": 22091, "in_mb": 79.91, "out_mb": 741.48, "attacks": ""}, {"source": "59.166.0.8", "target": "149.171.126.9", "total_flows": 22056, "attack_flows": 0, "benign_flows": 22056, "in_mb": 79.26, "out_mb": 783.0, "attacks": ""}, {"source": "59.166.0.1", "target": "149.171.126.9", "total_flows": 22020, "attack_flows": 0, "benign_flows": 22020, "in_mb": 81.24, "out_mb": 819.06, "attacks": ""}, {"source": "59.166.0.8", "target": "149.171.126.2", "total_flows": 22014, "attack_flows": 0, "benign_flows": 22014, "in_mb": 80.72, "out_mb": 770.32, "attacks": ""}, {"source": "59.166.0.7", "target": "149.171.126.1", "total_flows": 22001, "attack_flows": 0, "benign_flows": 22001, "in_mb": 81.85, "out_mb": 817.07, "attacks": ""}, {"source": "59.166.0.6", "target": "149.171.126.1", "total_flows": 21997, "attack_flows": 0, "benign_flows": 21997, "in_mb": 81.23, "out_mb": 772.17, "attacks": ""}, {"source": "59.166.0.5", "target": "149.171.126.8", "total_flows": 21992, "attack_flows": 0, "benign_flows": 21992, "in_mb": 81.44, "out_mb": 825.6, "attacks": ""}, {"source": "59.166.0.6", "target": "149.171.126.5", "total_flows": 21928, "attack_flows": 0, "benign_flows": 21928, "in_mb": 82.62, "out_mb": 770.56, "attacks": ""}, {"source": "59.166.0.2", "target": "149.171.126.8", "total_flows": 21885, "attack_flows": 0, "benign_flows": 21885, "in_mb": 81.19, "out_mb": 715.56, "attacks": ""}, {"source": "59.166.0.6", "target": "149.171.126.7", "total_flows": 21791, "attack_flows": 0, "benign_flows": 21791, "in_mb": 76.08, "out_mb": 711.04, "attacks": ""}, {"source": "59.166.0.9", "target": "149.171.126.9", "total_flows": 21714, "attack_flows": 0, "benign_flows": 21714, "in_mb": 80.39, "out_mb": 762.42, "attacks": ""}, {"source": "59.166.0.7", "target": "149.171.126.5", "total_flows": 21693, "attack_flows": 0, "benign_flows": 21693, "in_mb": 80.59, "out_mb": 847.89, "attacks": ""}, {"source": "59.166.0.7", "target": "149.171.126.9", "total_flows": 21692, "attack_flows": 0, "benign_flows": 21692, "in_mb": 78.07, "out_mb": 736.78, "attacks": ""}, {"source": "59.166.0.8", "target": "149.171.126.7", "total_flows": 21667, "attack_flows": 0, "benign_flows": 21667, "in_mb": 79.76, "out_mb": 775.29, "attacks": ""}, {"source": "59.166.0.6", "target": "149.171.126.6", "total_flows": 21630, "attack_flows": 0, "benign_flows": 21630, "in_mb": 79.44, "out_mb": 742.0, "attacks": ""}, {"source": "59.166.0.7", "target": "149.171.126.7", "total_flows": 21582, "attack_flows": 0, "benign_flows": 21582, "in_mb": 79.94, "out_mb": 717.08, "attacks": ""}, {"source": "59.166.0.8", "target": "149.171.126.6", "total_flows": 21519, "attack_flows": 0, "benign_flows": 21519, "in_mb": 79.3, "out_mb": 762.3, "attacks": ""}, {"source": "59.166.0.7", "target": "149.171.126.8", "total_flows": 21518, "attack_flows": 0, "benign_flows": 21518, "in_mb": 78.11, "out_mb": 722.58, "attacks": ""}, {"source": "59.166.0.9", "target": "149.171.126.6", "total_flows": 21493, "attack_flows": 0, "benign_flows": 21493, "in_mb": 77.94, "out_mb": 759.94, "attacks": ""}, {"source": "59.166.0.6", "target": "149.171.126.8", "total_flows": 21443, "attack_flows": 0, "benign_flows": 21443, "in_mb": 77.4, "out_mb": 790.84, "attacks": ""}, {"source": "59.166.0.9", "target": "149.171.126.7", "total_flows": 21344, "attack_flows": 0, "benign_flows": 21344, "in_mb": 78.59, "out_mb": 771.68, "attacks": ""}, {"source": "59.166.0.7", "target": "149.171.126.6", "total_flows": 21254, "attack_flows": 0, "benign_flows": 21254, "in_mb": 76.9, "out_mb": 752.19, "attacks": ""}, {"source": "59.166.0.9", "target": "149.171.126.8", "total_flows": 21136, "attack_flows": 0, "benign_flows": 21136, "in_mb": 78.37, "out_mb": 744.02, "attacks": ""}, {"source": "59.166.0.8", "target": "149.171.126.8", "total_flows": 21009, "attack_flows": 0, "benign_flows": 21009, "in_mb": 74.97, "out_mb": 662.52, "attacks": ""}, {"source": "59.166.0.6", "target": "149.171.126.9", "total_flows": 20920, "attack_flows": 0, "benign_flows": 20920, "in_mb": 76.51, "out_mb": 728.03, "attacks": ""}, {"source": "149.171.126.18", "target": "175.45.176.1", "total_flows": 1974, "attack_flows": 0, "benign_flows": 1974, "in_mb": 0.33, "out_mb": 0.02, "attacks": ""}, {"source": "149.171.126.15", "target": "175.45.176.3", "total_flows": 1939, "attack_flows": 0, "benign_flows": 1939, "in_mb": 5.38, "out_mb": 0.53, "attacks": ""}, {"source": "149.171.126.12", "target": "175.45.176.0", "total_flows": 1925, "attack_flows": 0, "benign_flows": 1925, "in_mb": 0.46, "out_mb": 2.69, "attacks": ""}, {"source": "149.171.126.18", "target": "175.45.176.3", "total_flows": 1881, "attack_flows": 0, "benign_flows": 1881, "in_mb": 0.5, "out_mb": 0.03, "attacks": ""}, {"source": "149.171.126.14", "target": "175.45.176.1", "total_flows": 1874, "attack_flows": 0, "benign_flows": 1874, "in_mb": 0.29, "out_mb": 0.01, "attacks": ""}, {"source": "149.171.126.10", "target": "175.45.176.0", "total_flows": 1811, "attack_flows": 0, "benign_flows": 1811, "in_mb": 0.36, "out_mb": 13.15, "attacks": ""}, {"source": "10.40.85.1", "target": "224.0.0.5", "total_flows": 274, "attack_flows": 0, "benign_flows": 274, "in_mb": 0.36, "out_mb": 0.0, "attacks": ""}, {"source": "10.40.182.1", "target": "224.0.0.5", "total_flows": 273, "attack_flows": 0, "benign_flows": 273, "in_mb": 0.36, "out_mb": 0.0, "attacks": ""}, {"source": "10.40.85.10", "target": "10.40.198.10", "total_flows": 255, "attack_flows": 0, "benign_flows": 255, "in_mb": 0.07, "out_mb": 0.0, "attacks": ""}, {"source": "149.171.126.0", "target": "59.166.0.1", "total_flows": 85, "attack_flows": 0, "benign_flows": 85, "in_mb": 6.79, "out_mb": 0.24, "attacks": ""}, {"source": "149.171.126.9", "target": "59.166.0.0", "total_flows": 79, "attack_flows": 0, "benign_flows": 79, "in_mb": 8.03, "out_mb": 0.25, "attacks": ""}, {"source": "149.171.126.1", "target": "59.166.0.1", "total_flows": 79, "attack_flows": 0, "benign_flows": 79, "in_mb": 10.08, "out_mb": 0.32, "attacks": ""}, {"source": "149.171.126.0", "target": "59.166.0.6", "total_flows": 78, "attack_flows": 0, "benign_flows": 78, "in_mb": 11.24, "out_mb": 0.35, "attacks": ""}, {"source": "149.171.126.6", "target": "59.166.0.9", "total_flows": 76, "attack_flows": 0, "benign_flows": 76, "in_mb": 6.37, "out_mb": 0.21, "attacks": ""}, {"source": "149.171.126.0", "target": "59.166.0.7", "total_flows": 74, "attack_flows": 0, "benign_flows": 74, "in_mb": 8.89, "out_mb": 0.28, "attacks": ""}, {"source": "149.171.126.4", "target": "59.166.0.1", "total_flows": 72, "attack_flows": 0, "benign_flows": 72, "in_mb": 9.53, "out_mb": 0.3, "attacks": ""}, {"source": "149.171.126.4", "target": "59.166.0.9", "total_flows": 72, "attack_flows": 0, "benign_flows": 72, "in_mb": 6.42, "out_mb": 0.21, "attacks": ""}, {"source": "149.171.126.4", "target": "59.166.0.2", "total_flows": 70, "attack_flows": 0, "benign_flows": 70, "in_mb": 5.67, "out_mb": 0.25, "attacks": ""}, {"source": "149.171.126.8", "target": "59.166.0.5", "total_flows": 70, "attack_flows": 0, "benign_flows": 70, "in_mb": 7.09, "out_mb": 0.17, "attacks": ""}, {"source": "149.171.126.3", "target": "59.166.0.8", "total_flows": 69, "attack_flows": 0, "benign_flows": 69, "in_mb": 9.08, "out_mb": 0.29, "attacks": ""}, {"source": "149.171.126.6", "target": "59.166.0.3", "total_flows": 69, "attack_flows": 0, "benign_flows": 69, "in_mb": 9.4, "out_mb": 0.31, "attacks": ""}, {"source": "149.171.126.3", "target": "59.166.0.0", "total_flows": 67, "attack_flows": 0, "benign_flows": 67, "in_mb": 2.57, "out_mb": 0.22, "attacks": ""}, {"source": "149.171.126.6", "target": "59.166.0.2", "total_flows": 67, "attack_flows": 0, "benign_flows": 67, "in_mb": 14.87, "out_mb": 0.38, "attacks": ""}, {"source": "149.171.126.5", "target": "59.166.0.9", "total_flows": 66, "attack_flows": 0, "benign_flows": 66, "in_mb": 6.26, "out_mb": 0.21, "attacks": ""}, {"source": "149.171.126.1", "target": "59.166.0.4", "total_flows": 66, "attack_flows": 0, "benign_flows": 66, "in_mb": 4.06, "out_mb": 0.23, "attacks": ""}, {"source": "149.171.126.7", "target": "59.166.0.0", "total_flows": 66, "attack_flows": 0, "benign_flows": 66, "in_mb": 5.12, "out_mb": 0.15, "attacks": ""}, {"source": "149.171.126.8", "target": "59.166.0.9", "total_flows": 65, "attack_flows": 0, "benign_flows": 65, "in_mb": 12.2, "out_mb": 0.32, "attacks": ""}, {"source": "149.171.126.2", "target": "59.166.0.0", "total_flows": 65, "attack_flows": 0, "benign_flows": 65, "in_mb": 6.24, "out_mb": 0.25, "attacks": ""}, {"source": "149.171.126.5", "target": "59.166.0.6", "total_flows": 64, "attack_flows": 0, "benign_flows": 64, "in_mb": 8.09, "out_mb": 0.21, "attacks": ""}, {"source": "149.171.126.5", "target": "59.166.0.0", "total_flows": 64, "attack_flows": 0, "benign_flows": 64, "in_mb": 12.58, "out_mb": 0.31, "attacks": ""}, {"source": "149.171.126.8", "target": "59.166.0.3", "total_flows": 63, "attack_flows": 0, "benign_flows": 63, "in_mb": 9.22, "out_mb": 0.28, "attacks": ""}, {"source": "149.171.126.4", "target": "59.166.0.5", "total_flows": 63, "attack_flows": 0, "benign_flows": 63, "in_mb": 9.91, "out_mb": 0.29, "attacks": ""}, {"source": "149.171.126.1", "target": "59.166.0.8", "total_flows": 62, "attack_flows": 0, "benign_flows": 62, "in_mb": 9.2, "out_mb": 0.3, "attacks": ""}, {"source": "149.171.126.1", "target": "59.166.0.6", "total_flows": 62, "attack_flows": 0, "benign_flows": 62, "in_mb": 8.33, "out_mb": 0.18, "attacks": ""}, {"source": "149.171.126.5", "target": "59.166.0.2", "total_flows": 61, "attack_flows": 0, "benign_flows": 61, "in_mb": 12.26, "out_mb": 0.26, "attacks": ""}, {"source": "149.171.126.2", "target": "59.166.0.5", "total_flows": 61, "attack_flows": 0, "benign_flows": 61, "in_mb": 6.79, "out_mb": 0.2, "attacks": ""}, {"source": "149.171.126.9", "target": "59.166.0.2", "total_flows": 61, "attack_flows": 0, "benign_flows": 61, "in_mb": 9.93, "out_mb": 0.24, "attacks": ""}, {"source": "149.171.126.6", "target": "59.166.0.4", "total_flows": 60, "attack_flows": 0, "benign_flows": 60, "in_mb": 7.81, "out_mb": 0.25, "attacks": ""}, {"source": "149.171.126.3", "target": "59.166.0.2", "total_flows": 60, "attack_flows": 0, "benign_flows": 60, "in_mb": 10.09, "out_mb": 0.31, "attacks": ""}, {"source": "149.171.126.5", "target": "59.166.0.5", "total_flows": 59, "attack_flows": 0, "benign_flows": 59, "in_mb": 3.46, "out_mb": 0.15, "attacks": ""}, {"source": "149.171.126.8", "target": "59.166.0.8", "total_flows": 59, "attack_flows": 0, "benign_flows": 59, "in_mb": 4.32, "out_mb": 0.15, "attacks": ""}, {"source": "149.171.126.8", "target": "59.166.0.4", "total_flows": 59, "attack_flows": 0, "benign_flows": 59, "in_mb": 4.93, "out_mb": 0.19, "attacks": ""}, {"source": "149.171.126.0", "target": "59.166.0.2", "total_flows": 59, "attack_flows": 0, "benign_flows": 59, "in_mb": 3.33, "out_mb": 0.14, "attacks": ""}, {"source": "149.171.126.2", "target": "59.166.0.2", "total_flows": 58, "attack_flows": 0, "benign_flows": 58, "in_mb": 6.55, "out_mb": 0.23, "attacks": ""}, {"source": "149.171.126.8", "target": "59.166.0.0", "total_flows": 58, "attack_flows": 0, "benign_flows": 58, "in_mb": 8.51, "out_mb": 0.25, "attacks": ""}, {"source": "149.171.126.0", "target": "59.166.0.0", "total_flows": 58, "attack_flows": 0, "benign_flows": 58, "in_mb": 9.58, "out_mb": 0.26, "attacks": ""}, {"source": "149.171.126.9", "target": "59.166.0.3", "total_flows": 58, "attack_flows": 0, "benign_flows": 58, "in_mb": 7.28, "out_mb": 0.25, "attacks": ""}, {"source": "149.171.126.7", "target": "59.166.0.8", "total_flows": 58, "attack_flows": 0, "benign_flows": 58, "in_mb": 6.06, "out_mb": 0.21, "attacks": ""}, {"source": "149.171.126.5", "target": "59.166.0.1", "total_flows": 58, "attack_flows": 0, "benign_flows": 58, "in_mb": 6.78, "out_mb": 0.26, "attacks": ""}, {"source": "149.171.126.3", "target": "59.166.0.6", "total_flows": 57, "attack_flows": 0, "benign_flows": 57, "in_mb": 7.89, "out_mb": 0.29, "attacks": ""}, {"source": "149.171.126.3", "target": "59.166.0.4", "total_flows": 56, "attack_flows": 0, "benign_flows": 56, "in_mb": 5.46, "out_mb": 0.18, "attacks": ""}, {"source": "149.171.126.8", "target": "59.166.0.1", "total_flows": 56, "attack_flows": 0, "benign_flows": 56, "in_mb": 3.63, "out_mb": 0.19, "attacks": ""}, {"source": "149.171.126.7", "target": "59.166.0.4", "total_flows": 56, "attack_flows": 0, "benign_flows": 56, "in_mb": 6.22, "out_mb": 0.23, "attacks": ""}, {"source": "149.171.126.4", "target": "59.166.0.8", "total_flows": 56, "attack_flows": 0, "benign_flows": 56, "in_mb": 11.02, "out_mb": 0.23, "attacks": ""}, {"source": "149.171.126.4", "target": "59.166.0.7", "total_flows": 56, "attack_flows": 0, "benign_flows": 56, "in_mb": 1.61, "out_mb": 0.16, "attacks": ""}, {"source": "149.171.126.3", "target": "59.166.0.1", "total_flows": 56, "attack_flows": 0, "benign_flows": 56, "in_mb": 7.64, "out_mb": 0.23, "attacks": ""}, {"source": "149.171.126.2", "target": "59.166.0.4", "total_flows": 56, "attack_flows": 0, "benign_flows": 56, "in_mb": 4.02, "out_mb": 0.22, "attacks": ""}, {"source": "149.171.126.3", "target": "59.166.0.9", "total_flows": 55, "attack_flows": 0, "benign_flows": 55, "in_mb": 9.29, "out_mb": 0.28, "attacks": ""}, {"source": "149.171.126.2", "target": "59.166.0.6", "total_flows": 55, "attack_flows": 0, "benign_flows": 55, "in_mb": 4.32, "out_mb": 0.14, "attacks": ""}, {"source": "149.171.126.4", "target": "59.166.0.3", "total_flows": 55, "attack_flows": 0, "benign_flows": 55, "in_mb": 4.94, "out_mb": 0.18, "attacks": ""}, {"source": "149.171.126.6", "target": "59.166.0.7", "total_flows": 55, "attack_flows": 0, "benign_flows": 55, "in_mb": 5.94, "out_mb": 0.21, "attacks": ""}, {"source": "149.171.126.0", "target": "59.166.0.4", "total_flows": 54, "attack_flows": 0, "benign_flows": 54, "in_mb": 3.25, "out_mb": 0.15, "attacks": ""}, {"source": "149.171.126.3", "target": "59.166.0.3", "total_flows": 54, "attack_flows": 0, "benign_flows": 54, "in_mb": 8.7, "out_mb": 0.37, "attacks": ""}, {"source": "149.171.126.2", "target": "59.166.0.7", "total_flows": 53, "attack_flows": 0, "benign_flows": 53, "in_mb": 8.87, "out_mb": 0.26, "attacks": ""}, {"source": "149.171.126.9", "target": "59.166.0.9", "total_flows": 53, "attack_flows": 0, "benign_flows": 53, "in_mb": 9.45, "out_mb": 0.24, "attacks": ""}, {"source": "149.171.126.9", "target": "59.166.0.7", "total_flows": 53, "attack_flows": 0, "benign_flows": 53, "in_mb": 4.06, "out_mb": 0.15, "attacks": ""}, {"source": "149.171.126.5", "target": "59.166.0.4", "total_flows": 53, "attack_flows": 0, "benign_flows": 53, "in_mb": 7.04, "out_mb": 0.2, "attacks": ""}, {"source": "149.171.126.2", "target": "59.166.0.9", "total_flows": 52, "attack_flows": 0, "benign_flows": 52, "in_mb": 7.21, "out_mb": 0.27, "attacks": ""}, {"source": "149.171.126.4", "target": "59.166.0.0", "total_flows": 52, "attack_flows": 0, "benign_flows": 52, "in_mb": 6.62, "out_mb": 0.19, "attacks": ""}, {"source": "149.171.126.0", "target": "59.166.0.9", "total_flows": 51, "attack_flows": 0, "benign_flows": 51, "in_mb": 7.63, "out_mb": 0.16, "attacks": ""}, {"source": "149.171.126.7", "target": "59.166.0.1", "total_flows": 51, "attack_flows": 0, "benign_flows": 51, "in_mb": 6.52, "out_mb": 0.18, "attacks": ""}, {"source": "149.171.126.7", "target": "59.166.0.3", "total_flows": 51, "attack_flows": 0, "benign_flows": 51, "in_mb": 4.56, "out_mb": 0.17, "attacks": ""}, {"source": "149.171.126.8", "target": "59.166.0.2", "total_flows": 51, "attack_flows": 0, "benign_flows": 51, "in_mb": 4.18, "out_mb": 0.16, "attacks": ""}, {"source": "149.171.126.7", "target": "59.166.0.2", "total_flows": 51, "attack_flows": 0, "benign_flows": 51, "in_mb": 4.62, "out_mb": 0.18, "attacks": ""}, {"source": "149.171.126.9", "target": "59.166.0.5", "total_flows": 50, "attack_flows": 0, "benign_flows": 50, "in_mb": 8.24, "out_mb": 0.21, "attacks": ""}, {"source": "149.171.126.1", "target": "59.166.0.5", "total_flows": 50, "attack_flows": 0, "benign_flows": 50, "in_mb": 10.91, "out_mb": 0.32, "attacks": ""}, {"source": "149.171.126.1", "target": "59.166.0.0", "total_flows": 50, "attack_flows": 0, "benign_flows": 50, "in_mb": 6.61, "out_mb": 0.2, "attacks": ""}, {"source": "149.171.126.2", "target": "59.166.0.3", "total_flows": 50, "attack_flows": 0, "benign_flows": 50, "in_mb": 5.85, "out_mb": 0.16, "attacks": ""}, {"source": "149.171.126.4", "target": "59.166.0.6", "total_flows": 50, "attack_flows": 0, "benign_flows": 50, "in_mb": 3.62, "out_mb": 0.13, "attacks": ""}, {"source": "149.171.126.2", "target": "59.166.0.8", "total_flows": 49, "attack_flows": 0, "benign_flows": 49, "in_mb": 3.25, "out_mb": 0.13, "attacks": ""}, {"source": "149.171.126.0", "target": "59.166.0.8", "total_flows": 49, "attack_flows": 0, "benign_flows": 49, "in_mb": 4.88, "out_mb": 0.14, "attacks": ""}, {"source": "149.171.126.2", "target": "59.166.0.1", "total_flows": 49, "attack_flows": 0, "benign_flows": 49, "in_mb": 6.95, "out_mb": 0.27, "attacks": ""}, {"source": "149.171.126.6", "target": "59.166.0.0", "total_flows": 49, "attack_flows": 0, "benign_flows": 49, "in_mb": 4.04, "out_mb": 0.15, "attacks": ""}, {"source": "149.171.126.1", "target": "59.166.0.2", "total_flows": 49, "attack_flows": 0, "benign_flows": 49, "in_mb": 5.59, "out_mb": 0.17, "attacks": ""}, {"source": "149.171.126.5", "target": "59.166.0.7", "total_flows": 49, "attack_flows": 0, "benign_flows": 49, "in_mb": 3.2, "out_mb": 0.12, "attacks": ""}, {"source": "149.171.126.5", "target": "59.166.0.8", "total_flows": 49, "attack_flows": 0, "benign_flows": 49, "in_mb": 9.3, "out_mb": 0.22, "attacks": ""}, {"source": "149.171.126.1", "target": "59.166.0.7", "total_flows": 49, "attack_flows": 0, "benign_flows": 49, "in_mb": 7.26, "out_mb": 0.26, "attacks": ""}, {"source": "149.171.126.9", "target": "59.166.0.1", "total_flows": 48, "attack_flows": 0, "benign_flows": 48, "in_mb": 6.98, "out_mb": 0.25, "attacks": ""}, {"source": "149.171.126.6", "target": "59.166.0.1", "total_flows": 48, "attack_flows": 0, "benign_flows": 48, "in_mb": 5.5, "out_mb": 0.25, "attacks": ""}, {"source": "149.171.126.9", "target": "59.166.0.6", "total_flows": 48, "attack_flows": 0, "benign_flows": 48, "in_mb": 6.89, "out_mb": 0.16, "attacks": ""}, {"source": "149.171.126.5", "target": "59.166.0.3", "total_flows": 47, "attack_flows": 0, "benign_flows": 47, "in_mb": 4.95, "out_mb": 0.22, "attacks": ""}, {"source": "149.171.126.4", "target": "59.166.0.4", "total_flows": 46, "attack_flows": 0, "benign_flows": 46, "in_mb": 7.71, "out_mb": 0.23, "attacks": ""}, {"source": "149.171.126.3", "target": "59.166.0.5", "total_flows": 46, "attack_flows": 0, "benign_flows": 46, "in_mb": 2.36, "out_mb": 0.09, "attacks": ""}, {"source": "149.171.126.7", "target": "59.166.0.9", "total_flows": 46, "attack_flows": 0, "benign_flows": 46, "in_mb": 5.24, "out_mb": 0.24, "attacks": ""}, {"source": "149.171.126.1", "target": "59.166.0.3", "total_flows": 45, "attack_flows": 0, "benign_flows": 45, "in_mb": 1.47, "out_mb": 0.12, "attacks": ""}, {"source": "149.171.126.9", "target": "59.166.0.4", "total_flows": 44, "attack_flows": 0, "benign_flows": 44, "in_mb": 8.6, "out_mb": 0.17, "attacks": ""}, {"source": "149.171.126.0", "target": "59.166.0.5", "total_flows": 44, "attack_flows": 0, "benign_flows": 44, "in_mb": 5.56, "out_mb": 0.14, "attacks": ""}, {"source": "149.171.126.8", "target": "59.166.0.7", "total_flows": 44, "attack_flows": 0, "benign_flows": 44, "in_mb": 4.56, "out_mb": 0.16, "attacks": ""}, {"source": "149.171.126.7", "target": "59.166.0.7", "total_flows": 43, "attack_flows": 0, "benign_flows": 43, "in_mb": 10.49, "out_mb": 0.29, "attacks": ""}, {"source": "149.171.126.6", "target": "59.166.0.6", "total_flows": 43, "attack_flows": 0, "benign_flows": 43, "in_mb": 6.99, "out_mb": 0.2, "attacks": ""}, {"source": "149.171.126.6", "target": "59.166.0.8", "total_flows": 43, "attack_flows": 0, "benign_flows": 43, "in_mb": 5.81, "out_mb": 0.24, "attacks": ""}, {"source": "149.171.126.3", "target": "59.166.0.7", "total_flows": 42, "attack_flows": 0, "benign_flows": 42, "in_mb": 4.37, "out_mb": 0.19, "attacks": ""}, {"source": "149.171.126.6", "target": "59.166.0.5", "total_flows": 41, "attack_flows": 0, "benign_flows": 41, "in_mb": 3.98, "out_mb": 0.21, "attacks": ""}, {"source": "149.171.126.8", "target": "59.166.0.6", "total_flows": 40, "attack_flows": 0, "benign_flows": 40, "in_mb": 5.86, "out_mb": 0.13, "attacks": ""}, {"source": "149.171.126.0", "target": "59.166.0.3", "total_flows": 38, "attack_flows": 0, "benign_flows": 38, "in_mb": 3.51, "out_mb": 0.1, "attacks": ""}, {"source": "149.171.126.7", "target": "59.166.0.5", "total_flows": 38, "attack_flows": 0, "benign_flows": 38, "in_mb": 3.15, "out_mb": 0.12, "attacks": ""}, {"source": "149.171.126.18", "target": "175.45.176.0", "total_flows": 38, "attack_flows": 0, "benign_flows": 38, "in_mb": 0.2, "out_mb": 0.1, "attacks": ""}, {"source": "149.171.126.1", "target": "59.166.0.9", "total_flows": 38, "attack_flows": 0, "benign_flows": 38, "in_mb": 4.26, "out_mb": 0.16, "attacks": ""}, {"source": "149.171.126.7", "target": "59.166.0.6", "total_flows": 35, "attack_flows": 0, "benign_flows": 35, "in_mb": 3.97, "out_mb": 0.12, "attacks": ""}, {"source": "10.40.85.10", "target": "192.168.241.50", "total_flows": 34, "attack_flows": 0, "benign_flows": 34, "in_mb": 0.01, "out_mb": 0.0, "attacks": ""}, {"source": "149.171.126.9", "target": "59.166.0.8", "total_flows": 31, "attack_flows": 0, "benign_flows": 31, "in_mb": 2.11, "out_mb": 0.12, "attacks": ""}, {"source": "149.171.126.11", "target": "175.45.176.1", "total_flows": 30, "attack_flows": 0, "benign_flows": 30, "in_mb": 1.48, "out_mb": 0.08, "attacks": ""}, {"source": "149.171.126.12", "target": "175.45.176.3", "total_flows": 30, "attack_flows": 0, "benign_flows": 30, "in_mb": 0.18, "out_mb": 13.72, "attacks": ""}, {"source": "149.171.126.16", "target": "175.45.176.1", "total_flows": 28, "attack_flows": 0, "benign_flows": 28, "in_mb": 0.02, "out_mb": 0.27, "attacks": ""}, {"source": "149.171.126.15", "target": "175.45.176.1", "total_flows": 27, "attack_flows": 0, "benign_flows": 27, "in_mb": 1.0, "out_mb": 0.03, "attacks": ""}, {"source": "149.171.126.17", "target": "175.45.176.3", "total_flows": 27, "attack_flows": 0, "benign_flows": 27, "in_mb": 13.32, "out_mb": 0.24, "attacks": ""}, {"source": "149.171.126.13", "target": "175.45.176.0", "total_flows": 25, "attack_flows": 0, "benign_flows": 25, "in_mb": 0.57, "out_mb": 0.0, "attacks": ""}, {"source": "149.171.126.14", "target": "175.45.176.3", "total_flows": 24, "attack_flows": 0, "benign_flows": 24, "in_mb": 18.89, "out_mb": 8.94, "attacks": ""}, {"source": "149.171.126.13", "target": "175.45.176.1", "total_flows": 22, "attack_flows": 0, "benign_flows": 22, "in_mb": 1.4, "out_mb": 4.08, "attacks": ""}, {"source": "149.171.126.14", "target": "175.45.176.0", "total_flows": 22, "attack_flows": 0, "benign_flows": 22, "in_mb": 1.53, "out_mb": 12.79, "attacks": ""}, {"source": "149.171.126.12", "target": "175.45.176.1", "total_flows": 20, "attack_flows": 0, "benign_flows": 20, "in_mb": 1.65, "out_mb": 0.03, "attacks": ""}, {"source": "149.171.126.17", "target": "175.45.176.1", "total_flows": 18, "attack_flows": 0, "benign_flows": 18, "in_mb": 0.01, "out_mb": 0.0, "attacks": ""}, {"source": "149.171.126.17", "target": "175.45.176.0", "total_flows": 16, "attack_flows": 0, "benign_flows": 16, "in_mb": 3.42, "out_mb": 14.14, "attacks": ""}, {"source": "192.168.241.243", "target": "192.168.241.243", "total_flows": 16, "attack_flows": 0, "benign_flows": 16, "in_mb": 0.08, "out_mb": 0.0, "attacks": ""}, {"source": "149.171.126.19", "target": "175.45.176.2", "total_flows": 16, "attack_flows": 0, "benign_flows": 16, "in_mb": 0.02, "out_mb": 2.04, "attacks": ""}, {"source": "149.171.126.12", "target": "175.45.176.2", "total_flows": 15, "attack_flows": 0, "benign_flows": 15, "in_mb": 0.2, "out_mb": 0.05, "attacks": ""}, {"source": "149.171.126.19", "target": "175.45.176.3", "total_flows": 13, "attack_flows": 0, "benign_flows": 13, "in_mb": 3.52, "out_mb": 0.02, "attacks": ""}, {"source": "149.171.126.14", "target": "175.45.176.2", "total_flows": 12, "attack_flows": 0, "benign_flows": 12, "in_mb": 0.63, "out_mb": 6.67, "attacks": ""}, {"source": "149.171.126.10", "target": "175.45.176.1", "total_flows": 11, "attack_flows": 0, "benign_flows": 11, "in_mb": 0.01, "out_mb": 0.14, "attacks": ""}, {"source": "149.171.126.11", "target": "175.45.176.2", "total_flows": 11, "attack_flows": 0, "benign_flows": 11, "in_mb": 1.64, "out_mb": 0.03, "attacks": ""}, {"source": "149.171.126.19", "target": "175.45.176.1", "total_flows": 11, "attack_flows": 0, "benign_flows": 11, "in_mb": 0.55, "out_mb": 0.01, "attacks": ""}, {"source": "149.171.126.17", "target": "175.45.176.2", "total_flows": 10, "attack_flows": 0, "benign_flows": 10, "in_mb": 0.51, "out_mb": 0.0, "attacks": ""}, {"source": "149.171.126.15", "target": "175.45.176.0", "total_flows": 10, "attack_flows": 0, "benign_flows": 10, "in_mb": 0.14, "out_mb": 0.15, "attacks": ""}, {"source": "149.171.126.15", "target": "175.45.176.2", "total_flows": 10, "attack_flows": 0, "benign_flows": 10, "in_mb": 0.25, "out_mb": 0.05, "attacks": ""}, {"source": "149.171.126.11", "target": "175.45.176.0", "total_flows": 9, "attack_flows": 0, "benign_flows": 9, "in_mb": 4.23, "out_mb": 3.45, "attacks": ""}, {"source": "149.171.126.13", "target": "175.45.176.2", "total_flows": 9, "attack_flows": 0, "benign_flows": 9, "in_mb": 0.12, "out_mb": 0.74, "attacks": ""}, {"source": "149.171.126.10", "target": "175.45.176.2", "total_flows": 9, "attack_flows": 0, "benign_flows": 9, "in_mb": 0.09, "out_mb": 0.01, "attacks": ""}, {"source": "149.171.126.13", "target": "175.45.176.3", "total_flows": 8, "attack_flows": 0, "benign_flows": 8, "in_mb": 0.0, "out_mb": 0.17, "attacks": ""}, {"source": "149.171.126.16", "target": "175.45.176.3", "total_flows": 8, "attack_flows": 0, "benign_flows": 8, "in_mb": 0.01, "out_mb": 0.0, "attacks": ""}, {"source": "149.171.126.10", "target": "175.45.176.3", "total_flows": 8, "attack_flows": 0, "benign_flows": 8, "in_mb": 2.11, "out_mb": 0.1, "attacks": ""}, {"source": "149.171.126.16", "target": "175.45.176.0", "total_flows": 8, "attack_flows": 0, "benign_flows": 8, "in_mb": 0.11, "out_mb": 0.02, "attacks": ""}, {"source": "149.171.126.11", "target": "175.45.176.3", "total_flows": 7, "attack_flows": 0, "benign_flows": 7, "in_mb": 0.07, "out_mb": 14.09, "attacks": ""}, {"source": "149.171.126.18", "target": "175.45.176.2", "total_flows": 7, "attack_flows": 0, "benign_flows": 7, "in_mb": 1.34, "out_mb": 0.08, "attacks": ""}, {"source": "10.40.85.1", "target": "175.45.176.0", "total_flows": 6, "attack_flows": 0, "benign_flows": 6, "in_mb": 0.0, "out_mb": 0.0, "attacks": ""}, {"source": "10.40.85.1", "target": "175.45.176.2", "total_flows": 6, "attack_flows": 0, "benign_flows": 6, "in_mb": 0.01, "out_mb": 0.0, "attacks": ""}, {"source": "10.40.85.1", "target": "175.45.176.3", "total_flows": 5, "attack_flows": 0, "benign_flows": 5, "in_mb": 0.0, "out_mb": 0.0, "attacks": ""}, {"source": "10.40.182.1", "target": "10.40.198.10", "total_flows": 5, "attack_flows": 0, "benign_flows": 5, "in_mb": 0.0, "out_mb": 0.0, "attacks": ""}, {"source": "149.171.126.19", "target": "175.45.176.0", "total_flows": 5, "attack_flows": 0, "benign_flows": 5, "in_mb": 0.0, "out_mb": 0.0, "attacks": ""}, {"source": "149.171.126.16", "target": "175.45.176.2", "total_flows": 3, "attack_flows": 0, "benign_flows": 3, "in_mb": 0.0, "out_mb": 0.0, "attacks": ""}, {"source": "10.40.85.1", "target": "175.45.176.1", "total_flows": 3, "attack_flows": 0, "benign_flows": 3, "in_mb": 0.0, "out_mb": 0.0, "attacks": ""}, {"source": "10.40.182.6", "target": "10.40.182.255", "total_flows": 1, "attack_flows": 0, "benign_flows": 1, "in_mb": 0.0, "out_mb": 0.0, "attacks": ""}, {"source": "127.0.0.1", "target": "127.0.0.1", "total_flows": 1, "attack_flows": 0, "benign_flows": 1, "in_mb": 0.0, "out_mb": 0.0, "attacks": ""}, {"source": "149.171.126.11", "target": "149.171.126.11", "total_flows": 1, "attack_flows": 0, "benign_flows": 1, "in_mb": 0.0, "out_mb": 0.0, "attacks": ""}];
+
+let currentFilter = 'all'; // 'all', 'attacks', 'benign'
+let hoveredNode = null;
+let hoveredEdge = null;
+
+const canvas = document.getElementById('graphCanvas');
+const ctx = canvas.getContext('2d');
+const tooltip = document.getElementById('tooltip');
+const nodeDetails = document.getElementById('nodeDetails');
+
+function resizeCanvas() {
+  canvas.width = canvas.parentElement.clientWidth;
+  canvas.height = canvas.parentElement.clientHeight;
+  layoutNodes();
+  draw();
+}
+window.addEventListener('resize', resizeCanvas);
+
+// Position nodes into 3 columns: Left (Sources), Center (Router), Right (DMZ Targets)
+const sourceNodes = [];
+const targetNodes = [];
+const routerNode = { id: "Edge Router / Gateway", role: "ROUTER", x: 0, y: 0, r: 24 };
+
+function layoutNodes() {
+  sourceNodes.length = 0;
+  targetNodes.length = 0;
+
+  // Filter top representative nodes for visualization
+  const attackers = nodesData.filter(n => n.attacks_sent > 0);
+  const benignClients = nodesData.filter(n => n.role === 'BENIGN_CLIENT').slice(0, 5);
+  const victims = nodesData.filter(n => n.role === 'VICTIM_SERVER').slice(0, 10);
+
+  const leftNodes = [...attackers, ...benignClients];
+  const rightNodes = victims;
+
+  const w = canvas.width;
+  const h = canvas.height;
+
+  // Left column (Sources)
+  const leftX = w * 0.15;
+  const leftStep = h / (leftNodes.length + 1);
+  leftNodes.forEach((node, i) => {
+    node.x = leftX;
+    node.y = leftStep * (i + 1);
+    node.r = node.attacks_sent > 0 ? 14 : 10;
+    sourceNodes.push(node);
+  });
+
+  // Center (Router Gateway)
+  routerNode.x = w * 0.50;
+  routerNode.y = h * 0.50;
+
+  // Right column (DMZ Targets)
+  const rightX = w * 0.85;
+  const rightStep = h / (rightNodes.length + 1);
+  rightNodes.forEach((node, i) => {
+    node.x = rightX;
+    node.y = rightStep * (i + 1);
+    node.r = 13;
+    targetNodes.push(node);
+  });
+}
+
+function setFilter(filter) {
+  currentFilter = filter;
+  document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+  if (filter === 'all') document.getElementById('btnAll').classList.add('active');
+  if (filter === 'attacks') document.getElementById('btnAttacks').classList.add('active');
+  if (filter === 'benign') document.getElementById('btnBenign').classList.add('active');
+  draw();
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // 1. Draw Edges
+  edgesData.forEach(edge => {
+    const src = sourceNodes.find(n => n.id === edge.source);
+    const tgt = targetNodes.find(n => n.id === edge.target);
+    if (!src || !tgt) return;
+
+    const isAttack = edge.attack_flows > 0;
+    if (currentFilter === 'attacks' && !isAttack) return;
+    if (currentFilter === 'benign' && isAttack) return;
+
+    // Check hover
+    const isHighlighted = (hoveredNode && (hoveredNode.id === src.id || hoveredNode.id === tgt.id));
+    const isDimmed = hoveredNode && !isHighlighted;
+
+    ctx.save();
+    ctx.beginPath();
+    // Route from Source -> Router -> Target
+    ctx.moveTo(src.x, src.y);
+    ctx.quadraticCurveTo(routerNode.x, (src.y + tgt.y) / 2, tgt.x, tgt.y);
+
+    if (isAttack) {
+      ctx.strokeStyle = isHighlighted ? '#ff2222' : (isDimmed ? 'rgba(239, 68, 68, 0.08)' : 'rgba(239, 68, 68, 0.45)');
+      ctx.lineWidth = isHighlighted ? 3.5 : Math.min(3, Math.max(1, edge.attack_flows / 3000));
+    } else {
+      ctx.strokeStyle = isHighlighted ? '#10b981' : (isDimmed ? 'rgba(16, 185, 129, 0.05)' : 'rgba(16, 185, 129, 0.25)');
+      ctx.lineWidth = isHighlighted ? 2.5 : 1;
+    }
+    ctx.stroke();
+    ctx.restore();
+  });
+
+  // 2. Draw Center Router
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(routerNode.x, routerNode.y, routerNode.r, 0, Math.PI * 2);
+  ctx.fillStyle = '#1e1b4b';
+  ctx.fill();
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = '#8b5cf6';
+  ctx.stroke();
+
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 11px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('FIREWALL', routerNode.x, routerNode.y - 4);
+  ctx.fillText('ROUTER', routerNode.x, routerNode.y + 10);
+  ctx.restore();
+
+  // 3. Draw Nodes (Sources & Targets)
+  const allNodes = [...sourceNodes, ...targetNodes];
+  allNodes.forEach(node => {
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(node.x, node.y, node.r, 0, Math.PI * 2);
+
+    let color = '#64748b';
+    if (node.role === 'ATTACKER') color = '#ef4444';
+    else if (node.role === 'BENIGN_CLIENT') color = '#10b981';
+    else if (node.role === 'VICTIM_SERVER') color = '#3b82f6';
+
+    ctx.fillStyle = color;
+    ctx.fill();
+
+    if (hoveredNode && hoveredNode.id === node.id) {
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = '#ffffff';
+      ctx.stroke();
+    } else {
+      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+      ctx.stroke();
+    }
+
+    // Label
+    ctx.fillStyle = '#f8fafc';
+    ctx.font = '12px monospace';
+    if (node.x < canvas.width * 0.5) {
+      ctx.textAlign = 'right';
+      ctx.fillText(node.id, node.x - node.r - 8, node.y + 4);
+    } else {
+      ctx.textAlign = 'left';
+      ctx.fillText(node.id, node.x + node.r + 8, node.y + 4);
+    }
+    ctx.restore();
+  });
+}
+
+// Mouse interaction
+canvas.addEventListener('mousemove', e => {
+  const rect = canvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left;
+  const my = e.clientY - rect.top;
+
+  let foundNode = null;
+  const allNodes = [...sourceNodes, ...targetNodes];
+  for (const n of allNodes) {
+    const dist = Math.hypot(n.x - mx, n.y - my);
+    if (dist <= n.r + 4) {
+      foundNode = n;
+      break;
+    }
+  }
+
+  if (foundNode !== hoveredNode) {
+    hoveredNode = foundNode;
+    draw();
+    updateTooltip(e, foundNode);
+  }
+});
+
+function updateTooltip(e, node) {
+  if (!node) {
+    tooltip.style.display = 'none';
+    return;
+  }
+
+  let html = `<b>IP: ${node.id}</b><br>`;
+  html += `Vai trò: <span style="color: ${node.role==='ATTACKER'?'#ef4444':'#38bdf8'}">${node.role}</span><br>`;
+  if (node.flows_src > 0) {
+    html += `Flows gửi: ${node.flows_src.toLocaleString()}<br>`;
+    html += `🚨 Tấn công phát động: <b style="color:#ef4444">${node.attacks_sent.toLocaleString()}</b><br>`;
+    html += `✅ Lưu lượng sạch: ${node.benign_sent.toLocaleString()}<br>`;
+    html += `Số mục tiêu tấn công: ${node.targets} servers<br>`;
+  }
+  if (node.flows_dst > 0) {
+    html += `Flows nhận: ${node.flows_dst.toLocaleString()}<br>`;
+    html += `🚨 Đòn tấn công hứng chịu: <b style="color:#ef4444">${node.attacks_recv.toLocaleString()}</b><br>`;
+    html += `✅ Request bình thường nhận: ${node.benign_recv.toLocaleString()}<br>`;
+  }
+
+  tooltip.innerHTML = html;
+  tooltip.style.display = 'block';
+  tooltip.style.left = (e.clientX + 15) + 'px';
+  tooltip.style.top = (e.clientY + 15) + 'px';
+
+  // Update side-pane
+  nodeDetails.innerHTML = html;
+}
+
+// Initial load
+setTimeout(() => {
+  resizeCanvas();
+}, 100);
+</script>
+</body>
+</html>
