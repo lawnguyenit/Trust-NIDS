@@ -1,0 +1,35 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Data folders (Raw CSVs and Large Processed Parquet / Graphs)
+data/raw/
+data/processed/
+*.csv
+*.parquet
+*.zip
+*.tar.gz
+*.pt
+*.pth
+*.pkl
+
+# Environments & IDE
+.venv/
+env/
+venv/
+ENV/
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Experiment outputs, logs & checkpoints
+runs/
+logs/
+checkpoints/
+artifacts/
+wandb/
+.pytest_cache/
+.coverage
+htmlcov/

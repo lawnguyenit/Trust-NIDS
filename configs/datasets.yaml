@@ -1,0 +1,36 @@
+# Dataset Registry for Trust-NIDS Benchmark
+# Sources hosted by The University of Queensland Research Data Manager (UQ RDM)
+api_base_url: "https://api.rdm.uq.edu.au/datasets"
+
+datasets:
+  nf-cse-cic-ids2018-v2:
+    name: "NF-CSE-CIC-IDS2018-v2"
+    uuid: "ce5161d0-ef9c-11ed-827d-e762de186848"
+    features: 43
+    approx_size_mb: 583.71
+    description: "Standardized NetFlow v9 version of CSE-CIC-IDS2018 with 43 features, including IP addresses, ports, and NetFlow metrics."
+    recommended_for: "Primary benchmark for Enterprise network intrusion detection and temporal shift audit."
+
+  nf-cse-cic-ids2018-v3:
+    name: "NF-CSE-CIC-IDS2018-v3"
+    uuid: "4ac221b1-6bd6-42b1-bdf7-03f4fc7efb22"
+    features: 53
+    approx_size_mb: 743.97
+    description: "NetFlow v3 version with 53 features including additional temporal and inter-packet arrival time (IAT) statistics."
+    recommended_for: "Extended benchmark when temporal IAT metrics are analyzed."
+
+  nf-ton-iot-v2:
+    name: "NF-ToN-IoT-v2"
+    uuid: "a4ad7080-ef9c-11ed-a964-b70596e96ad5"
+    features: 43
+    approx_size_mb: 160.33
+    description: "Standardized NetFlow v9 version of ToN-IoT dataset with 43 features covering modern IoT and edge attacks."
+    recommended_for: "Cross-domain evaluation and IoT topology audit."
+
+  nf-unsw-nb15-v2:
+    name: "NF-UNSW-NB15-v2"
+    uuid: "8c6e2a00-ef9c-11ed-827d-e762de186848"
+    features: 43
+    approx_size_mb: 32.31
+    description: "Standardized NetFlow v9 version of UNSW-NB15 dataset (compact, ~32MB), ideal for fast smoke tests and CI/CD."
+    recommended_for: "Rapid prototyping, pipeline debugging, and test suite verification."
