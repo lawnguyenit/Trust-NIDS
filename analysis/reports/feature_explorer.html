@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trust-NIDS: 8 Bộ Thuộc Tính NetFlow (Feature Explorer)</title>
+<style>
+  :root {
+    --bg: #0b1120;
+    --card: #131d33;
+    --card-hover: #1c2a47;
+    --border: #223455;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --accent: #38bdf8;
+    --critical: #ef4444;
+    --high: #f97316;
+    --medium: #f59e0b;
+    --safe: #10b981;
+    --target: #a855f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    padding: 2rem;
+    line-height: 1.6;
+  }
+  .container { max-width: 1280px; margin: 0 auto; }
+  header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .title-group h1 { font-size: 1.6rem; color: var(--accent); margin-bottom: 0.3rem; }
+  .title-group p { color: var(--muted); font-size: 0.95rem; }
+  .search-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    color: var(--text);
+    font-size: 0.95rem;
+    width: 320px;
+    outline: none;
+    transition: all 0.2s;
+  }
+  .search-box:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(56, 189, 248, 0.25); }
+
+  /* Grid of 8 Bundles */
+  .bundle-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+  }
+  .bundle-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    position: relative;
+    overflow: hidden;
+  }
+  .bundle-card:hover {
+    background: var(--card-hover);
+    transform: translateY(-2px);
+    border-color: var(--accent);
+  }
+  .bundle-card.active {
+    border-color: var(--accent);
+    background: #182846;
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+  }
+  .bundle-card.active::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--accent);
+  }
+  .bundle-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  .bundle-id {
+    font-size: 0.8rem;
+    font-weight: 700;
+    background: rgba(56, 189, 248, 0.15);
+    color: var(--accent);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+  }
+  .bundle-count {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .bundle-name {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+  .bundle-desc {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* Detail Panel */
+  .detail-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.75rem;
+    margin-top: 1rem;
+  }
+  .detail-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .detail-title { font-size: 1.3rem; color: var(--accent); margin-bottom: 0.5rem; }
+  .detail-meta { display: flex; gap: 1.5rem; font-size: 0.85rem; color: var(--muted); flex-wrap: wrap; }
+  .detail-meta span b { color: var(--text); }
+
+  /* Feature Table */
+  table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+  th, td { padding: 0.85rem 1rem; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+  th { background: #080d1a; color: var(--muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  tr:hover { background: rgba(56, 189, 248, 0.04); }
+  .col-name { font-family: monospace; font-weight: 600; color: #38bdf8; font-size: 0.95rem; }
+  .badge {
+    display: inline-block;
+    padding: 0.2rem 0.55rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+  .badge-CRITICAL { background: rgba(239, 68, 68, 0.2); color: var(--critical); border: 1px solid rgba(239, 68, 68, 0.4); }
+  .badge-HIGH { background: rgba(249, 115, 22, 0.2); color: var(--high); border: 1px solid rgba(249, 115, 22, 0.4); }
+  .badge-MEDIUM { background: rgba(245, 158, 11, 0.2); color: var(--medium); border: 1px solid rgba(245, 158, 11, 0.4); }
+  .badge-SAFE { background: rgba(16, 185, 129, 0.2); color: var(--safe); border: 1px solid rgba(16, 185, 129, 0.4); }
+  .badge-TARGET { background: rgba(168, 85, 247, 0.2); color: var(--target); border: 1px solid rgba(168, 85, 247, 0.4); }
+  .stat-pill {
+    display: inline-block;
+    background: #080d1a;
+    border: 1px solid var(--border);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 0.3rem;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="title-group">
+      <h1>🗂️ Phân Rã 45 Thuộc Tính NetFlow Thành 8 Bộ Chức Năng</h1>
+      <p>Bấm chọn từng Bộ để xem chi tiết bên trong, hoặc gõ từ khóa tìm kiếm nhanh.</p>
+    </div>
+    <input type="text" id="searchBox" class="search-box" placeholder="🔍 Tìm tên cột, ví dụ: tcp, bytes, port..." oninput="handleSearch()">
+  </header>
+
+  <!-- 8 Cards Grid -->
+  <div class="bundle-grid" id="bundleGrid"></div>
+
+  <!-- Detail Panel -->
+  <div class="detail-section" id="detailSection">
+    <div class="detail-header">
+      <h2 class="detail-title" id="bundleTitle">Đang nạp...</h2>
+      <div class="detail-meta">
+        <span>Mô tả: <b id="bundleDesc">-</b></span>
+        <span>Rủi ro rò rỉ: <b id="bundleRisk">-</b></span>
+        <span>Khuyến nghị xử lý: <b id="bundleAction">-</b></span>
+      </div>
+    </div>
+    <table id="featureTable">
+      <thead>
+        <tr>
+          <th>Tên Thuộc Tính</th>
+          <th>Kiểu</th>
+          <th>Rủi Ro Rò Rỉ</th>
+          <th>Ý Nghĩa Vật Lý / Mạng Máy Tính</th>
+          <th>Thống Kê Thực Tế (Dataset: 2.39M flows)</th>
+        </tr>
+      </thead>
+      <tbody id="featureTbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+const bundlesData = [{"id": 1, "code": "identity", "name": "Định danh Mạng & Điểm mút (Endpoint Identity)", "description": "Địa chỉ IP và cổng dịch vụ xác định nguồn và đích của luồng mạng.", "leakage_risk": "CRITICAL", "action": "Loại bỏ khỏi bài toán Tabular hoặc băm/ẩn danh; dùng để dựng cấu trúc trong GNN.", "features": [{"name": "IPV4_SRC_ADDR", "type": "string", "description": "Địa chỉ IPv4 của máy nguồn phát sinh luồng.", "leakage_risk": "CRITICAL", "stats": {"type": "categorical", "distinct": 40}}, {"name": "L4_SRC_PORT", "type": "int", "description": "Số hiệu cổng Layer 4 của máy nguồn (thường là cổng ngẫu nhiên của client).", "leakage_risk": "HIGH", "stats": {"type": "numeric", "min": 0.0, "avg": 32549.6, "max": 65535.0}}, {"name": "IPV4_DST_ADDR", "type": "string", "description": "Địa chỉ IPv4 của máy đích nhận luồng (máy chủ dịch vụ hoặc nạn nhân).", "leakage_risk": "CRITICAL", "stats": {"type": "categorical", "distinct": 40}}, {"name": "L4_DST_PORT", "type": "int", "description": "Số hiệu cổng Layer 4 của máy đích (80: HTTP, 443: HTTPS, 22: SSH,...).", "leakage_risk": "MEDIUM", "stats": {"type": "numeric", "min": 0.0, "avg": 11423.1, "max": 65535.0}}]}, {"id": 2, "code": "protocols", "name": "Giao thức Tầng Mạng & Ứng dụng (Protocols & Services)", "description": "Định danh loại giao thức truyền thông ở tầng mạng (L3/L4) và tầng ứng dụng (L7).", "leakage_risk": "SAFE", "action": "One-hot encode hoặc categorical embedding.", "features": [{"name": "PROTOCOL", "type": "int", "description": "Giao thức IP tầng truyền tải (6: TCP, 17: UDP, 1: ICMP).", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 9.2, "max": 255.0}}, {"name": "L7_PROTO", "type": "float", "description": "Giao thức tầng ứng dụng nhận diện tự động bởi nDPI (DNS, HTTP, SSL,...).", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 3.0, "max": 248.0}}]}, {"id": 3, "code": "volumetrics", "name": "Khối lượng & Dung lượng Lưu lượng (Traffic Volumetrics)", "description": "Tổng dung lượng bytes và số lượng gói tin truyền tải theo cả hai chiều.", "leakage_risk": "SAFE", "action": "Log transform [log1p] hoặc RobustScaler để xử lý phân phối lệch lớn (heavy-tail).", "features": [{"name": "IN_BYTES", "type": "int", "description": "Tổng số bytes gửi từ máy nguồn sang máy đích.", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 1.0, "avg": 4621.7, "max": 30241410.0}}, {"name": "OUT_BYTES", "type": "int", "description": "Tổng số bytes phản hồi từ máy đích về máy nguồn.", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 35265.7, "max": 14658518.0}}, {"name": "IN_PKTS", "type": "int", "description": "Tổng số gói tin gửi từ nguồn sang đích.", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 1.0, "avg": 36.0, "max": 22894.0}}, {"name": "OUT_PKTS", "type": "int", "description": "Tổng số gói tin phản hồi từ đích về nguồn.", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 45.7, "max": 11078.0}}]}, {"id": 4, "code": "temporal_rate", "name": "Thời gian & Động lực học Tốc độ (Temporal & Throughput Dynamics)", "description": "Thời lượng sống của flow và vận tốc truyền tải dữ liệu trung bình.", "leakage_risk": "SAFE", "action": "Chuẩn hóa MinMax hoặc Standardize; đặc trưng cốt lõi để nhận diện DoS và Scan.", "features": [{"name": "FLOW_DURATION_MILLISECONDS", "type": "int", "description": "Tổng thời gian flow tồn tại từ gói tin đầu tiên đến gói tin cuối cùng (ms).", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 259111.7, "max": 4294965.0}}, {"name": "DURATION_IN", "type": "int", "description": "Thời lượng client tích cực phát dữ liệu đi (ms).", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 1.3, "max": 1047.0}}, {"name": "DURATION_OUT", "type": "int", "description": "Thời lượng server tích cực phản hồi về (ms).", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 1.2, "max": 875.0}}, {"name": "SRC_TO_DST_AVG_THROUGHPUT", "type": "int", "description": "Băng thông trung bình chiều đi (bits/giây).", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 26972220.2, "max": 4277408000.0}}, {"name": "DST_TO_SRC_AVG_THROUGHPUT", "type": "int", "description": "Băng thông trung bình chiều về (bits/giây).", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 98101356.4, "max": 4293904000.0}}, {"name": "SRC_TO_DST_SECOND_BYTES", "type": "float", "description": "Số bytes/giây chiều nguồn sang đích.", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 52.0, "avg": 1075639825.2, "max": 1572819414509520.0}}, {"name": "DST_TO_SRC_SECOND_BYTES", "type": "float", "description": "Số bytes/giây chiều đích về nguồn.", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 491527325.4, "max": 261705812041460.0}}]}, {"id": 5, "code": "tcp_state", "name": "Trạng thái TCP & Kiểm soát Tắc nghẽn (TCP State & Reliability)", "description": "Tổng hợp cờ TCP bắt tay/ngắt kết nối, kích thước bộ đệm và thống kê gói tin bị truyền lại.", "leakage_risk": "SAFE", "action": "Bitmask decoding cho TCP_FLAGS; đếm số lần truyền lại để phát hiện làm nghẽn switch/server.", "features": [{"name": "TCP_FLAGS", "type": "int", "description": "Tích lũy bitwise toàn bộ cờ TCP xuất hiện trong flow (SYN, ACK, FIN, RST, PSH, URG).", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 19.9, "max": 31.0}}, {"name": "CLIENT_TCP_FLAGS", "type": "int", "description": "Tổng hợp các cờ TCP do máy khách khởi tạo.", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 19.6, "max": 31.0}}, {"name": "SERVER_TCP_FLAGS", "type": "int", "description": "Tổng hợp các cờ TCP do máy chủ phản hồi.", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 19.5, "max": 31.0}}, {"name": "TCP_WIN_MAX_IN", "type": "int", "description": "Kích thước cửa sổ TCP tối đa phía client gửi (bytes).", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 17387.6, "max": 65533.0}}, {"name": "TCP_WIN_MAX_OUT", "type": "int", "description": "Kích thước cửa sổ TCP tối đa phía server phản hồi (bytes).", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 12221.6, "max": 65531.0}}, {"name": "RETRANSMITTED_IN_BYTES", "type": "int", "description": "Số bytes TCP bị truyền lại chiều đi do rớt gói/nghẽn mạng.", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 1638.6, "max": 15120489.0}}, {"name": "RETRANSMITTED_IN_PKTS", "type": "int", "description": "Số gói tin TCP bị truyền lại chiều đi.", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 5.4, "max": 11442.0}}, {"name": "RETRANSMITTED_OUT_BYTES", "type": "int", "description": "Số bytes TCP bị truyền lại chiều về.", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 17259.7, "max": 7329139.0}}, {"name": "RETRANSMITTED_OUT_PKTS", "type": "int", "description": "Số gói tin TCP bị truyền lại chiều về.", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 16.2, "max": 5536.0}}]}, {"id": 6, "code": "packet_geometry", "name": "Hình học & Phân bố Kích thước Gói tin (Packet Geometry & Length Bins)", "description": "Độ dài nhỏ nhất/lớn nhất và phân phối tần suất số lượng gói tin theo 5 khoảng kích thước MTU.", "leakage_risk": "SAFE", "action": "Rất mạnh cho GNN và Tabular; nhận diện exploit payload mà không cần giải mã nội dung.", "features": [{"name": "MIN_IP_PKT_LEN", "type": "int", "description": "Độ dài nhỏ nhất của gói IP trong flow (bytes).", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 54.1, "max": 680.0}}, {"name": "MAX_IP_PKT_LEN", "type": "int", "description": "Độ dài lớn nhất của gói IP trong flow (bytes).", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 28.0, "avg": 723.8, "max": 1508.0}}, {"name": "LONGEST_FLOW_PKT", "type": "int", "description": "Gói tin dài nhất quan sát được trong luồng (bytes).", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 28.0, "avg": 723.8, "max": 1508.0}}, {"name": "SHORTEST_FLOW_PKT", "type": "int", "description": "Gói tin ngắn nhất quan sát được trong luồng (bytes).", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 28.0, "avg": 57.5, "max": 1508.0}}, {"name": "NUM_PKTS_UP_TO_128_BYTES", "type": "int", "description": "Số gói tin có kích thước <= 128 bytes (gói tin điều khiển, bắt tay, ping).", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 55.4, "max": 4824.0}}, {"name": "NUM_PKTS_128_TO_256_BYTES", "type": "int", "description": "Số gói tin có kích thước từ 129 đến 256 bytes (DNS query, HTTP header nhỏ).", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 1.7, "max": 298.0}}, {"name": "NUM_PKTS_256_TO_512_BYTES", "type": "int", "description": "Số gói tin có kích thước từ 257 đến 512 bytes (SSL handshake sơ bộ, tin nhắn ngắn).", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 1.5, "max": 3928.0}}, {"name": "NUM_PKTS_512_TO_1024_BYTES", "type": "int", "description": "Số gói tin có kích thước từ 513 đến 1024 bytes (Dữ liệu web vừa phải).", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 1.5, "max": 800.0}}, {"name": "NUM_PKTS_1024_TO_1514_BYTES", "type": "int", "description": "Số gói tin đạt chuẩn MTU Ethernet từ 1025 đến 1514 bytes (Tải file lớn, DoS ngập lụt).", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 23.8, "max": 19676.0}}]}, {"id": 7, "code": "fingerprint_app", "name": "Dấu vân tay Mạng & Ứng dụng Đặc thù (Network Fingerprint & Specialized Apps)", "description": "Đặc trưng Time-to-Live (suy đoán HĐH), mã điều khiển ICMP, thông số DNS và mã phản hồi FTP.", "leakage_risk": "MEDIUM", "action": "MIN/MAX TTL có thể rò rỉ loại OS lab; FTP code nhận diện brute-force cực kỳ tốt.", "features": [{"name": "MIN_TTL", "type": "int", "description": "Giá trị Time-To-Live nhỏ nhất (suy đoán khoảng cách router và hệ điều hành).", "leakage_risk": "MEDIUM", "stats": {"type": "numeric", "min": 0.0, "avg": 39.0, "max": 255.0}}, {"name": "MAX_TTL", "type": "int", "description": "Giá trị Time-To-Live lớn nhất quan sát được.", "leakage_risk": "MEDIUM", "stats": {"type": "numeric", "min": 0.0, "avg": 39.8, "max": 255.0}}, {"name": "ICMP_TYPE", "type": "int", "description": "Mã loại thông điệp ICMP (8: Echo Request/Ping, 0: Echo Reply, 3: Destination Unreachable).", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 18944.4, "max": 65317.0}}, {"name": "ICMP_IPV4_TYPE", "type": "int", "description": "Chi tiết subtype ICMP dành riêng cho IPv4.", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 74.0, "max": 255.0}}, {"name": "DNS_QUERY_ID", "type": "int", "description": "Mã định danh giao dịch ngẫu nhiên 16-bit của truy vấn DNS.", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 4949.7, "max": 65535.0}}, {"name": "DNS_QUERY_TYPE", "type": "int", "description": "Loại bản ghi DNS được truy vấn (1: A, 28: AAAA, 15: MX,...).", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 3.0, "max": 55937.0}}, {"name": "DNS_TTL_ANSWER", "type": "int", "description": "Thời gian Time-To-Live cho phép lưu bộ đệm của câu trả lời DNS.", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 27256.4, "max": 4283358309.0}}, {"name": "FTP_COMMAND_RET_CODE", "type": "float", "description": "Mã phản hồi của máy chủ FTP (VD: 220: Sẵn sàng, 530: Đăng nhập thất bại / Brute-force).", "leakage_risk": "SAFE", "stats": {"type": "numeric", "min": 0.0, "avg": 37.7, "max": 501.0}}]}, {"id": 8, "code": "labels", "name": "Nhãn Kiểm chứng Mục tiêu (Ground Truth Targets)", "description": "Nhãn nhị phân và đa lớp đại diện cho sự thật khách quan của luồng lưu lượng.", "leakage_risk": "TARGET", "action": "Không đưa vào đầu vào X; dùng làm biến mục tiêu Y để tính Loss và đánh giá Metrics.", "features": [{"name": "Label", "type": "int", "description": "Nhãn nhị phân: 0 = Benign (Bình thường), 1 = Attack (Tấn công).", "leakage_risk": "TARGET", "stats": {"type": "numeric", "min": 0.0, "avg": 0.0, "max": 1.0}}, {"name": "Attack", "type": "string", "description": "Nhãn đa lớp: Benign, Exploits, Fuzzers, DoS, Reconnaissance, Backdoor, Shellcode, Worms, Analysis, Generic.", "leakage_risk": "TARGET", "stats": {"type": "categorical", "distinct": 10}}]}];
+let selectedBundleId = 1;
+
+function renderBundleCards() {
+  const grid = document.getElementById('bundleGrid');
+  grid.innerHTML = '';
+  bundlesData.forEach(b => {
+    const card = document.createElement('div');
+    card.className = `bundle-card ${b.id === selectedBundleId ? 'active' : ''}`;
+    card.onclick = () => selectBundle(b.id);
+    card.innerHTML = `
+      <div class="bundle-header">
+        <span class="bundle-id">BỘ ${b.id}</span>
+        <span class="bundle-count">${b.features.length} trường</span>
+      </div>
+      <div class="bundle-name">${b.name}</div>
+      <div class="bundle-desc">${b.description}</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function selectBundle(id) {
+  selectedBundleId = id;
+  renderBundleCards();
+  renderBundleDetail();
+}
+
+function renderBundleDetail() {
+  const bundle = bundlesData.find(b => b.id === selectedBundleId);
+  if (!bundle) return;
+
+  document.getElementById('bundleTitle').textContent = `BỘ ${bundle.id}: ${bundle.name} (${bundle.features.length} thuộc tính)`;
+  document.getElementById('bundleDesc').textContent = bundle.description;
+  document.getElementById('bundleRisk').innerHTML = `<span class="badge badge-${bundle.leakage_risk}">${bundle.leakage_risk}</span>`;
+  document.getElementById('bundleAction').textContent = bundle.action;
+
+  const tbody = document.getElementById('featureTbody');
+  tbody.innerHTML = '';
+
+  bundle.features.forEach(f => {
+    let statHtml = '';
+    if (f.stats.type === 'categorical') {
+      statHtml = `<span class="stat-pill">Duy nhất: <b>${f.stats.distinct.toLocaleString()}</b> giá trị</span>`;
+    } else {
+      statHtml = `<span class="stat-pill">Min: <b>${f.stats.min.toLocaleString()}</b> | Avg: <b>${f.stats.avg.toLocaleString()}</b> | Max: <b>${f.stats.max.toLocaleString()}</b></span>`;
+    }
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="col-name">${f.name}</td>
+      <td><code>${f.type}</code></td>
+      <td><span class="badge badge-${f.leakage_risk}">${f.leakage_risk}</span></td>
+      <td>${f.description}</td>
+      <td>${statHtml}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function handleSearch() {
+  const kw = document.getElementById('searchBox').value.trim().toLowerCase();
+  if (!kw) {
+    renderBundleCards();
+    renderBundleDetail();
+    return;
+  }
+
+  // If searching, show all matching features across all bundles
+  document.getElementById('bundleTitle').textContent = `🔎 Kết Quả Tìm Kiếm Cho: "${kw}"`;
+  document.getElementById('bundleDesc').textContent = "Tìm thấy trên toàn bộ 45 thuộc tính của 8 bộ";
+  document.getElementById('bundleRisk').textContent = "Tùy thuộc tính";
+  document.getElementById('bundleAction').textContent = "Lọc trực tiếp";
+
+  const tbody = document.getElementById('featureTbody');
+  tbody.innerHTML = '';
+  let matchCount = 0;
+
+  bundlesData.forEach(b => {
+    b.features.forEach(f => {
+      if (f.name.toLowerCase().includes(kw) || f.description.toLowerCase().includes(kw)) {
+        matchCount++;
+        let statHtml = '';
+        if (f.stats.type === 'categorical') {
+          statHtml = `<span class="stat-pill">Duy nhất: <b>${f.stats.distinct.toLocaleString()}</b></span>`;
+        } else {
+          statHtml = `<span class="stat-pill">Min: ${f.stats.min} | Avg: ${f.stats.avg} | Max: ${f.stats.max}</span>`;
+        }
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="col-name">${f.name} <span style="font-size:0.75rem; color:var(--muted); font-weight:normal;">[Bộ ${b.id}]</span></td>
+          <td><code>${f.type}</code></td>
+          <td><span class="badge badge-${f.leakage_risk}">${f.leakage_risk}</span></td>
+          <td>${f.description}</td>
+          <td>${statHtml}</td>
+        `;
+        tbody.appendChild(tr);
+      }
+    });
+  });
+
+  if (matchCount === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--muted); padding:2rem;">Không tìm thấy thuộc tính nào phù hợp với từ khóa.</td></tr>';
+  }
+}
+
+// Initial render
+renderBundleCards();
+renderBundleDetail();
+</script>
+</body>
+</html>
