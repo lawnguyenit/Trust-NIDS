@@ -1,0 +1,49 @@
+{
+  "run_id": "PILOT_20261108_Q01",
+  "as_of": "2026-11-08",
+  "status": "protocol_before_retrieval_probe",
+  "question": "Q01: missing/delayed telemetry and attack-chain reconstruction",
+  "corpus": "Original vault only; pilot records excluded",
+  "retrieval_unit": "one Markdown note",
+  "k": 5,
+  "label_policy": "Agent-assigned relevant notes based on inspection before the first probe. These are not independent human relevance judgments and not proof of answer sufficiency.",
+  "queries": [
+    {"id":"T01","query":"Which cloud audit data events are not collected by default?","relevant":["K13","D03"]},
+    {"id":"T02","query":"Does KnowHow assume the kernel and audit layer are trusted?","relevant":["K07","P11"]},
+    {"id":"T03","query":"Is replica comparison valid during mixed software version rollout?","relevant":["K08","P12"]},
+    {"id":"T04","query":"Does multi-stage attack investigation start from an alert or point of interest?","relevant":["K05","P22"]},
+    {"id":"T05","query":"Do we have evidence for missing or delayed telemetry attack reconstruction?","relevant":["Q01"],"caveat":"Q01 is relevant but explicitly lacks enough evidence for a positive answer."},
+    {"id":"T06","query":"Can CTI knowledge be mapped to system events?","relevant":["K06","P11"]}
+  ],
+  "answer_probes": [
+    {"id":"A01","question":"What accuracy was reproduced in our Kubernetes missing-log experiment?","required_behavior":"Abstain: no such local experiment or result exists in the inspected vault."},
+    {"id":"A02","question":"Does the vault establish that nobody has solved Q01?","required_behavior":"Reject the novelty claim: candidate/unverified plus limited reading and search coverage."}
+  ],
+  "expansion_policy": "Fixed bilingual domain glossary, query-side only; no note IDs or per-query relevance boosts. Same-case diagnostic, not a held-out evaluation.",
+  "glossary": {
+    "cloud": "cloud khả năng quan sát",
+    "audit": "audit log ghi",
+    "data events": "data events",
+    "default": "mặc định",
+    "collected": "thu thập ghi",
+    "trusted": "tin cậy xâm phạm",
+    "replica": "replica",
+    "comparison": "so sánh hành vi",
+    "version": "phiên bản",
+    "rollout": "rollout",
+    "multi-stage": "giai đoạn",
+    "investigation": "điều tra",
+    "alert": "cảnh báo POI",
+    "point of interest": "POI",
+    "missing": "thiếu",
+    "delayed": "trễ",
+    "telemetry": "telemetry log",
+    "reconstruction": "dựng lại chuỗi tái dựng",
+    "evidence": "bằng chứng",
+    "knowledge": "tri thức",
+    "mapped": "ánh xạ nối",
+    "system events": "sự kiện hệ thống log"
+  },
+  "research_stop_rule": "Bounded pilot, not novelty certification. Inspect original nearest papers and at least one direct disconfirming external work; log unreviewed leads. No exhaustive-search claim.",
+  "integration_rule": "Keep pilot evidence outside the original vault until the mechanism and evidence are reviewed. Do not overwrite original claims or read-depth metadata."
+}

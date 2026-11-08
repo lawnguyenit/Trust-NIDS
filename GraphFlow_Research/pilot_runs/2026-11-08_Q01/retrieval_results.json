@@ -1,0 +1,516 @@
+{
+  "run_id": "PILOT_20261108_Q01",
+  "protocol_sha256": "0221199482464764be929a246750e201f4142899e808dacb5718598ddd4379c9",
+  "script_sha256": "8512542e18d1f27c094376395bf8d5d31575695189bdbe94ac7cbaea0df1f40d",
+  "corpus_notes": 85,
+  "unit": "note",
+  "k": 5,
+  "baseline_unchanged": true,
+  "limitations": [
+    "Six development queries; same agent authored glossary and relevance labels.",
+    "Retrieval relevance does not establish answer sufficiency or novelty.",
+    "No embeddings, generated answers, chunking, reranker, or automatic abstention tested."
+  ],
+  "conditions": {
+    "raw": {
+      "queries_with_hit": 6,
+      "total_queries": 6,
+      "mean_relevant_recall": 0.9166666666666666,
+      "rows": [
+        {
+          "id": "T01",
+          "query_used": "Which cloud audit data events are not collected by default?",
+          "relevant": [
+            "K13",
+            "D03"
+          ],
+          "top_k": [
+            {
+              "id": "D03",
+              "path": "00_System/Sources/D03.md",
+              "score": 11.053944
+            },
+            {
+              "id": "K13",
+              "path": "04_Claims/K13.md",
+              "score": 10.436651
+            },
+            {
+              "id": "S03_TRANSFER",
+              "path": "06_Syntheses/S03_TRANSFER.md",
+              "score": 4.737414
+            },
+            {
+              "id": "P13",
+              "path": "02_Papers/P13.md",
+              "score": 4.734581
+            },
+            {
+              "id": "D04",
+              "path": "00_System/Sources/D04.md",
+              "score": 4.269774
+            }
+          ],
+          "relevant_found": [
+            "D03",
+            "K13"
+          ],
+          "hit": true,
+          "relevant_recall": 1.0
+        },
+        {
+          "id": "T02",
+          "query_used": "Does KnowHow assume the kernel and audit layer are trusted?",
+          "relevant": [
+            "K07",
+            "P11"
+          ],
+          "top_k": [
+            {
+              "id": "K07",
+              "path": "04_Claims/K07.md",
+              "score": 15.475564
+            },
+            {
+              "id": "R18",
+              "path": "05_Relations/R18.md",
+              "score": 9.894408
+            },
+            {
+              "id": "P11",
+              "path": "02_Papers/P11.md",
+              "score": 7.794207
+            },
+            {
+              "id": "D04",
+              "path": "00_System/Sources/D04.md",
+              "score": 4.269774
+            },
+            {
+              "id": "K06",
+              "path": "04_Claims/K06.md",
+              "score": 3.509888
+            }
+          ],
+          "relevant_found": [
+            "K07",
+            "P11"
+          ],
+          "hit": true,
+          "relevant_recall": 1.0
+        },
+        {
+          "id": "T03",
+          "query_used": "Is replica comparison valid during mixed software version rollout?",
+          "relevant": [
+            "K08",
+            "P12"
+          ],
+          "top_k": [
+            {
+              "id": "Q05",
+              "path": "07_Questions/Q05.md",
+              "score": 9.725203
+            },
+            {
+              "id": "C08",
+              "path": "03_Concepts/C08.md",
+              "score": 7.597647
+            },
+            {
+              "id": "S03_TRANSFER",
+              "path": "06_Syntheses/S03_TRANSFER.md",
+              "score": 4.768239
+            },
+            {
+              "id": "K08",
+              "path": "04_Claims/K08.md",
+              "score": 4.478824
+            },
+            {
+              "id": "P12",
+              "path": "02_Papers/P12.md",
+              "score": 3.570838
+            }
+          ],
+          "relevant_found": [
+            "K08",
+            "P12"
+          ],
+          "hit": true,
+          "relevant_recall": 1.0
+        },
+        {
+          "id": "T04",
+          "query_used": "Does multi-stage attack investigation start from an alert or point of interest?",
+          "relevant": [
+            "K05",
+            "P22"
+          ],
+          "top_k": [
+            {
+              "id": "P22",
+              "path": "02_Papers/P22.md",
+              "score": 10.643767
+            },
+            {
+              "id": "C02",
+              "path": "03_Concepts/C02.md",
+              "score": 7.641846
+            },
+            {
+              "id": "P05",
+              "path": "02_Papers/P05.md",
+              "score": 7.003645
+            },
+            {
+              "id": "P20",
+              "path": "02_Papers/P20.md",
+              "score": 3.342493
+            },
+            {
+              "id": "Q02",
+              "path": "07_Questions/Q02.md",
+              "score": 2.926656
+            }
+          ],
+          "relevant_found": [
+            "P22"
+          ],
+          "hit": true,
+          "relevant_recall": 0.5
+        },
+        {
+          "id": "T05",
+          "query_used": "Do we have evidence for missing or delayed telemetry attack reconstruction?",
+          "relevant": [
+            "Q01"
+          ],
+          "top_k": [
+            {
+              "id": "Q01",
+              "path": "07_Questions/Q01.md",
+              "score": 12.897404
+            },
+            {
+              "id": "C02",
+              "path": "03_Concepts/C02.md",
+              "score": 7.221745
+            },
+            {
+              "id": "P22",
+              "path": "02_Papers/P22.md",
+              "score": 4.205036
+            },
+            {
+              "id": "K07",
+              "path": "04_Claims/K07.md",
+              "score": 3.61206
+            },
+            {
+              "id": "D04",
+              "path": "00_System/Sources/D04.md",
+              "score": 3.416096
+            }
+          ],
+          "relevant_found": [
+            "Q01"
+          ],
+          "hit": true,
+          "relevant_recall": 1.0
+        },
+        {
+          "id": "T06",
+          "query_used": "Can CTI knowledge be mapped to system events?",
+          "relevant": [
+            "K06",
+            "P11"
+          ],
+          "top_k": [
+            {
+              "id": "P11",
+              "path": "02_Papers/P11.md",
+              "score": 7.880083
+            },
+            {
+              "id": "D03",
+              "path": "00_System/Sources/D03.md",
+              "score": 5.852065
+            },
+            {
+              "id": "K13",
+              "path": "04_Claims/K13.md",
+              "score": 5.464773
+            },
+            {
+              "id": "P05",
+              "path": "02_Papers/P05.md",
+              "score": 4.284014
+            },
+            {
+              "id": "K06",
+              "path": "04_Claims/K06.md",
+              "score": 4.246141
+            }
+          ],
+          "relevant_found": [
+            "K06",
+            "P11"
+          ],
+          "hit": true,
+          "relevant_recall": 1.0
+        }
+      ]
+    },
+    "glossary_expanded": {
+      "queries_with_hit": 6,
+      "total_queries": 6,
+      "mean_relevant_recall": 0.9166666666666666,
+      "rows": [
+        {
+          "id": "T01",
+          "query_used": "Which cloud audit data events are not collected by default? cloud khả năng quan sát audit log ghi data events mặc định thu thập ghi",
+          "relevant": [
+            "K13",
+            "D03"
+          ],
+          "top_k": [
+            {
+              "id": "C07",
+              "path": "03_Concepts/C07.md",
+              "score": 23.49233
+            },
+            {
+              "id": "D03",
+              "path": "00_System/Sources/D03.md",
+              "score": 21.401744
+            },
+            {
+              "id": "S03_TRANSFER",
+              "path": "06_Syntheses/S03_TRANSFER.md",
+              "score": 16.38252
+            },
+            {
+              "id": "K13",
+              "path": "04_Claims/K13.md",
+              "score": 15.595797
+            },
+            {
+              "id": "Q01",
+              "path": "07_Questions/Q01.md",
+              "score": 11.702023
+            }
+          ],
+          "relevant_found": [
+            "D03",
+            "K13"
+          ],
+          "hit": true,
+          "relevant_recall": 1.0
+        },
+        {
+          "id": "T02",
+          "query_used": "Does KnowHow assume the kernel and audit layer are trusted? audit log ghi tin cậy xâm phạm",
+          "relevant": [
+            "K07",
+            "P11"
+          ],
+          "top_k": [
+            {
+              "id": "K07",
+              "path": "04_Claims/K07.md",
+              "score": 23.286771
+            },
+            {
+              "id": "R18",
+              "path": "05_Relations/R18.md",
+              "score": 12.211584
+            },
+            {
+              "id": "P11",
+              "path": "02_Papers/P11.md",
+              "score": 11.691927
+            },
+            {
+              "id": "R15",
+              "path": "05_Relations/R15.md",
+              "score": 8.813824
+            },
+            {
+              "id": "Q04",
+              "path": "07_Questions/Q04.md",
+              "score": 6.958138
+            }
+          ],
+          "relevant_found": [
+            "K07",
+            "P11"
+          ],
+          "hit": true,
+          "relevant_recall": 1.0
+        },
+        {
+          "id": "T03",
+          "query_used": "Is replica comparison valid during mixed software version rollout? replica so sánh hành vi phiên bản rollout",
+          "relevant": [
+            "K08",
+            "P12"
+          ],
+          "top_k": [
+            {
+              "id": "Q05",
+              "path": "07_Questions/Q05.md",
+              "score": 18.236749
+            },
+            {
+              "id": "K08",
+              "path": "04_Claims/K08.md",
+              "score": 15.251913
+            },
+            {
+              "id": "P12",
+              "path": "02_Papers/P12.md",
+              "score": 9.562907
+            },
+            {
+              "id": "S03_TRANSFER",
+              "path": "06_Syntheses/S03_TRANSFER.md",
+              "score": 9.230656
+            },
+            {
+              "id": "C08",
+              "path": "03_Concepts/C08.md",
+              "score": 7.597647
+            }
+          ],
+          "relevant_found": [
+            "K08",
+            "P12"
+          ],
+          "hit": true,
+          "relevant_recall": 1.0
+        },
+        {
+          "id": "T04",
+          "query_used": "Does multi-stage attack investigation start from an alert or point of interest? giai đoạn điều tra cảnh báo POI POI",
+          "relevant": [
+            "K05",
+            "P22"
+          ],
+          "top_k": [
+            {
+              "id": "P22",
+              "path": "02_Papers/P22.md",
+              "score": 18.041173
+            },
+            {
+              "id": "C02",
+              "path": "03_Concepts/C02.md",
+              "score": 11.669608
+            },
+            {
+              "id": "P05",
+              "path": "02_Papers/P05.md",
+              "score": 9.858092
+            },
+            {
+              "id": "P10",
+              "path": "02_Papers/P10.md",
+              "score": 9.540362
+            },
+            {
+              "id": "Q01",
+              "path": "07_Questions/Q01.md",
+              "score": 8.89218
+            }
+          ],
+          "relevant_found": [
+            "P22"
+          ],
+          "hit": true,
+          "relevant_recall": 0.5
+        },
+        {
+          "id": "T05",
+          "query_used": "Do we have evidence for missing or delayed telemetry attack reconstruction? thiếu trễ telemetry log dựng lại chuỗi tái dựng bằng chứng",
+          "relevant": [
+            "Q01"
+          ],
+          "top_k": [
+            {
+              "id": "Q01",
+              "path": "07_Questions/Q01.md",
+              "score": 30.29993
+            },
+            {
+              "id": "S03_TRANSFER",
+              "path": "06_Syntheses/S03_TRANSFER.md",
+              "score": 13.090621
+            },
+            {
+              "id": "C02",
+              "path": "03_Concepts/C02.md",
+              "score": 10.905289
+            },
+            {
+              "id": "R11",
+              "path": "05_Relations/R11.md",
+              "score": 8.339999
+            },
+            {
+              "id": "Q04",
+              "path": "07_Questions/Q04.md",
+              "score": 7.546699
+            }
+          ],
+          "relevant_found": [
+            "Q01"
+          ],
+          "hit": true,
+          "relevant_recall": 1.0
+        },
+        {
+          "id": "T06",
+          "query_used": "Can CTI knowledge be mapped to system events? tri thức ánh xạ nối sự kiện hệ thống log",
+          "relevant": [
+            "K06",
+            "P11"
+          ],
+          "top_k": [
+            {
+              "id": "P11",
+              "path": "02_Papers/P11.md",
+              "score": 18.627135
+            },
+            {
+              "id": "K06",
+              "path": "04_Claims/K06.md",
+              "score": 11.844175
+            },
+            {
+              "id": "D03",
+              "path": "00_System/Sources/D03.md",
+              "score": 10.02561
+            },
+            {
+              "id": "Q01",
+              "path": "07_Questions/Q01.md",
+              "score": 9.778076
+            },
+            {
+              "id": "C06",
+              "path": "03_Concepts/C06.md",
+              "score": 9.530804
+            }
+          ],
+          "relevant_found": [
+            "K06",
+            "P11"
+          ],
+          "hit": true,
+          "relevant_recall": 1.0
+        }
+      ]
+    }
+  }
+}
