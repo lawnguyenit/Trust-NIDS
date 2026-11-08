@@ -1,0 +1,216 @@
+{
+  "run_id": "PILOT_20261108_Q02_Q05",
+  "script_sha256": "c0518d78cc66cea1915cfa7b226ca84db494cc30a13a2acc874eca28defac7ce",
+  "design_timing": "Adaptive diagnostic after raw retrieval; not preregistered or held-out. No relevance labels changed.",
+  "change": "Restrict candidate note types to existing P/K/D; keep BM25, queries and note text unchanged.",
+  "protocol_sha256": "63d6963e238246295969a6f07e9df618b42ce8a26d57b9d3e1372ce6e1f71ba0",
+  "raw_candidate_notes": 85,
+  "evidence_candidate_notes": 46,
+  "evaluable_queries": 7,
+  "raw_evidence_hits": 4,
+  "filtered_evidence_hits": 6,
+  "rows": [
+    {
+      "id": "T02A",
+      "query": "Mô hình phức tạp có còn hơn baseline đơn giản khi cùng cách chia dữ liệu và ngưỡng cảnh báo?",
+      "evidence_labels_in_original_protocol": [
+        "K03",
+        "P09",
+        "P21"
+      ],
+      "evaluable": true,
+      "raw_top5": [
+        "S01_ORIENTATION",
+        "Q02",
+        "K03",
+        "Q05",
+        "Q03"
+      ],
+      "evidence_only_top5": [
+        "K03",
+        "P10",
+        "K14",
+        "K15",
+        "K09"
+      ],
+      "raw_evidence_hit": true,
+      "filtered_evidence_hit": true
+    },
+    {
+      "id": "T02B",
+      "query": "Đếm báo động phát hiện tấn công có cho biết người điều tra phải đọc bao nhiêu thông tin không?",
+      "evidence_labels_in_original_protocol": [
+        "K04",
+        "P08"
+      ],
+      "evaluable": true,
+      "raw_top5": [
+        "Q05",
+        "S01_ORIENTATION",
+        "C11",
+        "Q04",
+        "Q03"
+      ],
+      "evidence_only_top5": [
+        "P08",
+        "P01",
+        "K09",
+        "K08",
+        "P23"
+      ],
+      "raw_evidence_hit": false,
+      "filtered_evidence_hit": true
+    },
+    {
+      "id": "T03A",
+      "query": "Xóa cạnh làm detector đổi ý đã chứng minh chặn được tấn công mà dịch vụ vẫn chạy chưa?",
+      "evidence_labels_in_original_protocol": [
+        "K09",
+        "P10"
+      ],
+      "evaluable": true,
+      "raw_top5": [
+        "Q03",
+        "P10",
+        "Q05",
+        "S03_TRANSFER",
+        "S01_ORIENTATION"
+      ],
+      "evidence_only_top5": [
+        "P10",
+        "K17",
+        "P12",
+        "K09",
+        "P03"
+      ],
+      "raw_evidence_hit": true,
+      "filtered_evidence_hit": true
+    },
+    {
+      "id": "T03B",
+      "query": "Kiểm chứng kết quả truy vấn audit có chứng minh hành động ứng phó hiệu quả không?",
+      "evidence_labels_in_original_protocol": [
+        "K17",
+        "P13"
+      ],
+      "evaluable": true,
+      "raw_top5": [
+        "C05",
+        "Q03",
+        "P13",
+        "S03_TRANSFER",
+        "Q04"
+      ],
+      "evidence_only_top5": [
+        "P13",
+        "P14",
+        "K10",
+        "P12",
+        "K17"
+      ],
+      "raw_evidence_hit": true,
+      "filtered_evidence_hit": true
+    },
+    {
+      "id": "T04A",
+      "query": "Trợ lý đọc log chứa chỉ dẫn của kẻ tấn công thì phải đo cả an toàn lẫn làm đúng việc thế nào?",
+      "evidence_labels_in_original_protocol": [
+        "K11",
+        "P16"
+      ],
+      "evaluable": true,
+      "raw_top5": [
+        "Q04",
+        "Q05",
+        "S01_ORIENTATION",
+        "Q03",
+        "Q01"
+      ],
+      "evidence_only_top5": [
+        "K11",
+        "P16",
+        "P04",
+        "P22",
+        "P08"
+      ],
+      "raw_evidence_hit": false,
+      "filtered_evidence_hit": true
+    },
+    {
+      "id": "T04B",
+      "query": "Có trích dẫn nguồn là đủ ngăn trợ lý dùng công cụ sai quyền chưa?",
+      "evidence_labels_in_original_protocol": [],
+      "evaluable": false,
+      "raw_top5": [
+        "Q04",
+        "R13",
+        "Q05",
+        "C06",
+        "R09"
+      ],
+      "evidence_only_top5": [
+        "K09",
+        "P10",
+        "P14",
+        "P06",
+        "P01"
+      ],
+      "raw_evidence_hit": false,
+      "filtered_evidence_hit": false
+    },
+    {
+      "id": "T05A",
+      "query": "Khi triển khai bản mới xen kẽ bản cũ, so hành vi các bản sao còn hợp lệ không?",
+      "evidence_labels_in_original_protocol": [
+        "K08",
+        "P12"
+      ],
+      "evaluable": true,
+      "raw_top5": [
+        "Q05",
+        "K08",
+        "K05",
+        "S01_ORIENTATION",
+        "S03_TRANSFER"
+      ],
+      "evidence_only_top5": [
+        "K08",
+        "K05",
+        "K14",
+        "P16",
+        "K11"
+      ],
+      "raw_evidence_hit": true,
+      "filtered_evidence_hit": true
+    },
+    {
+      "id": "T05B",
+      "query": "Tải phân bố không đều có bị nhầm với xâm nhập vào dịch vụ không?",
+      "evidence_labels_in_original_protocol": [
+        "P12"
+      ],
+      "evaluable": true,
+      "raw_top5": [
+        "Q05",
+        "P07",
+        "S01_ORIENTATION",
+        "R15",
+        "S03_TRANSFER"
+      ],
+      "evidence_only_top5": [
+        "P07",
+        "P22",
+        "P11",
+        "P01",
+        "P18"
+      ],
+      "raw_evidence_hit": false,
+      "filtered_evidence_hit": false
+    }
+  ],
+  "limitations": [
+    "T04B has only a question note in its original labels; evidence recovery not scored.",
+    "Type filtering is not an answer-sufficiency gate or production retriever.",
+    "Same-agent development queries and labels; no blinded validation."
+  ]
+}

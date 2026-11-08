@@ -1,0 +1,27 @@
+{
+  "run_id":"PILOT_20261108_Q02_Q05",
+  "as_of":"2026-11-08",
+  "question_ids":["Q02","Q03","Q04","Q05"],
+  "purpose":"Run bounded source-backed knowledge loops and test natural-language retrieval; do not treat Q as a novelty claim.",
+  "k":5,
+  "ranker":"Reuse the unchanged BM25 implementation from the Q01 run; no glossary, embeddings, generator, or tuning on these results.",
+  "query_design":"Agent-authored Vietnamese development queries after initial note inspection. Labels are relevant notes, not independent answer-sufficiency judgments or held-out gold labels.",
+  "queries":[
+    {"id":"T02A","question_id":"Q02","query":"Mô hình phức tạp có còn hơn baseline đơn giản khi cùng cách chia dữ liệu và ngưỡng cảnh báo?","relevant":["Q02","K03","P09","P21"]},
+    {"id":"T02B","question_id":"Q02","query":"Đếm báo động phát hiện tấn công có cho biết người điều tra phải đọc bao nhiêu thông tin không?","relevant":["K04","P08","Q02"]},
+    {"id":"T03A","question_id":"Q03","query":"Xóa cạnh làm detector đổi ý đã chứng minh chặn được tấn công mà dịch vụ vẫn chạy chưa?","relevant":["Q03","K09","P10"]},
+    {"id":"T03B","question_id":"Q03","query":"Kiểm chứng kết quả truy vấn audit có chứng minh hành động ứng phó hiệu quả không?","relevant":["K17","P13","Q03"]},
+    {"id":"T04A","question_id":"Q04","query":"Trợ lý đọc log chứa chỉ dẫn của kẻ tấn công thì phải đo cả an toàn lẫn làm đúng việc thế nào?","relevant":["Q04","K11","P16"]},
+    {"id":"T04B","question_id":"Q04","query":"Có trích dẫn nguồn là đủ ngăn trợ lý dùng công cụ sai quyền chưa?","relevant":["Q04"]},
+    {"id":"T05A","question_id":"Q05","query":"Khi triển khai bản mới xen kẽ bản cũ, so hành vi các bản sao còn hợp lệ không?","relevant":["Q05","K08","P12"]},
+    {"id":"T05B","question_id":"Q05","query":"Tải phân bố không đều có bị nhầm với xâm nhập vào dịch vụ không?","relevant":["Q05","P12","C08"]}
+  ],
+  "answer_probes":[
+    {"id":"A02","question_id":"Q02","question":"Vậy mô hình graph luôn thừa à?","required_distinction":"Results conditional on dataset, label scope, protocol and operating point; local reproduction absent."},
+    {"id":"A03","question_id":"Q03","question":"MER cao có nghĩa là đã chặn tấn công thực và giảm downtime chưa?","required_distinction":"Model prediction flip, executable action, security outcome and service outcome are separate."},
+    {"id":"A04","question_id":"Q04","question":"Cứ có citation và không gọi tool trái phép thì bản tóm tắt SOC đã đáng tin chưa?","required_distinction":"Evidence grounding, content integrity and authorization are separate; tool-flow protection can exclude text-to-text corruption."},
+    {"id":"A05","question_id":"Q05","question":"Bài gốc chưa hề bàn rolling update nên Q05 mới phải không?","required_distinction":"Read original Discussion before concluding omission; quantify residual coverage and false alerts instead of inferring novelty."}
+  ],
+  "stop_rule":"Each Q has original premises, a scoped answer, one scope-changing check, unresolved evidence and a concrete follow-up. Literature checks only; no detector/agent/cloud experiment in this run.",
+  "integration":"Separate pilot record; preserve original vault and Q01 record. No canonical ID/status/export migration."
+}

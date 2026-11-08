@@ -1,0 +1,348 @@
+{
+  "run_id": "PILOT_20261108_Q02_Q05",
+  "protocol_sha256": "63d6963e238246295969a6f07e9df618b42ce8a26d57b9d3e1372ce6e1f71ba0",
+  "script_sha256": "839b7f91625b793e802f1832ced4a263bc3beeaeea0c1abf4e7d9e28d19ad71e",
+  "ranker_sha256": "be2dd9978a2c787c132359035253960351a56a9260bd904e1ad1732e52d24ca5",
+  "baseline_unchanged": true,
+  "corpus_notes": 85,
+  "k": 5,
+  "queries_with_hit": 7,
+  "total_queries": 8,
+  "rows": [
+    {
+      "id": "T02A",
+      "question_id": "Q02",
+      "query": "Mô hình phức tạp có còn hơn baseline đơn giản khi cùng cách chia dữ liệu và ngưỡng cảnh báo?",
+      "relevant": [
+        "Q02",
+        "K03",
+        "P09",
+        "P21"
+      ],
+      "top_k": [
+        {
+          "id": "S01_ORIENTATION",
+          "path": "06_Syntheses/S01_ORIENTATION.md",
+          "score": 15.956771
+        },
+        {
+          "id": "Q02",
+          "path": "07_Questions/Q02.md",
+          "score": 13.912944
+        },
+        {
+          "id": "K03",
+          "path": "04_Claims/K03.md",
+          "score": 12.841644
+        },
+        {
+          "id": "Q05",
+          "path": "07_Questions/Q05.md",
+          "score": 10.178742
+        },
+        {
+          "id": "Q03",
+          "path": "07_Questions/Q03.md",
+          "score": 9.694524
+        }
+      ],
+      "relevant_found": [
+        "K03",
+        "Q02"
+      ],
+      "hit": true
+    },
+    {
+      "id": "T02B",
+      "question_id": "Q02",
+      "query": "Đếm báo động phát hiện tấn công có cho biết người điều tra phải đọc bao nhiêu thông tin không?",
+      "relevant": [
+        "K04",
+        "P08",
+        "Q02"
+      ],
+      "top_k": [
+        {
+          "id": "Q05",
+          "path": "07_Questions/Q05.md",
+          "score": 13.978501
+        },
+        {
+          "id": "S01_ORIENTATION",
+          "path": "06_Syntheses/S01_ORIENTATION.md",
+          "score": 11.799666
+        },
+        {
+          "id": "C11",
+          "path": "03_Concepts/C11.md",
+          "score": 10.409292
+        },
+        {
+          "id": "Q04",
+          "path": "07_Questions/Q04.md",
+          "score": 10.367563
+        },
+        {
+          "id": "Q03",
+          "path": "07_Questions/Q03.md",
+          "score": 9.922435
+        }
+      ],
+      "relevant_found": [],
+      "hit": false
+    },
+    {
+      "id": "T03A",
+      "question_id": "Q03",
+      "query": "Xóa cạnh làm detector đổi ý đã chứng minh chặn được tấn công mà dịch vụ vẫn chạy chưa?",
+      "relevant": [
+        "Q03",
+        "K09",
+        "P10"
+      ],
+      "top_k": [
+        {
+          "id": "Q03",
+          "path": "07_Questions/Q03.md",
+          "score": 20.029734
+        },
+        {
+          "id": "P10",
+          "path": "02_Papers/P10.md",
+          "score": 16.320831
+        },
+        {
+          "id": "Q05",
+          "path": "07_Questions/Q05.md",
+          "score": 11.557204
+        },
+        {
+          "id": "S03_TRANSFER",
+          "path": "06_Syntheses/S03_TRANSFER.md",
+          "score": 11.532239
+        },
+        {
+          "id": "S01_ORIENTATION",
+          "path": "06_Syntheses/S01_ORIENTATION.md",
+          "score": 10.808559
+        }
+      ],
+      "relevant_found": [
+        "P10",
+        "Q03"
+      ],
+      "hit": true
+    },
+    {
+      "id": "T03B",
+      "question_id": "Q03",
+      "query": "Kiểm chứng kết quả truy vấn audit có chứng minh hành động ứng phó hiệu quả không?",
+      "relevant": [
+        "K17",
+        "P13",
+        "Q03"
+      ],
+      "top_k": [
+        {
+          "id": "C05",
+          "path": "03_Concepts/C05.md",
+          "score": 12.085443
+        },
+        {
+          "id": "Q03",
+          "path": "07_Questions/Q03.md",
+          "score": 11.293513
+        },
+        {
+          "id": "P13",
+          "path": "02_Papers/P13.md",
+          "score": 11.096517
+        },
+        {
+          "id": "S03_TRANSFER",
+          "path": "06_Syntheses/S03_TRANSFER.md",
+          "score": 10.653037
+        },
+        {
+          "id": "Q04",
+          "path": "07_Questions/Q04.md",
+          "score": 9.633869
+        }
+      ],
+      "relevant_found": [
+        "P13",
+        "Q03"
+      ],
+      "hit": true
+    },
+    {
+      "id": "T04A",
+      "question_id": "Q04",
+      "query": "Trợ lý đọc log chứa chỉ dẫn của kẻ tấn công thì phải đo cả an toàn lẫn làm đúng việc thế nào?",
+      "relevant": [
+        "Q04",
+        "K11",
+        "P16"
+      ],
+      "top_k": [
+        {
+          "id": "Q04",
+          "path": "07_Questions/Q04.md",
+          "score": 16.712391
+        },
+        {
+          "id": "Q05",
+          "path": "07_Questions/Q05.md",
+          "score": 14.111702
+        },
+        {
+          "id": "S01_ORIENTATION",
+          "path": "06_Syntheses/S01_ORIENTATION.md",
+          "score": 13.205009
+        },
+        {
+          "id": "Q03",
+          "path": "07_Questions/Q03.md",
+          "score": 12.76698
+        },
+        {
+          "id": "Q01",
+          "path": "07_Questions/Q01.md",
+          "score": 12.290943
+        }
+      ],
+      "relevant_found": [
+        "Q04"
+      ],
+      "hit": true
+    },
+    {
+      "id": "T04B",
+      "question_id": "Q04",
+      "query": "Có trích dẫn nguồn là đủ ngăn trợ lý dùng công cụ sai quyền chưa?",
+      "relevant": [
+        "Q04"
+      ],
+      "top_k": [
+        {
+          "id": "Q04",
+          "path": "07_Questions/Q04.md",
+          "score": 12.244744
+        },
+        {
+          "id": "R13",
+          "path": "05_Relations/R13.md",
+          "score": 9.476072
+        },
+        {
+          "id": "Q05",
+          "path": "07_Questions/Q05.md",
+          "score": 8.493095
+        },
+        {
+          "id": "C06",
+          "path": "03_Concepts/C06.md",
+          "score": 7.276883
+        },
+        {
+          "id": "R09",
+          "path": "05_Relations/R09.md",
+          "score": 7.275556
+        }
+      ],
+      "relevant_found": [
+        "Q04"
+      ],
+      "hit": true
+    },
+    {
+      "id": "T05A",
+      "question_id": "Q05",
+      "query": "Khi triển khai bản mới xen kẽ bản cũ, so hành vi các bản sao còn hợp lệ không?",
+      "relevant": [
+        "Q05",
+        "K08",
+        "P12"
+      ],
+      "top_k": [
+        {
+          "id": "Q05",
+          "path": "07_Questions/Q05.md",
+          "score": 11.734772
+        },
+        {
+          "id": "K08",
+          "path": "04_Claims/K08.md",
+          "score": 10.708874
+        },
+        {
+          "id": "K05",
+          "path": "04_Claims/K05.md",
+          "score": 9.931389
+        },
+        {
+          "id": "S01_ORIENTATION",
+          "path": "06_Syntheses/S01_ORIENTATION.md",
+          "score": 9.757221
+        },
+        {
+          "id": "S03_TRANSFER",
+          "path": "06_Syntheses/S03_TRANSFER.md",
+          "score": 9.579265
+        }
+      ],
+      "relevant_found": [
+        "K08",
+        "Q05"
+      ],
+      "hit": true
+    },
+    {
+      "id": "T05B",
+      "question_id": "Q05",
+      "query": "Tải phân bố không đều có bị nhầm với xâm nhập vào dịch vụ không?",
+      "relevant": [
+        "Q05",
+        "P12",
+        "C08"
+      ],
+      "top_k": [
+        {
+          "id": "Q05",
+          "path": "07_Questions/Q05.md",
+          "score": 11.713737
+        },
+        {
+          "id": "P07",
+          "path": "02_Papers/P07.md",
+          "score": 9.073577
+        },
+        {
+          "id": "S01_ORIENTATION",
+          "path": "06_Syntheses/S01_ORIENTATION.md",
+          "score": 8.320052
+        },
+        {
+          "id": "R15",
+          "path": "05_Relations/R15.md",
+          "score": 8.18614
+        },
+        {
+          "id": "S03_TRANSFER",
+          "path": "06_Syntheses/S03_TRANSFER.md",
+          "score": 6.661799
+        }
+      ],
+      "relevant_found": [
+        "Q05"
+      ],
+      "hit": true
+    }
+  ],
+  "generator_tested": false,
+  "limitations": [
+    "Development queries and relevance labels authored by the same agent.",
+    "A retrieved question note is not sufficient scientific evidence.",
+    "Different query set from Q01; do not interpret the difference as an improvement rate."
+  ]
+}

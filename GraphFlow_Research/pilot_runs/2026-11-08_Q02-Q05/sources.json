@@ -1,0 +1,376 @@
+{
+  "run_id": "PILOT_20261108_Q02_Q05",
+  "as_of": "2026-11-08",
+  "human_review": "pending",
+  "results_reproduced": false,
+  "sources": [
+    {
+      "id": "E01",
+      "local_id": "P09",
+      "title": "Sometimes Simpler is Better: A Comprehensive Analysis of State-of-the-Art Provenance-Based Intrusion Detection Systems",
+      "authors": [
+        "Tristan Bilot",
+        "Baoxiang Jiang",
+        "Zefeng Li",
+        "Nour El Madhoun",
+        "Khaldoun Al Agha",
+        "Anis Zouaoui",
+        "Thomas Pasquier"
+      ],
+      "publication_status": "published_conference_work_author_hosted_manifestation",
+      "version": "Author-hosted PDF fetched 2026-11-08, 20 pages; manifestation not assumed byte-identical to proceedings",
+      "url": "https://tfjmp.org/publications/2025-usenixsec-2.pdf",
+      "landing_url": "https://tfjmp.org/publication/2025-usenixsec-2/",
+      "read_depth": "sections_checked",
+      "locators": [
+        "PDF p.1 abstract",
+        "pp.5–6 evaluation metrics/ADP and thresholding",
+        "p.11 Velox setup and comparison"
+      ],
+      "cautions": [
+        "Author landing page says five of seven; linked PDF says eight of nine. Do not merge denominators or silently overwrite K03.",
+        "Publisher landing fetch returned 403 in this run.",
+        "No result reproduced."
+      ],
+      "visual_check": "Rendered and inspected complete page 1",
+      "pdf_sha256": "d26533d35b816038568918a27f9a7a1ba27870d37a96223ab06f778b9cffece6"
+    },
+    {
+      "id": "E02",
+      "local_id": "P21",
+      "title": "How Benchmarks and Evaluation Protocols Shape Conclusions in Provenance-Based Intrusion Detection",
+      "authors": [
+        "Lorenzo Guerra",
+        "Thomas Chapuis",
+        "Guillaume Duc",
+        "Pavlo Mozharovskyi",
+        "Van-Tam Nguyen"
+      ],
+      "publication_status": "preprint_author_reported_accepted_NDSS2027",
+      "version": "arXiv:2608.01454v4, 2026-10-12",
+      "url": "https://arxiv.org/html/2608.01454v4",
+      "read_depth": "sections_checked",
+      "locators": [
+        "III evaluation protocol distortions",
+        "IV.A–C benchmark preparation, splits, labels",
+        "IV.H metrics; V.A results",
+        "VI limitations; Appendix B splits"
+      ],
+      "cautions": [
+        "NDSS 2027 acceptance only author-reported here; future venue year is not current publication year.",
+        "Development train and validation days can be interleaved, while final test remains separated.",
+        "Architectural findings conditional on audited E3 labels, operating policy and tested configurations."
+      ]
+    },
+    {
+      "id": "E03",
+      "local_id": null,
+      "title": "What We Talk About When We Talk About Logs: Understanding the Effects of Dataset Quality on Endpoint Threat Detection Research",
+      "authors": [
+        "Jason Liu",
+        "Muhammad Adil Inam",
+        "Akul Goyal",
+        "Andy Riddle",
+        "Kim Westfall",
+        "Adam Bates"
+      ],
+      "publication_status": "published_conference_paper",
+      "version": "IEEE S&P 2025; author-lab abstract checked 2026-11-08",
+      "url": "https://sts.cs.illinois.edu/papers/paper/WhatWeTalkAboutWhenW20250512.html",
+      "doi": "10.1109/SP61157.2025.00112",
+      "read_depth": "abstract_primary",
+      "locators": [
+        "Author-lab abstract and IEEE publisher metadata/abstract"
+      ],
+      "cautions": [
+        "Only abstract-level evidence used; not independent audit of labels or full-text methodology."
+      ]
+    },
+    {
+      "id": "E04",
+      "local_id": null,
+      "title": "PIDSMaker: Building and Evaluating Provenance-based Intrusion Detection Systems",
+      "authors": [
+        "Tristan Bilot",
+        "Baoxiang Jiang",
+        "Thomas Pasquier"
+      ],
+      "publication_status": "author_reported_KDD2026_work",
+      "version": "Author landing page and arXiv:2601.22983v2 metadata/abstract",
+      "url": "https://tfjmp.org/publication/2026-kdd/",
+      "secondary_url": "https://arxiv.org/abs/2601.22983v2",
+      "read_depth": "abstract_primary",
+      "locators": [
+        "Author abstract: shared preprocessing, labels and modular components"
+      ],
+      "cautions": [
+        "Framework availability does not guarantee a valid benchmark or task for this project.",
+        "Artifact not downloaded or run; no deployment recommendation certified."
+      ]
+    },
+    {
+      "id": "E05",
+      "local_id": "P10",
+      "title": "Cutting the Fuse: Actionable APT Attack Blocking in Provenance-based IDS",
+      "authors": [
+        "Weiheng Wu",
+        "Wei Qiao",
+        "Teng Li",
+        "Yebo Feng",
+        "Zhuo Ma",
+        "Jianfeng Ma",
+        "Yang Liu"
+      ],
+      "publication_status": "arxiv_manifestation_of_author_reported_USENIX2026_work",
+      "version": "arXiv:2508.06073v2, 2026-10-18; not assumed identical to proceedings",
+      "url": "https://arxiv.org/html/2508.06073v2",
+      "read_depth": "sections_checked",
+      "locators": [
+        "Introduction: model-relative mitigation",
+        "6.3 RQ2, MER",
+        "7 Discussion: positioning, safe host actions and alert subgraphs"
+      ],
+      "cautions": [
+        "Official publisher page returned 403 during run; arXiv v2 explicitly named.",
+        "MER concerns fixed-detector prediction changes, not measured real host containment or availability."
+      ]
+    },
+    {
+      "id": "E06",
+      "local_id": "P14",
+      "title": "Incident Response Planning Using a Lightweight Large Language Model with Reduced Hallucination",
+      "authors": [
+        "Kim Hammar",
+        "Tansu Alpcan",
+        "Emil C. Lupu"
+      ],
+      "publication_status": "published_conference_paper",
+      "version": "NDSS 2026 conference PDF, 20 pages including appendices",
+      "url": "https://www.ndss-symposium.org/wp-content/uploads/2026-f358-paper.pdf",
+      "landing_url": "https://www.ndss-symposium.org/ndss-paper/incident-response-planning-using-a-lightweight-large-language-model-with-reduced-hallucination/",
+      "read_depth": "sections_checked",
+      "locators": [
+        "IV.B testbed/training; IV.D recovery model",
+        "V pp.8–9 conditional hallucination analysis",
+        "VII p.10 evaluation cost units; p.12 simulations",
+        "p.13 limitations and operational future work"
+      ],
+      "cautions": [
+        "Evaluation recovery time uses discrete action costs, not wall-clock production restoration.",
+        "Real attacks used for log/training collection are distinct from deployment validation of all generated plans.",
+        "Hallucination guarantee conditional; not an indirect-prompt-injection guarantee."
+      ],
+      "visual_check": "Rendered and inspected complete page 10",
+      "pdf_sha256": "f066582279f37d94a981b4d7839ed45bc99a362c3eef49fca1e08187920d1907"
+    },
+    {
+      "id": "E07",
+      "local_id": null,
+      "title": "Large Language Models are Autonomous Cyber Defenders",
+      "authors": [
+        "Sebastián R. Castro",
+        "Roberto Campbell",
+        "Nancy Lau",
+        "Octavio Villalobos",
+        "Jiaqi Duan",
+        "Alvaro A. Cardenas"
+      ],
+      "publication_status": "author_reported_CAI2025_workshop_work",
+      "version": "arXiv:2505.04843v2, 2025-07-19, journal reference/DOI provided on arXiv",
+      "url": "https://arxiv.org/html/2505.04843v2",
+      "read_depth": "sections_checked",
+      "locators": [
+        "II.A CAGE 4 environment/reward",
+        "IV.A reward and defensive side effects",
+        "V limitations"
+      ],
+      "cautions": [
+        "CybORG simulation, not a measured production-cloud containment result.",
+        "Reward focused on service availability can miss compromises with little immediate availability impact."
+      ]
+    },
+    {
+      "id": "E08",
+      "local_id": "P16",
+      "title": "AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents",
+      "authors": [
+        "Edoardo Debenedetti",
+        "Jie Zhang",
+        "Mislav Balunović",
+        "Luca Beurer-Kellner",
+        "Marc Fischer",
+        "Florian Tramèr"
+      ],
+      "publication_status": "published_conference_paper",
+      "version": "NeurIPS 2024 Datasets and Benchmarks official proceedings abstract",
+      "url": "https://proceedings.nips.cc/paper_files/paper/2024/hash/97091a5177d8dc64b1da8bf3e1f6fb54-Abstract-Datasets_and_Benchmarks_Track.html",
+      "read_depth": "abstract_primary",
+      "locators": [
+        "Proceedings abstract"
+      ],
+      "cautions": [
+        "General tool-agent tasks, not a SOC-specific validation.",
+        "No benchmark runs or live tool security tested here."
+      ]
+    },
+    {
+      "id": "E09",
+      "local_id": "P17",
+      "title": "InjecAgent: Benchmarking Indirect Prompt Injections in Tool-Integrated Large Language Model Agents",
+      "authors": [
+        "Qiusi Zhan",
+        "Zhixiang Liang",
+        "Zifan Ying",
+        "Daniel Kang"
+      ],
+      "publication_status": "published_conference_paper",
+      "version": "Findings of ACL 2024 official metadata and abstract",
+      "url": "https://aclanthology.org/2024.findings-acl.624/",
+      "read_depth": "abstract_primary",
+      "locators": [
+        "ACL Anthology abstract/metadata"
+      ],
+      "cautions": [
+        "No direct cross-paper ASR comparison or SOC guarantee inferred."
+      ]
+    },
+    {
+      "id": "E10",
+      "local_id": null,
+      "title": "Defeating Prompt Injections by Design",
+      "authors": [
+        "Edoardo Debenedetti",
+        "Ilia Shumailov",
+        "Tianqi Fan",
+        "Jamie Hayes",
+        "Nicholas Carlini",
+        "Daniel Fabian",
+        "Christoph Kern",
+        "Chongyang Shi",
+        "Andreas Terzis",
+        "Florian Tramèr"
+      ],
+      "publication_status": "arxiv_manifestation_venue_not_reconciled_in_this_run",
+      "version": "arXiv:2503.18813v2, 2025-06-24",
+      "url": "https://arxiv.org/html/2503.18813v2",
+      "read_depth": "sections_checked",
+      "locators": [
+        "2 data/control-flow distinction",
+        "3 and 3.1 threat model/non-goals",
+        "5 design overview; 9.3 scope and limitations"
+      ],
+      "cautions": [
+        "Text-only misleading summaries without prohibited flows are explicit non-goals.",
+        "Do not equate a tool-flow policy with correctness of generated security conclusions.",
+        "Search surfaced an IEEE manifestation; its publication details not reconciled, so results stay tied to this arXiv version."
+      ]
+    },
+    {
+      "id": "E11",
+      "local_id": null,
+      "title": "Poisoning the Watchtower: Prompt Injection Attacks Against LLM-Augmented Security Operations Through Adversarial Log Content",
+      "authors": [
+        "Rohan Pandey",
+        "Archit Bhujang"
+      ],
+      "publication_status": "preprint",
+      "version": "arXiv:2605.24421v1, 2026-05-23",
+      "url": "https://arxiv.org/html/2605.24421v1",
+      "read_depth": "sections_checked",
+      "locators": [
+        "2 threat model: output-only analyst",
+        "4 setup, metrics, defenses and mock analyst",
+        "5 classification/summarization/remediation",
+        "6.4 limitations"
+      ],
+      "cautions": [
+        "One model, synthetic logs, no production traffic or tool execution, no adaptive multi-turn adversary.",
+        "Mock analyst not a validated predictor of real model behavior; no local reproduction."
+      ]
+    },
+    {
+      "id": "E12",
+      "local_id": "P12",
+      "title": "REPLICAWATCHER: Training-less Anomaly Detection in Containerized Microservices",
+      "authors": [
+        "Asbat El Khairi",
+        "Marco Caselli",
+        "Andreas Peter",
+        "Andrea Continella"
+      ],
+      "publication_status": "published_conference_paper",
+      "version": "NDSS 2024 conference PDF, 17 pages",
+      "url": "https://www.ndss-symposium.org/wp-content/uploads/2024-286-paper.pdf",
+      "read_depth": "sections_checked",
+      "locators": [
+        "IV p.4 threat model",
+        "VI.A/C pp.6–7 workload/update evaluation",
+        "VIII.A/B pp.12–13 detection/deployment challenges"
+      ],
+      "cautions": [
+        "Paper discusses rolling updates and readiness-probe exclusion; do not claim authors ignored rollout.",
+        "Discussion-level mitigation not automatically a measured coverage guarantee under mixed versions/load skew.",
+        "Snapshot anomaly classification differs from identifying the compromised replica."
+      ],
+      "visual_check": "Rendered and inspected complete page 12",
+      "pdf_sha256": "d4c0f0d2009931762ab124c67a6dc8eb9c46dd032444921daf49a51be721ee08"
+    },
+    {
+      "id": "E13",
+      "local_id": null,
+      "title": "Kubernetes — Deployments",
+      "authors": [
+        "Kubernetes documentation contributors"
+      ],
+      "publication_status": "official_documentation",
+      "version": "Live page checked 2026-11-08; page reports modified 2026-07-07",
+      "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/",
+      "read_depth": "sections_checked",
+      "locators": [
+        "Rolling Update Deployment",
+        "Rollover",
+        "Min Ready Seconds"
+      ],
+      "cautions": [
+        "Describes lifecycle semantics, not detector accuracy; pin actual cluster version for later experiments."
+      ]
+    },
+    {
+      "id": "E14",
+      "local_id": null,
+      "title": "CI/CD for microservices",
+      "authors": [
+        "Microsoft Azure Architecture Center"
+      ],
+      "publication_status": "official_documentation",
+      "version": "Live page checked 2026-11-08",
+      "url": "https://learn.microsoft.com/en-us/azure/architecture/microservices/ci-cd",
+      "read_depth": "sections_checked",
+      "locators": [
+        "CI/CD goals and service updates: side-by-side versions, canary/blue-green"
+      ],
+      "cautions": [
+        "Operational context, not empirical validation of REPLICAWATCHER."
+      ]
+    },
+    {
+      "id": "E15",
+      "local_id": null,
+      "title": "Training-less Anomaly-Based Intrusion Detection in Containerized Microservices",
+      "authors": [
+        "Asbat El Khairi"
+      ],
+      "publication_status": "published_PhD_thesis",
+      "version": "University of Twente record, award/publication date 2025-11-21, DOI 10.3990/1.9789036569460",
+      "url": "https://research.utwente.nl/en/publications/training-less-anomaly-based-intrusion-detection-in-containerized-/",
+      "read_depth": "abstract_primary",
+      "locators": [
+        "Institutional abstract; thesis metadata and related outputs"
+      ],
+      "cautions": [
+        "Not a journal follow-up inferred from its title; full thesis not read.",
+        "Single-instance directions are reading leads, not a verified answer to Q05 rollout/load-skew behavior."
+      ]
+    }
+  ]
+}
