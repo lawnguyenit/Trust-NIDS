@@ -1,0 +1,39 @@
+{
+  "run_id":"PILOT_20261108_ANSWER_SUFFICIENCY",
+  "as_of":"2026-11-08",
+  "k":5,
+  "design":"New phrasing and multi-facet questions on previously inspected topics; same-agent forward diagnostic, not blinded or independently held-out.",
+  "corpora":{
+    "original":"46 P/K/D note bodies from the unchanged vault",
+    "augmented":"Same original notes plus all 10 Q01 claims and all 16 Q02–Q05 claims, deterministically packaged without query-specific additions"
+  },
+  "comparison_limit":"Coverage, text granularity, wording, language and provenance metadata all change when cards are added; no causal claim that formatting alone improves retrieval.",
+  "ranker":"Unchanged Q01 BM25, k1=1.2, b=0.75, k=5, no expansion or tuning",
+  "card_ids":"A_Lxx = Q01 claim; B_QxxCx = Q02–Q05 claim. Same IDs in facet alternatives denote reviewer-assigned semantic support, not machine entailment.",
+  "fixed_policy_context":["00_System/SYS_EVIDENCE.md","00_System/SYS_GATE.md"],
+  "rubric":{
+    "reference_facet_coverage":"All nonempty required facet groups must be represented in top-k by at least one assigned evidence ID; computed mechanically from preassigned labels.",
+    "scoped_supported":"Answer only the parts supported by retrieved text, retain conditions and distinguish author report from reader inference; do not certify a paper's truth.",
+    "partial":"At least one required facet is missing; answer a supported subset and name the missing information.",
+    "insufficient":"Question demands a local empirical result, global novelty or unresolved source choice that the frozen material does not establish.",
+    "conflict":"Report source/version disagreement without selecting a winner whose identity/history is unverified.",
+    "citation_check":"Every substantive answer statement cites packet IDs and exact supporting fragments; an exact substring check verifies identity only, not entailment.",
+    "no_false_test_claim":"Answers are manually authored by this assistant from packets; no separate generator API, no independent judge, no automated semantic-sufficiency score."
+  },
+  "questions":[
+    {"id":"N01","question":"Trong snapshot này, CloudTrail trail vừa tạo có ghi sẵn data events hay phải bật thêm?","facets":[{"id":"default_data_events","alternatives":["K13","D03","A_L01"]}],"kind":"scoped_fact"},
+    {"id":"N02","question":"KnowHow đã thử bỏ bớt bước tấn công chưa, và việc đó có chứng minh khôi phục được record audit bị mất không?","facets":[{"id":"step_removal_evaluation_and_boundary","alternatives":["A_L04"]}],"kind":"source_depth_and_scope"},
+    {"id":"N03","question":"Kết quả báo động tốt có đủ cho thấy đã tìm lại được các process tấn công để điều tra không?","facets":[{"id":"alerting_vs_process_recovery","alternatives":["B_Q02C1","B_Q02C2"]}],"kind":"metric_scope"},
+    {"id":"N04","question":"Có thể lấy recovery time của bài lập kế hoạch làm số phút ứng dụng thật ngừng hoạt động không?","facets":[{"id":"discrete_cost_not_wall_clock","alternatives":["B_Q03C2"]}],"kind":"false_premise_units"},
+    {"id":"N05","question":"Nếu đã chặn mọi luồng gọi tool trái policy thì nội dung báo cáo văn bản có còn bị dẫn sai được không?","facets":[{"id":"tool_flow_vs_text_non_goal","alternatives":["B_Q04C2"]}],"kind":"trust_boundary"},
+    {"id":"N06","question":"Paper replica xử lý pod đang cập nhật như thế nào, và đề xuất đó có bảo đảm đo đủ trong lúc hai phiên bản cùng tồn tại chưa?","facets":[{"id":"rollout_proposal_and_unverified_coverage","alternatives":["B_Q05C1","B_Q05C4"]}],"kind":"proposal_vs_validation"},
+    {"id":"N07","question":"Để so hai detector trong lúc rollout một cách công bằng, bản thiết kế cần ghi những điều kiện đánh giá và phần pod/thời gian đủ điều kiện giám sát nào?","facets":[{"id":"evaluation_contract","alternatives":["B_Q02C4"]},{"id":"monitoring_eligibility","alternatives":["B_Q05C4"]}],"kind":"two_source_design_synthesis"},
+    {"id":"N08","question":"Một trợ lý cứ từ chối hết mọi tác vụ có thể được xem là an toàn và hữu ích chỉ nhờ tỷ lệ tấn công thành công thấp không?","facets":[{"id":"utility_alongside_security","alternatives":["K11","P16","B_Q04C1","B_Q04C4"]}],"kind":"utility_false_premise"},
+    {"id":"N09","question":"Trong lab của tao, rollout làm tăng false positive chính xác bao nhiêu phần trăm?","facets":[],"kind":"unavailable_local_measurement","required_outcome":"insufficient_no_local_experiment","forbidden":"Invent a numerical result or substitute a paper's benchmark for the user's lab."},
+    {"id":"N10","question":"Từ số bài đã đọc, mình đã đủ căn cứ tuyên bố thế giới chưa có lời giải cho Q02 chưa?","facets":[],"kind":"global_absence_claim","required_outcome":"insufficient_global_novelty","forbidden":"Certify global novelty from the frozen corpus or treat the question as rejected."},
+    {"id":"N11","question":"Với bài Bilot, nên chốt kết quả mạng đơn giản là 5/7 hay 8/9 dataset để đưa vào review?","facets":[{"id":"manifestation_disagreement","alternatives":["B_Q02C3"]}],"kind":"unresolved_version","required_outcome":"conflict_no_silent_selection"},
+    {"id":"N12","question":"Theo hồ sơ ngày 08/11/2026, P21 đã là bài xuất bản NDSS 2027 được xác minh chính thức chưa?","facets":[{"id":"author_reported_future_venue","alternatives":["K16","P21"]}],"kind":"publication_status"}
+  ],
+  "answer_policy":"Use only the selected condition's top-5 packet and fixed policy context for substantive answer claims. If a known source is missing from packet, mark missing and identify follow-up separately; do not silently inject remembered content.",
+  "integration":"Pilot-local evidence packaging only. Canonical notes, exports, question status and prior pilot files stay unchanged."
+}

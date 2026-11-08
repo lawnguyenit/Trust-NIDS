@@ -1,0 +1,1134 @@
+{
+  "run_id": "PILOT_20261108_ANSWER_SUFFICIENCY",
+  "protocol_sha256": "0e23ab42e3bd98d77d6ef25ee2f33a3135989530ec81d92b3cc16f3734aa0605",
+  "script_sha256": "5251ea3b90dca5feaa6b571d9240bec88efc02dc6cd828ee759ed686f318d8c7",
+  "ranker_sha256": "be2dd9978a2c787c132359035253960351a56a9260bd904e1ad1732e52d24ca5",
+  "conditions": {
+    "original": {
+      "candidate_count": 46,
+      "questions": [
+        {
+          "id": "N01",
+          "question": "Trong snapshot này, CloudTrail trail vừa tạo có ghi sẵn data events hay phải bật thêm?",
+          "kind": "scoped_fact",
+          "top_k": [
+            {
+              "id": "K13",
+              "path": "04_Claims/K13.md",
+              "score": 20.322054
+            },
+            {
+              "id": "D03",
+              "path": "00_System/Sources/D03.md",
+              "score": 16.233844
+            },
+            {
+              "id": "K14",
+              "path": "04_Claims/K14.md",
+              "score": 5.52102
+            },
+            {
+              "id": "K18",
+              "path": "04_Claims/K18.md",
+              "score": 5.212007
+            },
+            {
+              "id": "P21",
+              "path": "02_Papers/P21.md",
+              "score": 5.156078
+            }
+          ],
+          "reference_facets": [
+            {
+              "id": "default_data_events",
+              "reference_in_corpus": true,
+              "reference_in_topk": true,
+              "matched_ids": [
+                "D03",
+                "K13"
+              ]
+            }
+          ],
+          "all_reference_facets_retrieved": true,
+          "missing_reference_facets": [],
+          "capture_gaps": [],
+          "retrieval_misses": []
+        },
+        {
+          "id": "N02",
+          "question": "KnowHow đã thử bỏ bớt bước tấn công chưa, và việc đó có chứng minh khôi phục được record audit bị mất không?",
+          "kind": "source_depth_and_scope",
+          "top_k": [
+            {
+              "id": "P11",
+              "path": "02_Papers/P11.md",
+              "score": 11.681663
+            },
+            {
+              "id": "P12",
+              "path": "02_Papers/P12.md",
+              "score": 8.096091
+            },
+            {
+              "id": "P13",
+              "path": "02_Papers/P13.md",
+              "score": 6.907825
+            },
+            {
+              "id": "P09",
+              "path": "02_Papers/P09.md",
+              "score": 6.526995
+            },
+            {
+              "id": "K07",
+              "path": "04_Claims/K07.md",
+              "score": 6.510628
+            }
+          ],
+          "reference_facets": [
+            {
+              "id": "step_removal_evaluation_and_boundary",
+              "reference_in_corpus": false,
+              "reference_in_topk": false,
+              "matched_ids": []
+            }
+          ],
+          "all_reference_facets_retrieved": false,
+          "missing_reference_facets": [
+            "step_removal_evaluation_and_boundary"
+          ],
+          "capture_gaps": [
+            "step_removal_evaluation_and_boundary"
+          ],
+          "retrieval_misses": []
+        },
+        {
+          "id": "N03",
+          "question": "Kết quả báo động tốt có đủ cho thấy đã tìm lại được các process tấn công để điều tra không?",
+          "kind": "metric_scope",
+          "top_k": [
+            {
+              "id": "K09",
+              "path": "04_Claims/K09.md",
+              "score": 8.438946
+            },
+            {
+              "id": "P21",
+              "path": "02_Papers/P21.md",
+              "score": 7.634535
+            },
+            {
+              "id": "K08",
+              "path": "04_Claims/K08.md",
+              "score": 7.497369
+            },
+            {
+              "id": "P10",
+              "path": "02_Papers/P10.md",
+              "score": 7.396049
+            },
+            {
+              "id": "P22",
+              "path": "02_Papers/P22.md",
+              "score": 7.334064
+            }
+          ],
+          "reference_facets": [
+            {
+              "id": "alerting_vs_process_recovery",
+              "reference_in_corpus": false,
+              "reference_in_topk": false,
+              "matched_ids": []
+            }
+          ],
+          "all_reference_facets_retrieved": false,
+          "missing_reference_facets": [
+            "alerting_vs_process_recovery"
+          ],
+          "capture_gaps": [
+            "alerting_vs_process_recovery"
+          ],
+          "retrieval_misses": []
+        },
+        {
+          "id": "N04",
+          "question": "Có thể lấy recovery time của bài lập kế hoạch làm số phút ứng dụng thật ngừng hoạt động không?",
+          "kind": "false_premise_units",
+          "top_k": [
+            {
+              "id": "K10",
+              "path": "04_Claims/K10.md",
+              "score": 12.268719
+            },
+            {
+              "id": "P14",
+              "path": "02_Papers/P14.md",
+              "score": 9.544177
+            },
+            {
+              "id": "K15",
+              "path": "04_Claims/K15.md",
+              "score": 6.655971
+            },
+            {
+              "id": "P17",
+              "path": "02_Papers/P17.md",
+              "score": 6.444241
+            },
+            {
+              "id": "P19",
+              "path": "02_Papers/P19.md",
+              "score": 5.825644
+            }
+          ],
+          "reference_facets": [
+            {
+              "id": "discrete_cost_not_wall_clock",
+              "reference_in_corpus": false,
+              "reference_in_topk": false,
+              "matched_ids": []
+            }
+          ],
+          "all_reference_facets_retrieved": false,
+          "missing_reference_facets": [
+            "discrete_cost_not_wall_clock"
+          ],
+          "capture_gaps": [
+            "discrete_cost_not_wall_clock"
+          ],
+          "retrieval_misses": []
+        },
+        {
+          "id": "N05",
+          "question": "Nếu đã chặn mọi luồng gọi tool trái policy thì nội dung báo cáo văn bản có còn bị dẫn sai được không?",
+          "kind": "trust_boundary",
+          "top_k": [
+            {
+              "id": "K01",
+              "path": "04_Claims/K01.md",
+              "score": 9.467087
+            },
+            {
+              "id": "P01",
+              "path": "02_Papers/P01.md",
+              "score": 7.491676
+            },
+            {
+              "id": "P24",
+              "path": "02_Papers/P24.md",
+              "score": 7.238181
+            },
+            {
+              "id": "P16",
+              "path": "02_Papers/P16.md",
+              "score": 7.142883
+            },
+            {
+              "id": "P08",
+              "path": "02_Papers/P08.md",
+              "score": 6.963926
+            }
+          ],
+          "reference_facets": [
+            {
+              "id": "tool_flow_vs_text_non_goal",
+              "reference_in_corpus": false,
+              "reference_in_topk": false,
+              "matched_ids": []
+            }
+          ],
+          "all_reference_facets_retrieved": false,
+          "missing_reference_facets": [
+            "tool_flow_vs_text_non_goal"
+          ],
+          "capture_gaps": [
+            "tool_flow_vs_text_non_goal"
+          ],
+          "retrieval_misses": []
+        },
+        {
+          "id": "N06",
+          "question": "Paper replica xử lý pod đang cập nhật như thế nào, và đề xuất đó có bảo đảm đo đủ trong lúc hai phiên bản cùng tồn tại chưa?",
+          "kind": "proposal_vs_validation",
+          "top_k": [
+            {
+              "id": "K08",
+              "path": "04_Claims/K08.md",
+              "score": 15.695189
+            },
+            {
+              "id": "K18",
+              "path": "04_Claims/K18.md",
+              "score": 13.66377
+            },
+            {
+              "id": "K17",
+              "path": "04_Claims/K17.md",
+              "score": 11.369728
+            },
+            {
+              "id": "P12",
+              "path": "02_Papers/P12.md",
+              "score": 11.328846
+            },
+            {
+              "id": "P06",
+              "path": "02_Papers/P06.md",
+              "score": 11.294574
+            }
+          ],
+          "reference_facets": [
+            {
+              "id": "rollout_proposal_and_unverified_coverage",
+              "reference_in_corpus": false,
+              "reference_in_topk": false,
+              "matched_ids": []
+            }
+          ],
+          "all_reference_facets_retrieved": false,
+          "missing_reference_facets": [
+            "rollout_proposal_and_unverified_coverage"
+          ],
+          "capture_gaps": [
+            "rollout_proposal_and_unverified_coverage"
+          ],
+          "retrieval_misses": []
+        },
+        {
+          "id": "N07",
+          "question": "Để so hai detector trong lúc rollout một cách công bằng, bản thiết kế cần ghi những điều kiện đánh giá và phần pod/thời gian đủ điều kiện giám sát nào?",
+          "kind": "two_source_design_synthesis",
+          "top_k": [
+            {
+              "id": "K10",
+              "path": "04_Claims/K10.md",
+              "score": 12.192769
+            },
+            {
+              "id": "K03",
+              "path": "04_Claims/K03.md",
+              "score": 12.163248
+            },
+            {
+              "id": "P14",
+              "path": "02_Papers/P14.md",
+              "score": 11.776284
+            },
+            {
+              "id": "P17",
+              "path": "02_Papers/P17.md",
+              "score": 11.545362
+            },
+            {
+              "id": "P24",
+              "path": "02_Papers/P24.md",
+              "score": 11.298517
+            }
+          ],
+          "reference_facets": [
+            {
+              "id": "evaluation_contract",
+              "reference_in_corpus": false,
+              "reference_in_topk": false,
+              "matched_ids": []
+            },
+            {
+              "id": "monitoring_eligibility",
+              "reference_in_corpus": false,
+              "reference_in_topk": false,
+              "matched_ids": []
+            }
+          ],
+          "all_reference_facets_retrieved": false,
+          "missing_reference_facets": [
+            "evaluation_contract",
+            "monitoring_eligibility"
+          ],
+          "capture_gaps": [
+            "evaluation_contract",
+            "monitoring_eligibility"
+          ],
+          "retrieval_misses": []
+        },
+        {
+          "id": "N08",
+          "question": "Một trợ lý cứ từ chối hết mọi tác vụ có thể được xem là an toàn và hữu ích chỉ nhờ tỷ lệ tấn công thành công thấp không?",
+          "kind": "utility_false_premise",
+          "top_k": [
+            {
+              "id": "K11",
+              "path": "04_Claims/K11.md",
+              "score": 14.684191
+            },
+            {
+              "id": "P16",
+              "path": "02_Papers/P16.md",
+              "score": 12.776561
+            },
+            {
+              "id": "P01",
+              "path": "02_Papers/P01.md",
+              "score": 7.827907
+            },
+            {
+              "id": "P14",
+              "path": "02_Papers/P14.md",
+              "score": 7.697422
+            },
+            {
+              "id": "P04",
+              "path": "02_Papers/P04.md",
+              "score": 7.193654
+            }
+          ],
+          "reference_facets": [
+            {
+              "id": "utility_alongside_security",
+              "reference_in_corpus": true,
+              "reference_in_topk": true,
+              "matched_ids": [
+                "K11",
+                "P16"
+              ]
+            }
+          ],
+          "all_reference_facets_retrieved": true,
+          "missing_reference_facets": [],
+          "capture_gaps": [],
+          "retrieval_misses": []
+        },
+        {
+          "id": "N09",
+          "question": "Trong lab của tao, rollout làm tăng false positive chính xác bao nhiêu phần trăm?",
+          "kind": "unavailable_local_measurement",
+          "top_k": [
+            {
+              "id": "P17",
+              "path": "02_Papers/P17.md",
+              "score": 7.678086
+            },
+            {
+              "id": "P18",
+              "path": "02_Papers/P18.md",
+              "score": 7.670193
+            },
+            {
+              "id": "P20",
+              "path": "02_Papers/P20.md",
+              "score": 5.769877
+            },
+            {
+              "id": "P14",
+              "path": "02_Papers/P14.md",
+              "score": 5.105155
+            },
+            {
+              "id": "D04",
+              "path": "00_System/Sources/D04.md",
+              "score": 3.976794
+            }
+          ],
+          "reference_facets": [],
+          "all_reference_facets_retrieved": null,
+          "missing_reference_facets": [],
+          "capture_gaps": [],
+          "retrieval_misses": []
+        },
+        {
+          "id": "N10",
+          "question": "Từ số bài đã đọc, mình đã đủ căn cứ tuyên bố thế giới chưa có lời giải cho Q02 chưa?",
+          "kind": "global_absence_claim",
+          "top_k": [
+            {
+              "id": "P10",
+              "path": "02_Papers/P10.md",
+              "score": 7.627108
+            },
+            {
+              "id": "K18",
+              "path": "04_Claims/K18.md",
+              "score": 7.181552
+            },
+            {
+              "id": "P05",
+              "path": "02_Papers/P05.md",
+              "score": 6.927169
+            },
+            {
+              "id": "K12",
+              "path": "04_Claims/K12.md",
+              "score": 6.513439
+            },
+            {
+              "id": "P14",
+              "path": "02_Papers/P14.md",
+              "score": 5.466653
+            }
+          ],
+          "reference_facets": [],
+          "all_reference_facets_retrieved": null,
+          "missing_reference_facets": [],
+          "capture_gaps": [],
+          "retrieval_misses": []
+        },
+        {
+          "id": "N11",
+          "question": "Với bài Bilot, nên chốt kết quả mạng đơn giản là 5/7 hay 8/9 dataset để đưa vào review?",
+          "kind": "unresolved_version",
+          "top_k": [
+            {
+              "id": "K03",
+              "path": "04_Claims/K03.md",
+              "score": 13.766869
+            },
+            {
+              "id": "P09",
+              "path": "02_Papers/P09.md",
+              "score": 11.171602
+            },
+            {
+              "id": "P07",
+              "path": "02_Papers/P07.md",
+              "score": 7.157512
+            },
+            {
+              "id": "P22",
+              "path": "02_Papers/P22.md",
+              "score": 6.935486
+            },
+            {
+              "id": "P14",
+              "path": "02_Papers/P14.md",
+              "score": 6.627906
+            }
+          ],
+          "reference_facets": [
+            {
+              "id": "manifestation_disagreement",
+              "reference_in_corpus": false,
+              "reference_in_topk": false,
+              "matched_ids": []
+            }
+          ],
+          "all_reference_facets_retrieved": false,
+          "missing_reference_facets": [
+            "manifestation_disagreement"
+          ],
+          "capture_gaps": [
+            "manifestation_disagreement"
+          ],
+          "retrieval_misses": []
+        },
+        {
+          "id": "N12",
+          "question": "Theo hồ sơ ngày 08/11/2026, P21 đã là bài xuất bản NDSS 2027 được xác minh chính thức chưa?",
+          "kind": "publication_status",
+          "top_k": [
+            {
+              "id": "P21",
+              "path": "02_Papers/P21.md",
+              "score": 14.518975
+            },
+            {
+              "id": "K16",
+              "path": "04_Claims/K16.md",
+              "score": 14.068432
+            },
+            {
+              "id": "P14",
+              "path": "02_Papers/P14.md",
+              "score": 10.345531
+            },
+            {
+              "id": "P04",
+              "path": "02_Papers/P04.md",
+              "score": 9.376926
+            },
+            {
+              "id": "P05",
+              "path": "02_Papers/P05.md",
+              "score": 8.546632
+            }
+          ],
+          "reference_facets": [
+            {
+              "id": "author_reported_future_venue",
+              "reference_in_corpus": true,
+              "reference_in_topk": true,
+              "matched_ids": [
+                "K16",
+                "P21"
+              ]
+            }
+          ],
+          "all_reference_facets_retrieved": true,
+          "missing_reference_facets": [],
+          "capture_gaps": [],
+          "retrieval_misses": []
+        }
+      ],
+      "scored_questions": 10,
+      "complete_reference_packets": 3
+    },
+    "augmented": {
+      "candidate_count": 72,
+      "questions": [
+        {
+          "id": "N01",
+          "question": "Trong snapshot này, CloudTrail trail vừa tạo có ghi sẵn data events hay phải bật thêm?",
+          "kind": "scoped_fact",
+          "top_k": [
+            {
+              "id": "K13",
+              "path": "04_Claims/K13.md",
+              "score": 19.550627
+            },
+            {
+              "id": "D03",
+              "path": "00_System/Sources/D03.md",
+              "score": 14.929136
+            },
+            {
+              "id": "A_L01",
+              "path": "cards.json#A_L01",
+              "score": 12.677591
+            },
+            {
+              "id": "A_L09",
+              "path": "cards.json#A_L09",
+              "score": 6.846306
+            },
+            {
+              "id": "B_Q05C4",
+              "path": "cards.json#B_Q05C4",
+              "score": 6.085065
+            }
+          ],
+          "reference_facets": [
+            {
+              "id": "default_data_events",
+              "reference_in_corpus": true,
+              "reference_in_topk": true,
+              "matched_ids": [
+                "A_L01",
+                "D03",
+                "K13"
+              ]
+            }
+          ],
+          "all_reference_facets_retrieved": true,
+          "missing_reference_facets": [],
+          "capture_gaps": [],
+          "retrieval_misses": []
+        },
+        {
+          "id": "N02",
+          "question": "KnowHow đã thử bỏ bớt bước tấn công chưa, và việc đó có chứng minh khôi phục được record audit bị mất không?",
+          "kind": "source_depth_and_scope",
+          "top_k": [
+            {
+              "id": "B_Q02C1",
+              "path": "cards.json#B_Q02C1",
+              "score": 13.538508
+            },
+            {
+              "id": "P11",
+              "path": "02_Papers/P11.md",
+              "score": 12.300366
+            },
+            {
+              "id": "B_Q03C2",
+              "path": "cards.json#B_Q03C2",
+              "score": 10.639
+            },
+            {
+              "id": "B_Q05C3",
+              "path": "cards.json#B_Q05C3",
+              "score": 9.295073
+            },
+            {
+              "id": "B_Q05C4",
+              "path": "cards.json#B_Q05C4",
+              "score": 8.856052
+            }
+          ],
+          "reference_facets": [
+            {
+              "id": "step_removal_evaluation_and_boundary",
+              "reference_in_corpus": true,
+              "reference_in_topk": false,
+              "matched_ids": []
+            }
+          ],
+          "all_reference_facets_retrieved": false,
+          "missing_reference_facets": [
+            "step_removal_evaluation_and_boundary"
+          ],
+          "capture_gaps": [],
+          "retrieval_misses": [
+            "step_removal_evaluation_and_boundary"
+          ]
+        },
+        {
+          "id": "N03",
+          "question": "Kết quả báo động tốt có đủ cho thấy đã tìm lại được các process tấn công để điều tra không?",
+          "kind": "metric_scope",
+          "top_k": [
+            {
+              "id": "B_Q02C1",
+              "path": "cards.json#B_Q02C1",
+              "score": 10.211826
+            },
+            {
+              "id": "B_Q03C1",
+              "path": "cards.json#B_Q03C1",
+              "score": 9.016532
+            },
+            {
+              "id": "K09",
+              "path": "04_Claims/K09.md",
+              "score": 8.891542
+            },
+            {
+              "id": "P22",
+              "path": "02_Papers/P22.md",
+              "score": 8.86422
+            },
+            {
+              "id": "P21",
+              "path": "02_Papers/P21.md",
+              "score": 8.833019
+            }
+          ],
+          "reference_facets": [
+            {
+              "id": "alerting_vs_process_recovery",
+              "reference_in_corpus": true,
+              "reference_in_topk": true,
+              "matched_ids": [
+                "B_Q02C1"
+              ]
+            }
+          ],
+          "all_reference_facets_retrieved": true,
+          "missing_reference_facets": [],
+          "capture_gaps": [],
+          "retrieval_misses": []
+        },
+        {
+          "id": "N04",
+          "question": "Có thể lấy recovery time của bài lập kế hoạch làm số phút ứng dụng thật ngừng hoạt động không?",
+          "kind": "false_premise_units",
+          "top_k": [
+            {
+              "id": "B_Q03C2",
+              "path": "cards.json#B_Q03C2",
+              "score": 18.127787
+            },
+            {
+              "id": "K10",
+              "path": "04_Claims/K10.md",
+              "score": 13.835686
+            },
+            {
+              "id": "P14",
+              "path": "02_Papers/P14.md",
+              "score": 10.513577
+            },
+            {
+              "id": "B_Q05C3",
+              "path": "cards.json#B_Q05C3",
+              "score": 9.9659
+            },
+            {
+              "id": "P17",
+              "path": "02_Papers/P17.md",
+              "score": 7.726873
+            }
+          ],
+          "reference_facets": [
+            {
+              "id": "discrete_cost_not_wall_clock",
+              "reference_in_corpus": true,
+              "reference_in_topk": true,
+              "matched_ids": [
+                "B_Q03C2"
+              ]
+            }
+          ],
+          "all_reference_facets_retrieved": true,
+          "missing_reference_facets": [],
+          "capture_gaps": [],
+          "retrieval_misses": []
+        },
+        {
+          "id": "N05",
+          "question": "Nếu đã chặn mọi luồng gọi tool trái policy thì nội dung báo cáo văn bản có còn bị dẫn sai được không?",
+          "kind": "trust_boundary",
+          "top_k": [
+            {
+              "id": "B_Q04C2",
+              "path": "cards.json#B_Q04C2",
+              "score": 18.102766
+            },
+            {
+              "id": "K01",
+              "path": "04_Claims/K01.md",
+              "score": 10.137012
+            },
+            {
+              "id": "B_Q05C3",
+              "path": "cards.json#B_Q05C3",
+              "score": 9.94279
+            },
+            {
+              "id": "B_Q04C3",
+              "path": "cards.json#B_Q04C3",
+              "score": 9.253439
+            },
+            {
+              "id": "P24",
+              "path": "02_Papers/P24.md",
+              "score": 8.449671
+            }
+          ],
+          "reference_facets": [
+            {
+              "id": "tool_flow_vs_text_non_goal",
+              "reference_in_corpus": true,
+              "reference_in_topk": true,
+              "matched_ids": [
+                "B_Q04C2"
+              ]
+            }
+          ],
+          "all_reference_facets_retrieved": true,
+          "missing_reference_facets": [],
+          "capture_gaps": [],
+          "retrieval_misses": []
+        },
+        {
+          "id": "N06",
+          "question": "Paper replica xử lý pod đang cập nhật như thế nào, và đề xuất đó có bảo đảm đo đủ trong lúc hai phiên bản cùng tồn tại chưa?",
+          "kind": "proposal_vs_validation",
+          "top_k": [
+            {
+              "id": "B_Q05C1",
+              "path": "cards.json#B_Q05C1",
+              "score": 23.989551
+            },
+            {
+              "id": "K08",
+              "path": "04_Claims/K08.md",
+              "score": 17.055001
+            },
+            {
+              "id": "K18",
+              "path": "04_Claims/K18.md",
+              "score": 14.530309
+            },
+            {
+              "id": "P06",
+              "path": "02_Papers/P06.md",
+              "score": 13.717866
+            },
+            {
+              "id": "K17",
+              "path": "04_Claims/K17.md",
+              "score": 13.375143
+            }
+          ],
+          "reference_facets": [
+            {
+              "id": "rollout_proposal_and_unverified_coverage",
+              "reference_in_corpus": true,
+              "reference_in_topk": true,
+              "matched_ids": [
+                "B_Q05C1"
+              ]
+            }
+          ],
+          "all_reference_facets_retrieved": true,
+          "missing_reference_facets": [],
+          "capture_gaps": [],
+          "retrieval_misses": []
+        },
+        {
+          "id": "N07",
+          "question": "Để so hai detector trong lúc rollout một cách công bằng, bản thiết kế cần ghi những điều kiện đánh giá và phần pod/thời gian đủ điều kiện giám sát nào?",
+          "kind": "two_source_design_synthesis",
+          "top_k": [
+            {
+              "id": "B_Q05C4",
+              "path": "cards.json#B_Q05C4",
+              "score": 20.575962
+            },
+            {
+              "id": "K10",
+              "path": "04_Claims/K10.md",
+              "score": 13.696271
+            },
+            {
+              "id": "K03",
+              "path": "04_Claims/K03.md",
+              "score": 13.310033
+            },
+            {
+              "id": "P14",
+              "path": "02_Papers/P14.md",
+              "score": 13.09203
+            },
+            {
+              "id": "P24",
+              "path": "02_Papers/P24.md",
+              "score": 13.002245
+            }
+          ],
+          "reference_facets": [
+            {
+              "id": "evaluation_contract",
+              "reference_in_corpus": true,
+              "reference_in_topk": false,
+              "matched_ids": []
+            },
+            {
+              "id": "monitoring_eligibility",
+              "reference_in_corpus": true,
+              "reference_in_topk": true,
+              "matched_ids": [
+                "B_Q05C4"
+              ]
+            }
+          ],
+          "all_reference_facets_retrieved": false,
+          "missing_reference_facets": [
+            "evaluation_contract"
+          ],
+          "capture_gaps": [],
+          "retrieval_misses": [
+            "evaluation_contract"
+          ]
+        },
+        {
+          "id": "N08",
+          "question": "Một trợ lý cứ từ chối hết mọi tác vụ có thể được xem là an toàn và hữu ích chỉ nhờ tỷ lệ tấn công thành công thấp không?",
+          "kind": "utility_false_premise",
+          "top_k": [
+            {
+              "id": "K11",
+              "path": "04_Claims/K11.md",
+              "score": 15.756497
+            },
+            {
+              "id": "P16",
+              "path": "02_Papers/P16.md",
+              "score": 13.52686
+            },
+            {
+              "id": "B_Q03C1",
+              "path": "cards.json#B_Q03C1",
+              "score": 11.279226
+            },
+            {
+              "id": "B_Q03C2",
+              "path": "cards.json#B_Q03C2",
+              "score": 9.907755
+            },
+            {
+              "id": "B_Q04C1",
+              "path": "cards.json#B_Q04C1",
+              "score": 9.630177
+            }
+          ],
+          "reference_facets": [
+            {
+              "id": "utility_alongside_security",
+              "reference_in_corpus": true,
+              "reference_in_topk": true,
+              "matched_ids": [
+                "B_Q04C1",
+                "K11",
+                "P16"
+              ]
+            }
+          ],
+          "all_reference_facets_retrieved": true,
+          "missing_reference_facets": [],
+          "capture_gaps": [],
+          "retrieval_misses": []
+        },
+        {
+          "id": "N09",
+          "question": "Trong lab của tao, rollout làm tăng false positive chính xác bao nhiêu phần trăm?",
+          "kind": "unavailable_local_measurement",
+          "top_k": [
+            {
+              "id": "P17",
+              "path": "02_Papers/P17.md",
+              "score": 9.079331
+            },
+            {
+              "id": "P18",
+              "path": "02_Papers/P18.md",
+              "score": 8.75374
+            },
+            {
+              "id": "P20",
+              "path": "02_Papers/P20.md",
+              "score": 7.368893
+            },
+            {
+              "id": "B_Q05C2",
+              "path": "cards.json#B_Q05C2",
+              "score": 6.656573
+            },
+            {
+              "id": "P14",
+              "path": "02_Papers/P14.md",
+              "score": 6.149713
+            }
+          ],
+          "reference_facets": [],
+          "all_reference_facets_retrieved": null,
+          "missing_reference_facets": [],
+          "capture_gaps": [],
+          "retrieval_misses": []
+        },
+        {
+          "id": "N10",
+          "question": "Từ số bài đã đọc, mình đã đủ căn cứ tuyên bố thế giới chưa có lời giải cho Q02 chưa?",
+          "kind": "global_absence_claim",
+          "top_k": [
+            {
+              "id": "K18",
+              "path": "04_Claims/K18.md",
+              "score": 9.201276
+            },
+            {
+              "id": "P10",
+              "path": "02_Papers/P10.md",
+              "score": 8.965612
+            },
+            {
+              "id": "B_Q05C4",
+              "path": "cards.json#B_Q05C4",
+              "score": 8.560722
+            },
+            {
+              "id": "K12",
+              "path": "04_Claims/K12.md",
+              "score": 8.129089
+            },
+            {
+              "id": "P05",
+              "path": "02_Papers/P05.md",
+              "score": 8.021958
+            }
+          ],
+          "reference_facets": [],
+          "all_reference_facets_retrieved": null,
+          "missing_reference_facets": [],
+          "capture_gaps": [],
+          "retrieval_misses": []
+        },
+        {
+          "id": "N11",
+          "question": "Với bài Bilot, nên chốt kết quả mạng đơn giản là 5/7 hay 8/9 dataset để đưa vào review?",
+          "kind": "unresolved_version",
+          "top_k": [
+            {
+              "id": "K03",
+              "path": "04_Claims/K03.md",
+              "score": 14.879454
+            },
+            {
+              "id": "P09",
+              "path": "02_Papers/P09.md",
+              "score": 12.362641
+            },
+            {
+              "id": "B_Q04C2",
+              "path": "cards.json#B_Q04C2",
+              "score": 10.268433
+            },
+            {
+              "id": "P07",
+              "path": "02_Papers/P07.md",
+              "score": 8.56944
+            },
+            {
+              "id": "B_Q02C3",
+              "path": "cards.json#B_Q02C3",
+              "score": 7.788244
+            }
+          ],
+          "reference_facets": [
+            {
+              "id": "manifestation_disagreement",
+              "reference_in_corpus": true,
+              "reference_in_topk": true,
+              "matched_ids": [
+                "B_Q02C3"
+              ]
+            }
+          ],
+          "all_reference_facets_retrieved": true,
+          "missing_reference_facets": [],
+          "capture_gaps": [],
+          "retrieval_misses": []
+        },
+        {
+          "id": "N12",
+          "question": "Theo hồ sơ ngày 08/11/2026, P21 đã là bài xuất bản NDSS 2027 được xác minh chính thức chưa?",
+          "kind": "publication_status",
+          "top_k": [
+            {
+              "id": "P21",
+              "path": "02_Papers/P21.md",
+              "score": 17.233295
+            },
+            {
+              "id": "K16",
+              "path": "04_Claims/K16.md",
+              "score": 16.042629
+            },
+            {
+              "id": "P04",
+              "path": "02_Papers/P04.md",
+              "score": 12.555178
+            },
+            {
+              "id": "P19",
+              "path": "02_Papers/P19.md",
+              "score": 11.500649
+            },
+            {
+              "id": "P14",
+              "path": "02_Papers/P14.md",
+              "score": 11.480788
+            }
+          ],
+          "reference_facets": [
+            {
+              "id": "author_reported_future_venue",
+              "reference_in_corpus": true,
+              "reference_in_topk": true,
+              "matched_ids": [
+                "K16",
+                "P21"
+              ]
+            }
+          ],
+          "all_reference_facets_retrieved": true,
+          "missing_reference_facets": [],
+          "capture_gaps": [],
+          "retrieval_misses": []
+        }
+      ],
+      "scored_questions": 10,
+      "complete_reference_packets": 8
+    }
+  },
+  "generator_tested": false,
+  "independent_judge": false
+}

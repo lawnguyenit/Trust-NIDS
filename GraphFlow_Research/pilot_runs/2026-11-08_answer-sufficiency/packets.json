@@ -1,0 +1,487 @@
+{
+  "run_id": "PILOT_20261108_ANSWER_SUFFICIENCY",
+  "policy_context": [
+    {
+      "path": "00_System/SYS_EVIDENCE.md",
+      "sha256": "6518064067044ead45534a5817dfbd82b896e9f56917562985fc7dbe902986ae",
+      "text": "---\nid: \"SYS_EVIDENCE\"\ntitle: \"Chính sách bằng chứng và mức tin cậy\"\naliases: [\"Chính sách bằng chứng và mức tin cậy\"]\ntype: \"system\"\ncreated: \"2026-11-08\"\nupdated: \"2026-11-08\"\n---\n\n# Chính sách bằng chứng và mức tin cậy\n\n\n## Hai trục phải độc lập\n\n`publication_status` mô tả xuất bản; `read_depth` mô tả mức kiểm tra. Có phản biện không đồng nghĩa mọi nhận định đúng. Đọc toàn văn không đồng nghĩa tái lập. `human_review: pending` không được tự chuyển thành đã được người dùng duyệt.\n\n| Mức đọc | Nghĩa chính xác |\n|---|---|\n| metadata_only | Xác minh nhận dạng nguồn; chưa trích nội dung kỹ thuật |\n| metadata_and_author_repository | Kiểm metadata và kho tác giả; chưa đọc paper |\n| abstract_primary | Đã kiểm abstract ở nguồn chính; chi tiết phương pháp chưa đủ |\n| sections_checked | Chỉ các mục được nêu ở `sections_checked` |\n| full_text_reviewed | Đã đọc và kiểm các mục quyết định của toàn bài; hiện chưa paper nào ở mức này |\n| independently_reproduced | Có mã, phiên bản và kết quả tái lập độc lập; hiện chưa có |\n\nPhân loại nhận định: `author_reported`, `official_documentation`, `metadata_observation`, `reviewer_inference`, `design_rule`. Chỉ ba loại đầu mô tả điều nguồn báo cáo; suy luận cần nêu rõ và không tự nâng thành kết quả tác giả.\n\n## Trạng thái xuất bản\n\nGiữ riêng preprint, author_reported_accepted, officially_accepted, published_peer_reviewed, official_documentation, corrected, withdrawn/retracted. Acceptance cần nguồn và ngày xác nhận; không lấy năm hội nghị tương lai làm năm xuất bản hiện tại.\n\nMột nghiên cứu có thể có preprint, camera-ready, proceedings và correction. Giữ một ID công trình, ghi các manifestation/version. Không đếm tăng số paper vì DOI arXiv và DOI proceedings khác nhau. Nếu phiên bản đổi tác giả/chức năng, các nhận định phải gắn đúng phiên bản.\n\n## Quy tắc không bịa\n\n- Không có nguồn đọc được: vào Inbox, không tạo kết luận kỹ thuật.\n- Không thấy một lời giải trong tập hiện có: viết “chưa thấy trong phạm vi đã tìm”, không viết “chưa ai làm”.\n- Khác dataset, threat model hoặc metric: chưa đủ tạo quan hệ mâu thuẫn.\n- Quan hệ trích dẫn không tự là hỗ trợ; quan hệ phụ thuộc không tự là nhân quả can thiệp.\n- Số điểm/hiệu năng trong paper là tác giả báo cáo cho đến khi tái lập.\n- Đính chính, rút bài và bài mới có thể làm giảm độ tin cậy; cập nhật phải giữ lịch sử.\n\n[[SYS_SCHEMA]] · [[SYS_GATE]] · [[SYS_SEARCH]]\n"
+    },
+    {
+      "path": "00_System/SYS_GATE.md",
+      "sha256": "b493703a12b06430760ea624f198a10aa8a8f8f277cb93902f309719f3bfd087",
+      "text": "---\nid: \"SYS_GATE\"\ntitle: \"Cổng quyết định trước khi gọi là khoảng trống\"\naliases: [\"Cổng quyết định trước khi gọi là khoảng trống\"]\ntype: \"system\"\ncreated: \"2026-11-08\"\nupdated: \"2026-11-08\"\n---\n\n# Cổng quyết định trước khi gọi là khoảng trống\n\n\n1. Câu hỏi có đầu vào, đầu ra, đối thủ, miền và tiêu chí thành công cụ thể không?\n2. Đã tìm cả từ khóa khác tên, bài cùng vấn đề khác phương pháp, công trình trích dẫn và được trích dẫn chưa?\n3. Đã đọc toàn văn nguồn gần nhất, phần hạn chế và artifact chưa?\n4. Điều chưa biết có hậu quả đáng giải quyết, hay chỉ là khác biệt hình thức?\n5. Có dữ liệu/nhãn hoặc chứng minh để kiểm tra? Có thể bác bỏ ý tưởng bằng kết quả nào?\n6. Có baseline mạnh, kiểm soát rò rỉ và ngân sách rõ không?\n7. Đã định nghĩa kết quả nếu không cải thiện, giới hạn phạm vi và điểm dừng chưa?\n\nChỉ khi có hồ sơ bằng chứng tương ứng mới đổi `novelty_status` từ unverified sang substantiated_in_scope. Tên nhãn này vẫn không bảo đảm toàn thế giới chưa ai làm. Không có cơ chế reviewer nào biết mọi bản thảo chưa công bố; cập nhật giúp giảm trùng, không thể loại bỏ rủi ro nghiên cứu song song.\n\nKết quả không ủng hộ giả thuyết vẫn có thể hữu ích nếu thiết kế đủ sức kiểm tra và phạm vi đóng góp rõ; không bảo đảm được nhận bài. Không đủ dữ liệu hoặc thí nghiệm lỗi phải phân biệt với bằng chứng phủ định.\n\n[[Q_INDEX]] · [[LOG_ABC]] · [[SYS_RESOURCES]]\n"
+    }
+  ],
+  "evidence_pool": {
+    "K13": {
+      "id": "K13",
+      "path": "04_Claims/K13.md",
+      "text": "\n# Không mặc định data events luôn có sẵn\n\n**Nhận định:** AWS CloudTrail trails và event data stores mặc định không ghi data events.\n\n**Loại:** `official_documentation`.\n\n**Căn cứ:** [[D03]].\n\n**Vị trí kiểm:** Logging data events, đoạn mở đầu.\n\n**Giới hạn:** Chỉ nói về loại tài nguyên và mặc định được tài liệu nêu, không nói CloudTrail không ghi gì.\n\nKhái niệm: [[C07]].\n\nChưa có tái lập độc lập hoặc chuyên gia duyệt nhận định này trong GraphFlow.\n",
+      "origin_kind": "original_vault_note"
+    },
+    "D03": {
+      "id": "D03",
+      "path": "00_System/Sources/D03.md",
+      "text": "\n# AWS CloudTrail — Logging data events\n\nMặc định trails và event data stores không ghi data events; cần cấu hình thu thập loại sự kiện này.\n\n[Nguồn chính thức](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html)\n\nĐã xem: Mở đầu, phần mặc định và data events. Kiểm ngày 2026-11-08; nội dung tài liệu có thể thay đổi.\n\n[[SYS_EVIDENCE]] · [[C07]]\n",
+      "origin_kind": "original_vault_note"
+    },
+    "K14": {
+      "id": "K14",
+      "path": "04_Claims/K14.md",
+      "text": "\n# Làm mới mô hình đã có tiền lệ\n\n**Nhận định:** Các nguồn đã có học liên tục hoặc thích nghi; phải tìm đóng góp cụ thể hơn “thêm drift”.\n\n**Loại:** `reviewer_inference`.\n\n**Căn cứ:** [[P03]] · [[P06]].\n\n**Vị trí kiểm:** Abstract hai bài.\n\n**Giới hạn:** Không xem hai môi trường/dữ liệu là tương đương.\n\nKhái niệm: [[C03]].\n\nChưa có tái lập độc lập hoặc chuyên gia duyệt nhận định này trong GraphFlow.\n",
+      "origin_kind": "original_vault_note"
+    },
+    "K18": {
+      "id": "K18",
+      "path": "04_Claims/K18.md",
+      "text": "\n# Quan hệ hỗ trợ phải truy đến nhận định\n\n**Nhận định:** Một cạnh giữa hai paper cần giải thích đang nối phương pháp, phạm vi hay kết quả.\n\n**Loại:** `design_rule`.\n\n**Căn cứ:** [[P08]] · [[P09]].\n\n**Vị trí kiểm:** Quy tắc thiết kế GraphFlow, minh họa bởi hai nguồn.\n\n**Giới hạn:** Quy tắc dự án; không trình bày như phát hiện từ hai bài.\n\nKhái niệm: [[C09]].\n\nChưa có tái lập độc lập hoặc chuyên gia duyệt nhận định này trong GraphFlow.\n",
+      "origin_kind": "original_vault_note"
+    },
+    "P21": {
+      "id": "P21",
+      "path": "02_Papers/P21.md",
+      "text": "\n# How Benchmarks and Evaluation Protocols Shape Conclusions in Provenance-Based Intrusion Detection\n\nNghiên cứu cách benchmark và giao thức đánh giá làm thay đổi kết luận về PIDS.\n\n## Ranh giới kết luận\n\nNguồn tác giả ghi accepted NDSS 2027, chưa đối chiếu danh sách chấp nhận chính thức. Bản này chỉ ghi nhận chủ đề và artifact; chưa dùng các số đo làm kết luận.\n\n## Truy nguyên\n\n- Tác giả: Lorenzo Guerra; Thomas Chapuis; Guillaume Duc; Pavlo Mozharovskyi; Van-Tam Nguyen.\n- Năm / nơi: 2026 — arXiv; tác giả ghi nhận accepted NDSS 2027.\n- Trạng thái: `author_reported_accepted`; kiểm ngày 2026-11-08.\n- Đã xem: Metadata arXiv qua tìm kiếm; README kho tác giả, phần Citation và Data setup. Chưa đọc PDF.\n- [Nguồn chính](https://arxiv.org/abs/2608.01454) · [DOI](https://doi.org/10.48550/arXiv.2608.01454).\n\nNăm bản đang có: 2026. Venue tương lai 2027 là trạng thái to appear do tác giả công bố, không phải đã xuất bản năm 2027.\n\n[Artifact do tác giả dẫn](https://github.com/lorenzo9uerra/theseus) — chưa tải/chạy; quyền sử dụng phải kiểm tra trước khi tái dùng.\n\n## Liên kết\n\n[[C01]] · [[C09]]\n\n[[K16]]\n\nCâu hỏi đọc tiếp: giả định, nhãn, split, metric và artifact nào cần xác minh trước khi dùng bài này làm căn cứ thực nghiệm?\n",
+      "origin_kind": "original_vault_note"
+    },
+    "P11": {
+      "id": "P11",
+      "path": "02_Papers/P11.md",
+      "text": "\n# KnowHow: Automatically Applying High-Level CTI Knowledge for Interpretable and Accurate Provenance Analysis\n\nÁnh xạ tri thức CTI ngôn ngữ tự nhiên sang sự kiện hệ thống bằng gIoC, rồi suy luận quan hệ thời gian của các bước tấn công.\n\n## Ranh giới kết luận\n\nMục II giả định kernel và tầng audit không bị xâm phạm. Bản arXiv mở rộng có chức năng bổ sung; không trộn kết quả giữa các phiên bản.\n\n## Truy nguyên\n\n- Tác giả: Yuhan Meng; Shaofei Li; Jiaping Gui; Peng Jiang; Ding Li.\n- Năm / nơi: 2026 — NDSS.\n- Trạng thái: `published_peer_reviewed`; kiểm ngày 2026-11-08.\n- Đã xem: PDF NDSS 2026: trang 1–2, abstract, I, II và chú thích về bản mở rộng; chưa đọc trọn 18 trang.\n- [Nguồn chính](https://www.ndss-symposium.org/ndss-paper/knowhow-automatically-applying-high-level-cti-knowledge-for-interpretable-and-accurate-provenance-analysis/).\n\nTác giả xác minh từ trang đầu PDF hội nghị: 5 người. arXiv:2509.05698 là bản mở rộng, có thể khác danh sách tác giả và chức năng.\n\n[Artifact do tác giả dẫn](https://github.com/myh0301/KNOWHOW) — chưa tải/chạy; quyền sử dụng phải kiểm tra trước khi tái dùng.\n\n## Liên kết\n\n[[C01]] · [[C02]] · [[C06]] · [[C07]]\n\n[[K06]] · [[K07]]\n\nCâu hỏi đọc tiếp: giả định, nhãn, split, metric và artifact nào cần xác minh trước khi dùng bài này làm căn cứ thực nghiệm?\n",
+      "origin_kind": "original_vault_note"
+    },
+    "P12": {
+      "id": "P12",
+      "path": "02_Papers/P12.md",
+      "text": "\n# REPLICAWATCHER: Training-less Anomaly Detection in Containerized Microservices\n\nPhát hiện khác biệt hành vi giữa replica của microservice mà không cần giai đoạn huấn luyện. Đây là đối chứng thực tế cho lựa chọn mô hình học phức tạp.\n\n## Ranh giới kết luận\n\nGiả định replica chạy cùng phiên bản và có tải; không bị cùng một tấn công đồng thời trên tất cả replica. Mục VIII nêu giới hạn Sysdig và triển khai managed.\n\n## Truy nguyên\n\n- Tác giả: Asbat El Khairi; Marco Caselli; Andreas Peter; Andrea Continella.\n- Năm / nơi: 2024 — NDSS.\n- Trạng thái: `published_peer_reviewed`; kiểm ngày 2026-11-08.\n- Đã xem: PDF NDSS: IV Threat model (tr.4), VI.D/E và H (tr.8,11), VII–VIII (tr.11–13); đọc chọn phần, chưa đọc toàn văn.\n- [Nguồn chính](https://www.ndss-symposium.org/ndss-paper/replicawatcher-training-less-anomaly-detection-in-containerized-microservices/) · [DOI](https://doi.org/10.14722/ndss.2024.24286).\n\n## Liên kết\n\n[[C03]] · [[C07]] · [[C08]]\n\n[[K08]]\n\nCâu hỏi đọc tiếp: giả định, nhãn, split, metric và artifact nào cần xác minh trước khi dùng bài này làm căn cứ thực nghiệm?\n",
+      "origin_kind": "original_vault_note"
+    },
+    "P13": {
+      "id": "P13",
+      "path": "02_Papers/P13.md",
+      "text": "\n# vCause: Efficient and Verifiable Causality Analysis for Cloud-based Endpoint Auditing\n\nThiết kế phân tích phụ thuộc có thể kiểm chứng cho audit endpoint đặt trên Cloud.\n\n## Ranh giới kết luận\n\nTính xác thực của kết quả truy vấn và quan hệ provenance khác với độ đúng của bộ phát hiện AI hoặc hiệu quả chặn tấn công.\n\n## Truy nguyên\n\n- Tác giả: Qiyang Song; Qihang Zhou; Xiaoqi Jia; Zhenyu Song; Wenbo Jiang; Heqing Huang; Yong Liu; Dan Meng.\n- Năm / nơi: 2026 — USENIX Security.\n- Trạng thái: `published_peer_reviewed`; kiểm ngày 2026-11-08.\n- Đã xem: Trang chính thức: metadata và abstract.\n- [Nguồn chính](https://www.usenix.org/conference/usenixsecurity26/presentation/song-qiyang).\n\n## Liên kết\n\n[[C01]] · [[C07]] · [[C10]]\n\n[[K17]]\n\nCâu hỏi đọc tiếp: giả định, nhãn, split, metric và artifact nào cần xác minh trước khi dùng bài này làm căn cứ thực nghiệm?\n",
+      "origin_kind": "original_vault_note"
+    },
+    "P09": {
+      "id": "P09",
+      "path": "02_Papers/P09.md",
+      "text": "\n# Sometimes Simpler is Better: A Comprehensive Analysis of State-of-the-Art Provenance-Based Intrusion Detection Systems\n\nTái triển khai tám PIDS trong khung chung; mạng đơn giản đạt kết quả cạnh tranh trên năm trong bảy bộ DARPA được khảo sát.\n\n## Ranh giới kết luận\n\nKhông suy thành “GNN luôn thừa”. PDF mở được bước đầu nhưng lượt truy cập phần chi tiết bị chặn; chỉ dùng kết luận abstract cho bản này.\n\n## Truy nguyên\n\n- Tác giả: Tristan Bilot; Baoxiang Jiang; Zefeng Li; Nour El Madhoun; Khaldoun Al Agha; Anis Zouaoui; Thomas Pasquier.\n- Năm / nơi: 2025 — USENIX Security.\n- Trạng thái: `published_peer_reviewed`; kiểm ngày 2026-11-08.\n- Đã xem: Trang chính thức: metadata và abstract.\n- [Nguồn chính](https://www.usenix.org/conference/usenixsecurity25/presentation/bilot).\n\n[Artifact do tác giả dẫn](https://github.com/ubc-provenance/PIDSMaker) — chưa tải/chạy; quyền sử dụng phải kiểm tra trước khi tái dùng.\n\n## Liên kết\n\n[[C01]] · [[C09]]\n\n[[K03]] · [[K18]]\n\nCâu hỏi đọc tiếp: giả định, nhãn, split, metric và artifact nào cần xác minh trước khi dùng bài này làm căn cứ thực nghiệm?\n",
+      "origin_kind": "original_vault_note"
+    },
+    "K07": {
+      "id": "K07",
+      "path": "04_Claims/K07.md",
+      "text": "\n# Giả định tin cậy telemetry phải ghi rõ\n\n**Nhận định:** Threat model của KnowHow loại kernel và audit-layer compromise.\n\n**Loại:** `author_reported`.\n\n**Căn cứ:** [[P11]].\n\n**Vị trí kiểm:** PDF, II, tr.2.\n\n**Giới hạn:** Đây là ranh giới mô hình, không là lỗi thực nghiệm mặc định.\n\nKhái niệm: [[C07]].\n\nChưa có tái lập độc lập hoặc chuyên gia duyệt nhận định này trong GraphFlow.\n",
+      "origin_kind": "original_vault_note"
+    },
+    "K09": {
+      "id": "K09",
+      "path": "04_Claims/K09.md",
+      "text": "\n# Can thiệp mô hình khác chặn hệ thống\n\n**Nhận định:** Đảo cảnh báo sau khi sửa cạnh chưa đủ để suy hiệu quả ngăn tấn công thực tế.\n\n**Loại:** `reviewer_inference`.\n\n**Căn cứ:** [[P10]].\n\n**Vị trí kiểm:** Abstract chính thức: model-level evaluation.\n\n**Giới hạn:** Bài có đề xuất blocking; không phủ nhận đóng góp giải thích của tác giả.\n\nKhái niệm: [[C10]].\n\nChưa có tái lập độc lập hoặc chuyên gia duyệt nhận định này trong GraphFlow.\n",
+      "origin_kind": "original_vault_note"
+    },
+    "K08": {
+      "id": "K08",
+      "path": "04_Claims/K08.md",
+      "text": "\n# Replica là một baseline có điều kiện\n\n**Nhận định:** REPLICAWATCHER so hành vi replica cùng phiên bản và loại tấn công đồng nhất đồng thời trên mọi replica.\n\n**Loại:** `author_reported`.\n\n**Căn cứ:** [[P12]].\n\n**Vị trí kiểm:** PDF, IV; VIII.\n\n**Giới hạn:** Cần kiểm tra các giả định này trong lab riêng.\n\nKhái niệm: [[C08]].\n\nChưa có tái lập độc lập hoặc chuyên gia duyệt nhận định này trong GraphFlow.\n",
+      "origin_kind": "original_vault_note"
+    },
+    "P10": {
+      "id": "P10",
+      "path": "02_Papers/P10.md",
+      "text": "\n# Cutting the Fuse: Actionable APT Attack Blocking in Provenance-based IDS\n\nProvX tìm tập cạnh cốt lõi bằng giải thích phản thực để đổi dự đoán cảnh báo và đề xuất bước chặn.\n\n## Ranh giới kết luận\n\nNguồn chính thức mô tả can thiệp mô phỏng ở mức mô hình. Đổi dự đoán detector chưa đủ chứng minh ngăn được tấn công trên hệ thống thật.\n\n## Truy nguyên\n\n- Tác giả: Weiheng Wu; Wei Qiao; Teng Li; Yebo Feng; Zhuo Ma; Jianfeng Ma; Yang Liu.\n- Năm / nơi: 2026 — USENIX Security.\n- Trạng thái: `published_peer_reviewed`; kiểm ngày 2026-11-08.\n- Đã xem: Trang chính thức: metadata và abstract.\n- [Nguồn chính](https://www.usenix.org/conference/usenixsecurity26/presentation/wu-weiheng).\n\n## Liên kết\n\n[[C04]] · [[C05]] · [[C10]]\n\n[[K09]]\n\nCâu hỏi đọc tiếp: giả định, nhãn, split, metric và artifact nào cần xác minh trước khi dùng bài này làm căn cứ thực nghiệm?\n",
+      "origin_kind": "original_vault_note"
+    },
+    "P22": {
+      "id": "P22",
+      "path": "02_Papers/P22.md",
+      "text": "\n# MotifTrace: multi-stage attack investigation via automated stage discovery and path reconstruction on provenance graphs\n\nMotifEmbed học biểu diễn temporal motif để chia giai đoạn; PathRank dựng lại đường tấn công. Hệ thống điều tra hậu sự cố nhận POI đầu vào.\n\n## Ranh giới kết luận\n\nDiscussion nêu phụ thuộc POI, nhầm lẫn do tần suất và giới hạn quy mô. Kết quả không xác lập khả năng gần thời gian thực.\n\n## Truy nguyên\n\n- Tác giả: Chen Chen; Yunchun Li; Zhi Qiao; Fengxu Lin; Mingyuan Xia; Hao Chen; Wei Li.\n- Năm / nơi: 2026 — Cybersecurity, 9, Article 241.\n- Trạng thái: `published_peer_reviewed`; kiểm ngày 2026-11-08.\n- Đã xem: HTML nhà xuất bản: Threat model, Preprocessing, MotifEmbed, Discussion, Conclusion, Data availability; đọc chọn phần.\n- [Nguồn chính](https://link.springer.com/article/10.1186/s42400-026-00651-x) · [DOI](https://doi.org/10.1186/s42400-026-00651-x).\n\nNhà xuất bản ghi ngày công bố 2026-10-15.\n\n[Artifact do tác giả dẫn](https://anonymous.4open.science/r/MotifTrace-DA92) — chưa tải/chạy; quyền sử dụng phải kiểm tra trước khi tái dùng.\n\n## Liên kết\n\n[[C01]] · [[C02]] · [[C04]]\n\n[[K05]]\n\nCâu hỏi đọc tiếp: giả định, nhãn, split, metric và artifact nào cần xác minh trước khi dùng bài này làm căn cứ thực nghiệm?\n",
+      "origin_kind": "original_vault_note"
+    },
+    "K10": {
+      "id": "K10",
+      "path": "04_Claims/K10.md",
+      "text": "\n# Cận hallucination có điều kiện\n\n**Nhận định:** Bảo đảm trong bài ứng phó dựa trên điều kiện của Prop.1–2 và đánh đổi tính toán.\n\n**Loại:** `author_reported`.\n\n**Căn cứ:** [[P14]].\n\n**Vị trí kiểm:** PDF, V.A/B; Prop.1–2.\n\n**Giới hạn:** Không thể áp dụng nguyên xi khi sai số động lực học và giả định lấy mẫu chưa được xác lập.\n\nKhái niệm: [[C05]].\n\nChưa có tái lập độc lập hoặc chuyên gia duyệt nhận định này trong GraphFlow.\n",
+      "origin_kind": "original_vault_note"
+    },
+    "P14": {
+      "id": "P14",
+      "path": "02_Papers/P14.md",
+      "text": "\n# Incident Response Planning Using a Lightweight Large Language Model with Reduced Hallucination\n\nKết hợp fine-tuning, truy hồi và lookahead để tạo kế hoạch ứng phó; có phân tích cận xác suất hallucination theo điều kiện.\n\n## Ranh giới kết luận\n\nMệnh đề 1 cần đủ mẫu, thời gian kỳ vọng hữu hạn và sai số mô phỏng đủ nhỏ so với khác biệt hành động. Mệnh đề 2 dùng mẫu Bernoulli i.i.d.; không là bảo đảm an toàn vô điều kiện.\n\n## Truy nguyên\n\n- Tác giả: Kim Hammar; Tansu Alpcan; Emil C. Lupu.\n- Năm / nơi: 2026 — NDSS.\n- Trạng thái: `published_peer_reviewed`; kiểm ngày 2026-11-08.\n- Đã xem: PDF NDSS: abstract; V.A/B, Prop.1–2 (tr.8–9); VIII và limitations/future work (tr.13); chưa đọc toàn bộ.\n- [Nguồn chính](https://www.ndss-symposium.org/ndss-paper/incident-response-planning-using-a-lightweight-large-language-model-with-reduced-hallucination/).\n\narXiv:2508.05188 năm 2025 là preprint; bài hội nghị năm 2026.\n\n[Artifact do tác giả dẫn](https://github.com/Kim-Hammar/llm_incident_response_ndss26) — chưa tải/chạy; quyền sử dụng phải kiểm tra trước khi tái dùng.\n\n## Liên kết\n\n[[C05]] · [[C06]] · [[C10]]\n\n[[K10]] · [[K15]]\n\nCâu hỏi đọc tiếp: giả định, nhãn, split, metric và artifact nào cần xác minh trước khi dùng bài này làm căn cứ thực nghiệm?\n",
+      "origin_kind": "original_vault_note"
+    },
+    "K15": {
+      "id": "K15",
+      "path": "04_Claims/K15.md",
+      "text": "\n# Bằng chứng SOC thực địa và benchmark bổ trợ nhau\n\n**Nhận định:** Một hướng nghiên cứu quy trình sử dụng thực tế, hướng kia tập trung phương pháp lập kế hoạch.\n\n**Loại:** `reviewer_inference`.\n\n**Căn cứ:** [[P15]] · [[P14]].\n\n**Vị trí kiểm:** Abstract hai nguồn.\n\n**Giới hạn:** Chưa đủ để kết luận hướng nào hiệu quả hơn trong cùng SOC.\n\nKhái niệm: [[C05]].\n\nChưa có tái lập độc lập hoặc chuyên gia duyệt nhận định này trong GraphFlow.\n",
+      "origin_kind": "original_vault_note"
+    },
+    "P17": {
+      "id": "P17",
+      "path": "02_Papers/P17.md",
+      "text": "\n# InjecAgent: Benchmarking Indirect Prompt Injections in Tool-Integrated Large Language Model Agents\n\nBenchmark indirect prompt injection qua nội dung công cụ, phân biệt gây hại và lấy dữ liệu.\n\n## Ranh giới kết luận\n\nBộ tình huống và thiết kế đánh giá khác AgentDojo; chưa có căn cứ để so trực tiếp phần trăm thành công giữa hai bài.\n\n## Truy nguyên\n\n- Tác giả: Qiusi Zhan; Zhixiang Liang; Zifan Ying; Daniel Kang.\n- Năm / nơi: 2024 — Findings of ACL.\n- Trạng thái: `published_peer_reviewed`; kiểm ngày 2026-11-08.\n- Đã xem: Trang chính thức: metadata và abstract.\n- [Nguồn chính](https://aclanthology.org/2024.findings-acl.624/) · [DOI](https://doi.org/10.18653/v1/2024.findings-acl.624).\n\n[Artifact do tác giả dẫn](https://github.com/uiuc-kang-lab/InjecAgent) — chưa tải/chạy; quyền sử dụng phải kiểm tra trước khi tái dùng.\n\n## Liên kết\n\n[[C06]] · [[C09]] · [[C11]]\n\n\n\nCâu hỏi đọc tiếp: giả định, nhãn, split, metric và artifact nào cần xác minh trước khi dùng bài này làm căn cứ thực nghiệm?\n",
+      "origin_kind": "original_vault_note"
+    },
+    "P19": {
+      "id": "P19",
+      "path": "02_Papers/P19.md",
+      "text": "\n# CloudLens: Modeling and Detecting Cloud Security Vulnerabilities\n\nMô hình hóa quan hệ quyền và lập kế hoạch để tìm đường khai thác cấu hình Cloud.\n\n## Ranh giới kết luận\n\nXác minh bản arXiv v4; chưa xác minh nơi xuất bản có phản biện. Đường khả thi trong mô hình khác với dấu vết tấn công đã quan sát.\n\n## Truy nguyên\n\n- Tác giả: Mikhail Kazdagli; Mohit Tiwari; Akshat Kumar.\n- Năm / nơi: 2024 — arXiv.\n- Trạng thái: `preprint`; kiểm ngày 2026-11-08.\n- Đã xem: Trang chính thức: metadata và abstract.\n- [Nguồn chính](https://arxiv.org/abs/2402.10985) · [DOI](https://doi.org/10.48550/arXiv.2402.10985).\n\narXiv v1: 2024-02-16; v4: 2024-12-24. Không mặc định AI trong bài là deep learning.\n\n## Liên kết\n\n[[C02]] · [[C07]] · [[C12]]\n\n[[K12]]\n\nCâu hỏi đọc tiếp: giả định, nhãn, split, metric và artifact nào cần xác minh trước khi dùng bài này làm căn cứ thực nghiệm?\n",
+      "origin_kind": "original_vault_note"
+    },
+    "K01": {
+      "id": "K01",
+      "path": "04_Claims/K01.md",
+      "text": "\n# Đánh giá bảo mật cần kiểm tra sai lệch\n\n**Nhận định:** Các nguồn phương pháp nêu sai lệch có thể làm kết luận ML bảo mật thiếu tin cậy.\n\n**Loại:** `author_reported`.\n\n**Căn cứ:** [[P01]] · [[P02]].\n\n**Vị trí kiểm:** P01: abstract; P02: phần giới thiệu framework ở trang xuất bản.\n\n**Giới hạn:** Không khẳng định mức sai lệch của một hệ thống cụ thể khi chưa kiểm lại.\n\nKhái niệm: [[C09]].\n\nChưa có tái lập độc lập hoặc chuyên gia duyệt nhận định này trong GraphFlow.\n",
+      "origin_kind": "original_vault_note"
+    },
+    "P01": {
+      "id": "P01",
+      "path": "02_Papers/P01.md",
+      "text": "\n# Dos and Don’ts of Machine Learning in Computer Security\n\nBài phương pháp phân tích các sai lệch khi áp dụng ML trong bảo mật, từ dữ liệu đến đánh giá. Đây là nguồn đặt tiêu chuẩn kiểm tra nghiên cứu, không phải bộ phát hiện mới.\n\n## Ranh giới kết luận\n\nKhông suy từ các sai lệch được khảo sát thành kết luận mọi công trình ML bảo mật đều không đáng tin.\n\n## Truy nguyên\n\n- Tác giả: Daniel Arp; Erwin Quiring; Feargus Pendlebury; Alexander Warnecke; Fabio Pierazzi; Christian Wressnegger; Lorenzo Cavallaro; Konrad Rieck.\n- Năm / nơi: 2022 — USENIX Security.\n- Trạng thái: `published_peer_reviewed`; kiểm ngày 2026-11-08.\n- Đã xem: Trang chính thức: metadata và abstract.\n- [Nguồn chính](https://www.usenix.org/conference/usenixsecurity22/presentation/arp).\n\n## Liên kết\n\n[[C03]] · [[C09]]\n\n[[K01]]\n\nCâu hỏi đọc tiếp: giả định, nhãn, split, metric và artifact nào cần xác minh trước khi dùng bài này làm căn cứ thực nghiệm?\n",
+      "origin_kind": "original_vault_note"
+    },
+    "P24": {
+      "id": "P24",
+      "path": "02_Papers/P24.md",
+      "text": "\n# Analyzing the Past to Prepare for the Future: Writing a Literature Review\n\nNguồn phương pháp tham chiếu cho cách tổ chức literature review. Bản đồ khái niệm trong vault là thiết kế tổng hợp của dự án.\n\n## Ranh giới kết luận\n\nChỉ đối chiếu metadata ở nguồn xuất bản trong lượt này; PDF bị chặn. Không coi cách hiểu “Watson” là điều người dùng đã xác nhận.\n\n## Truy nguyên\n\n- Tác giả: Jane Webster; Richard T. Watson.\n- Năm / nơi: 2002 — MIS Quarterly, 26(2).\n- Trạng thái: `published_peer_reviewed`; kiểm ngày 2026-11-08.\n- Đã xem: Trang AIS: tác giả, tiêu đề, volume/issue; download PDF bị HTTP 403.\n- [Nguồn chính](https://aisel.aisnet.org/misq/vol26/iss2/3/) · [DOI](https://doi.org/10.2307/4132319).\n\n## Liên kết\n\n[[C09]]\n\n\n\nCâu hỏi đọc tiếp: giả định, nhãn, split, metric và artifact nào cần xác minh trước khi dùng bài này làm căn cứ thực nghiệm?\n",
+      "origin_kind": "original_vault_note"
+    },
+    "P16": {
+      "id": "P16",
+      "path": "02_Papers/P16.md",
+      "text": "\n# AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents\n\nMôi trường đánh giá agent gọi công cụ khi dữ liệu bên ngoài có prompt injection; cùng xem nhiệm vụ hợp lệ và mục tiêu tấn công.\n\n## Ranh giới kết luận\n\nMức an toàn phải đọc cùng khả năng hoàn thành việc hợp lệ. Không mặc định kết quả benchmark bằng bảo đảm an toàn cho SOC hoặc Cloud thật.\n\n## Truy nguyên\n\n- Tác giả: Edoardo Debenedetti; Jie Zhang; Mislav Balunović; Luca Beurer-Kellner; Marc Fischer; Florian Tramèr.\n- Năm / nơi: 2024 — NeurIPS Datasets and Benchmarks.\n- Trạng thái: `published_peer_reviewed`; kiểm ngày 2026-11-08.\n- Đã xem: Trang chính thức: metadata và abstract.\n- [Nguồn chính](https://proceedings.nips.cc/paper_files/paper/2024/hash/97091a5177d8dc64b1da8bf3e1f6fb54-Abstract-Datasets_and_Benchmarks_Track.html) · [DOI](https://doi.org/10.52202/079017-2636).\n\nTên bản arXiv có thể khác; DOI proceedings được ưu tiên. Chưa kiểm tra sâu lịch sử sửa benchmark.\n\n[Artifact do tác giả dẫn](https://github.com/ethz-spylab/agentdojo) — chưa tải/chạy; quyền sử dụng phải kiểm tra trước khi tái dùng.\n\n## Liên kết\n\n[[C06]] · [[C09]] · [[C11]]\n\n[[K11]]\n\nCâu hỏi đọc tiếp: giả định, nhãn, split, metric và artifact nào cần xác minh trước khi dùng bài này làm căn cứ thực nghiệm?\n",
+      "origin_kind": "original_vault_note"
+    },
+    "P08": {
+      "id": "P08",
+      "path": "02_Papers/P08.md",
+      "text": "\n# ORTHRUS: Achieving High Quality of Attribution in Provenance-based Intrusion Detection Systems\n\nĐặt chất lượng quy kết tấn công và lượng đầu ra cần điều tra bên cạnh độ chính xác phát hiện. Kết hợp encoder GNN và phân tích phụ thuộc để dựng đường tấn công.\n\n## Ranh giới kết luận\n\nSố node cần xem là chỉ báo tải điều tra; chưa tự chứng minh thời gian hoặc chất lượng quyết định của chuyên gia trong SOC thực tế.\n\n## Truy nguyên\n\n- Tác giả: Baoxiang Jiang; Tristan Bilot; Nour El Madhoun; Khaldoun Al Agha; Anis Zouaoui; Shahrear Iqbal; Xueyuan Han; Thomas Pasquier.\n- Năm / nơi: 2025 — USENIX Security.\n- Trạng thái: `published_peer_reviewed`; kiểm ngày 2026-11-08.\n- Đã xem: Trang chính thức: metadata và abstract.\n- [Nguồn chính](https://www.usenix.org/conference/usenixsecurity25/presentation/jiang-baoxiang).\n\n[Artifact do tác giả dẫn](https://github.com/ubc-provenance/orthrus) — chưa tải/chạy; quyền sử dụng phải kiểm tra trước khi tái dùng.\n\n## Liên kết\n\n[[C01]] · [[C04]] · [[C09]]\n\n[[K04]] · [[K18]]\n\nCâu hỏi đọc tiếp: giả định, nhãn, split, metric và artifact nào cần xác minh trước khi dùng bài này làm căn cứ thực nghiệm?\n",
+      "origin_kind": "original_vault_note"
+    },
+    "K17": {
+      "id": "K17",
+      "path": "04_Claims/K17.md",
+      "text": "\n# Kiểm chứng truy vấn khác với kiểm chứng detector\n\n**Nhận định:** Kiểm chứng xử lý provenance không tự chứng minh tính đúng của quyết định AI.\n\n**Loại:** `reviewer_inference`.\n\n**Căn cứ:** [[P13]].\n\n**Vị trí kiểm:** Abstract vCause; đối chiếu phạm vi câu hỏi.\n\n**Giới hạn:** Chưa khảo sát toàn bộ loại bảo đảm của vCause.\n\nKhái niệm: [[C10]].\n\nChưa có tái lập độc lập hoặc chuyên gia duyệt nhận định này trong GraphFlow.\n",
+      "origin_kind": "original_vault_note"
+    },
+    "P06": {
+      "id": "P06",
+      "path": "02_Papers/P06.md",
+      "text": "\n# MAGIC: Detecting Advanced Persistent Threats via Masked Graph Representation Learning\n\nDùng masked graph representation learning tự giám sát cho phát hiện APT; tác giả cũng đề xuất cơ chế thích nghi mô hình.\n\n## Ranh giới kết luận\n\nKhông gán nhãn “chưa xử lý thích nghi”. Hiệu quả ngoài các bộ đánh giá của tác giả chưa được kiểm chứng tại đây.\n\n## Truy nguyên\n\n- Tác giả: Zian Jia; Yun Xiong; Yuhong Nan; Yao Zhang; Jinjing Zhao; Mi Wen.\n- Năm / nơi: 2024 — USENIX Security.\n- Trạng thái: `published_peer_reviewed`; kiểm ngày 2026-11-08.\n- Đã xem: Trang chính thức: metadata và abstract.\n- [Nguồn chính](https://www.usenix.org/conference/usenixsecurity24/presentation/jia-zian).\n\narXiv:2310.09831 là phiên bản preprint của bài 2024.\n\n[Artifact do tác giả dẫn](https://github.com/FDUDSDE/MAGIC) — chưa tải/chạy; quyền sử dụng phải kiểm tra trước khi tái dùng.\n\n## Liên kết\n\n[[C01]] · [[C02]] · [[C03]]\n\n[[K02]] · [[K14]]\n\nCâu hỏi đọc tiếp: giả định, nhãn, split, metric và artifact nào cần xác minh trước khi dùng bài này làm căn cứ thực nghiệm?\n",
+      "origin_kind": "original_vault_note"
+    },
+    "K03": {
+      "id": "K03",
+      "path": "04_Claims/K03.md",
+      "text": "\n# Cần baseline đơn giản đủ mạnh\n\n**Nhận định:** Bilot báo cáo mạng đơn giản cạnh tranh trên năm trong bảy bộ DARPA được xét.\n\n**Loại:** `author_reported`.\n\n**Căn cứ:** [[P09]].\n\n**Vị trí kiểm:** Abstract nhà xuất bản.\n\n**Giới hạn:** Giới hạn trong thiết kế khảo sát của bài; chưa tái lập tại GraphFlow.\n\nKhái niệm: [[C09]].\n\nChưa có tái lập độc lập hoặc chuyên gia duyệt nhận định này trong GraphFlow.\n",
+      "origin_kind": "original_vault_note"
+    },
+    "K11": {
+      "id": "K11",
+      "path": "04_Claims/K11.md",
+      "text": "\n# Cần đánh giá an toàn cùng công dụng agent\n\n**Nhận định:** Agent thất bại ở nhiệm vụ hợp lệ có thể trông an toàn; cần báo cả hai mặt.\n\n**Loại:** `reviewer_inference`.\n\n**Căn cứ:** [[P16]].\n\n**Vị trí kiểm:** Abstract proceedings về lỗi ngay khi không có tấn công.\n\n**Giới hạn:** Đây là suy luận đánh giá; chưa là định lý bao quát agent.\n\nKhái niệm: [[C11]].\n\nChưa có tái lập độc lập hoặc chuyên gia duyệt nhận định này trong GraphFlow.\n",
+      "origin_kind": "original_vault_note"
+    },
+    "P04": {
+      "id": "P04",
+      "path": "02_Papers/P04.md",
+      "text": "\n# Kairos: Practical Intrusion Detection and Investigation using Whole-system Provenance\n\nDùng biểu diễn đồ thị và bất thường theo thời gian để phát hiện, sau đó hỗ trợ điều tra từ provenance toàn hệ thống.\n\n## Ranh giới kết luận\n\nĐã xác minh abstract; chưa kiểm toán split, nhãn và chi phí thực thi. Không gọi đây là bằng chứng triển khai Cloud-native.\n\n## Truy nguyên\n\n- Tác giả: Zijun Cheng; Qiujian Lv; Jinyuan Liang; Yan Wang; Degang Sun; Thomas Pasquier; Xueyuan Han.\n- Năm / nơi: 2024 — IEEE Symposium on Security and Privacy.\n- Trạng thái: `published_peer_reviewed`; kiểm ngày 2026-11-08.\n- Đã xem: Trang chính thức: metadata và abstract.\n- [Nguồn chính](https://arxiv.org/abs/2308.05034) · [DOI](https://doi.org/10.1109/SP54263.2024.00005).\n\nPreprint 2023; bài hội nghị 2024. Metadata năm hội nghị được đối chiếu DOI; abstract đang đọc là bản arXiv.\n\n[Artifact do tác giả dẫn](https://github.com/ubc-provenance/kairos) — chưa tải/chạy; quyền sử dụng phải kiểm tra trước khi tái dùng.\n\n## Liên kết\n\n[[C01]] · [[C02]] · [[C04]]\n\n[[K02]]\n\nCâu hỏi đọc tiếp: giả định, nhãn, split, metric và artifact nào cần xác minh trước khi dùng bài này làm căn cứ thực nghiệm?\n",
+      "origin_kind": "original_vault_note"
+    },
+    "P18": {
+      "id": "P18",
+      "path": "02_Papers/P18.md",
+      "text": "\n# Root Cause Analysis for Microservice Systems via Hierarchical Reinforcement Learning from Human Feedback\n\nDùng học tăng cường phân cấp với phản hồi con người cho phân tích nguyên nhân sự cố microservice.\n\n## Ranh giới kết luận\n\nSự cố độ tin cậy và tấn công có chủ đích là hai bài toán khác; nhánh này hỗ trợ Cloud thực tiễn nhưng không tự tạo đóng góp Security.\n\n## Truy nguyên\n\n- Tác giả: Lu Wang; Chaoyun Zhang; Ruomeng Ding; Yong Xu; Qihang Chen; Wentao Zou; Qingjun Chen; Meng Zhang; Xue-Chao Gao; Hao Fan; S. Rajmohan; Qingwei Lin; Dongmei Zhang.\n- Năm / nơi: 2023 — KDD Applied Data Science.\n- Trạng thái: `published_peer_reviewed`; kiểm ngày 2026-11-08.\n- Đã xem: Trang chính thức: metadata và abstract.\n- [Nguồn chính](https://www.microsoft.com/en-us/research/publication/root-cause-analysis-for-microservice-systems-via-hierarchical-reinforcement-learning-from-human-feedback/).\n\n## Liên kết\n\n[[C08]] · [[C09]] · [[C10]]\n\n[[K12]]\n\nCâu hỏi đọc tiếp: giả định, nhãn, split, metric và artifact nào cần xác minh trước khi dùng bài này làm căn cứ thực nghiệm?\n",
+      "origin_kind": "original_vault_note"
+    },
+    "P20": {
+      "id": "P20",
+      "path": "02_Papers/P20.md",
+      "text": "\n# Detecting Multi-Step IAM Attacks in AWS Environments via Model Checking\n\nDùng model checking để phát hiện chuỗi thao tác IAM nhiều bước trong môi trường AWS được mô hình hóa.\n\n## Ranh giới kết luận\n\nĐây là nhánh phân tích quyền và trạng thái; chưa đọc lại toàn văn trong lượt này nên không khẳng định phạm vi đầy đủ của mô hình.\n\n## Truy nguyên\n\n- Tác giả: Ilia Shevrin; Oded Margalit.\n- Năm / nơi: 2023 — USENIX Security.\n- Trạng thái: `published_peer_reviewed`; kiểm ngày 2026-11-08.\n- Đã xem: Trang chính thức: metadata và abstract.\n- [Nguồn chính](https://www.usenix.org/conference/usenixsecurity23/presentation/shevrin).\n\n## Liên kết\n\n[[C02]] · [[C07]] · [[C12]]\n\n[[K12]]\n\nCâu hỏi đọc tiếp: giả định, nhãn, split, metric và artifact nào cần xác minh trước khi dùng bài này làm căn cứ thực nghiệm?\n",
+      "origin_kind": "original_vault_note"
+    },
+    "D04": {
+      "id": "D04",
+      "path": "00_System/Sources/D04.md",
+      "text": "\n# Kubernetes — Auditing\n\nTài liệu tham chiếu audit của Kubernetes; không dùng trang này để giả định lab đã bật audit.\n\n[Nguồn chính thức](https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/)\n\nĐã xem: Trang tài liệu chính thức đã mở; cần kiểm tra policy cụ thể khi triển khai. Kiểm ngày 2026-11-08; nội dung tài liệu có thể thay đổi.\n\n[[SYS_EVIDENCE]] · [[C07]]\n",
+      "origin_kind": "original_vault_note"
+    },
+    "P05": {
+      "id": "P05",
+      "path": "02_Papers/P05.md",
+      "text": "\n# NODLINK: An Online System for Fine-Grained APT Attack Detection and Investigation\n\nĐịnh hướng phát hiện và điều tra APT trực tuyến ở mức chi tiết, sử dụng đồ thị provenance và bài toán Steiner tree trực tuyến.\n\n## Ranh giới kết luận\n\nCần đọc phần thuật toán và đánh giá trước khi so sánh độ trễ hoặc độ bao phủ với phương pháp khác.\n\n## Truy nguyên\n\n- Tác giả: Shaofei Li; Feng Dong; Xusheng Xiao; Haoyu Wang; Fei Shao; Jiedong Chen; Yao Guo; Xiangqun Chen; Ding Li.\n- Năm / nơi: 2024 — NDSS.\n- Trạng thái: `published_peer_reviewed`; kiểm ngày 2026-11-08.\n- Đã xem: Trang chính thức: metadata và abstract.\n- [Nguồn chính](https://www.ndss-symposium.org/ndss-paper/nodlink-an-online-system-for-fine-grained-apt-attack-detection-and-investigation/) · [DOI](https://doi.org/10.14722/ndss.2024.23204).\n\nPreprint 2023 và bài NDSS 2024 là cùng một công trình.\n\n## Liên kết\n\n[[C01]] · [[C02]] · [[C04]]\n\n\n\nCâu hỏi đọc tiếp: giả định, nhãn, split, metric và artifact nào cần xác minh trước khi dùng bài này làm căn cứ thực nghiệm?\n",
+      "origin_kind": "original_vault_note"
+    },
+    "K12": {
+      "id": "K12",
+      "path": "04_Claims/K12.md",
+      "text": "\n# Một tên Cloud không xác nhận cùng bài toán\n\n**Nhận định:** RCA microservice, tìm đường IAM và điều tra log cần những dạng bằng chứng khác nhau.\n\n**Loại:** `reviewer_inference`.\n\n**Căn cứ:** [[P18]] · [[P19]] · [[P20]].\n\n**Vị trí kiểm:** Tiêu đề và abstract các nguồn.\n\n**Giới hạn:** So phạm vi câu hỏi; không so điểm hiệu năng chéo bộ dữ liệu.\n\nKhái niệm: [[C07]].\n\nChưa có tái lập độc lập hoặc chuyên gia duyệt nhận định này trong GraphFlow.\n",
+      "origin_kind": "original_vault_note"
+    },
+    "P07": {
+      "id": "P07",
+      "path": "02_Papers/P07.md",
+      "text": "\n# R-CAID: Embedding Root Cause Analysis within Provenance-based Intrusion Detection\n\nĐưa thông tin phân tích nguyên nhân vào biểu diễn dùng cho phát hiện xâm nhập dựa trên provenance.\n\n## Ranh giới kết luận\n\nRoot cause trong mô hình provenance không tự động tương đương bằng chứng nhân quả từ can thiệp thực tế.\n\n## Truy nguyên\n\n- Tác giả: Akul Goyal; Gang Wang; Adam Bates.\n- Năm / nơi: 2024 — IEEE Symposium on Security and Privacy.\n- Trạng thái: `published_peer_reviewed`; kiểm ngày 2026-11-08.\n- Đã xem: Trang chính thức: metadata và abstract.\n- [Nguồn chính](https://experts.illinois.edu/en/publications/r-caid-embedding-root-cause-analysis-within-provenance-based-intr/) · [DOI](https://doi.org/10.1109/SP54263.2024.00253).\n\n## Liên kết\n\n[[C01]] · [[C04]] · [[C10]]\n\n\n\nCâu hỏi đọc tiếp: giả định, nhãn, split, metric và artifact nào cần xác minh trước khi dùng bài này làm căn cứ thực nghiệm?\n",
+      "origin_kind": "original_vault_note"
+    },
+    "K16": {
+      "id": "K16",
+      "path": "04_Claims/K16.md",
+      "text": "\n# Trạng thái accepted cần provenance riêng\n\n**Nhận định:** Kho tác giả Theseus ghi accepted NDSS 2027; bản công khai đang kiểm là preprint 2026.\n\n**Loại:** `metadata_observation`.\n\n**Căn cứ:** [[P21]].\n\n**Vị trí kiểm:** README: Citation, dòng accepted/to appear.\n\n**Giới hạn:** Chưa có xác nhận venue chính thức trong lượt này.\n\nKhái niệm: [[C09]].\n\nChưa có tái lập độc lập hoặc chuyên gia duyệt nhận định này trong GraphFlow.\n",
+      "origin_kind": "original_vault_note"
+    },
+    "A_L01": {
+      "id": "A_L01",
+      "path": "cards.json#A_L01",
+      "text": "# A_L01\n\nNhận định: CloudTrail trails and event data stores do not log data events by default.\n\nLoại: official_documentation\n\nVị trí: Opening paragraphs\n\nGiới hạn: Not a statement that CloudTrail records nothing, or that every cloud has identical missingness.\n\nNguồn:\nAWS CloudTrail — Logging data events; live page checked 2026-11-08",
+      "origin_kind": "pilot_claim_card"
+    },
+    "A_L09": {
+      "id": "A_L09",
+      "path": "cards.json#A_L09",
+      "text": "# A_L09\n\nNhận định: A follow-up should specify collection mechanism, surviving evidence and investigator access before comparing host techniques in a cloud setting.\n\nLoại: reviewer_inference\n\nVị trí: L01/L05/L06 and E09 abstract\n\nGiới hạn: A proposed comparison protocol, not a validated cloud research gap.\n\nNguồn:\nAWS CloudTrail — Logging data events; live page checked 2026-11-08\nMinding the Gap: Bridging Causal Disconnects in System Provenance; PRISM 2026 workshop PDF, 10 pages; workshop date 2026-02-23; not an NDSS main-track paper\nHunterAgent: Neuro-Symbolic Attack Trace Reconstruction under Anti-Forensics; arXiv v1, submitted 2026-05-28; no peer-review status established in this run\nIdentifying Evidence for Cloud Forensic Analysis; NIST author-affiliated record, published 2017-08-31, DOI 10.1007/978-3-319-67208-3_7",
+      "origin_kind": "pilot_claim_card"
+    },
+    "B_Q05C4": {
+      "id": "B_Q05C4",
+      "path": "cards.json#B_Q05C4",
+      "text": "# B_Q05C4\n\nNhận định: Phép thử hữu ích phải ghi version group, readiness, traffic mix, phần thời gian/pod đủ điều kiện so sánh và phần không đủ bằng chứng; cần đọc thêm hướng single-instance nhưng không trộn thesis với paper gốc.\n\nLoại: reviewer_inference\n\nVị trí: Q05C1–C3; E15 abstract/metadata\n\nGiới hạn: Không tuyên bố readiness luôn gây blind spot hoặc baseline thất bại. Đây là thiết kế thử để kiểm các khả năng đó.\n\nNguồn:\nREPLICAWATCHER: Training-less Anomaly Detection in Containerized Microservices; NDSS 2024 conference PDF, 17 pages\nKubernetes — Deployments; Live page checked 2026-11-08; page reports modified 2026-07-07\nCI/CD for microservices; Live page checked 2026-11-08\nTraining-less Anomaly-Based Intrusion Detection in Containerized Microservices; University of Twente record, award/publication date 2025-11-21, DOI 10.3990/1.9789036569460",
+      "origin_kind": "pilot_claim_card"
+    },
+    "B_Q02C1": {
+      "id": "B_Q02C1",
+      "path": "cards.json#B_Q02C1",
+      "text": "# B_Q02C1\n\nNhận định: Khung so sánh giữ chung scoring scope, test cuối tách biệt, chọn checkpoint/ngưỡng bằng development data và tách metric alerting khỏi phục hồi process tấn công.\n\nLoại: author_reported\n\nVị trí: IV.A–C, IV.H, V.A, VI\n\nGiới hạn: Không đồng nghĩa train→validation luôn tăng đơn điệu theo từng ngày; không đo trực tiếp thời gian làm việc của analyst.\n\nNguồn:\nHow Benchmarks and Evaluation Protocols Shape Conclusions in Provenance-Based Intrusion Detection; arXiv:2608.01454v4, 2026-10-12",
+      "origin_kind": "pilot_claim_card"
+    },
+    "B_Q03C2": {
+      "id": "B_Q03C2",
+      "path": "cards.json#B_Q03C2",
+      "text": "# B_Q03C2\n\nNhận định: P14 đánh giá recovery time bằng chi phí hành động rời rạc và thí nghiệm mô phỏng; đánh giá vận hành vẫn được nêu là việc tiếp theo.\n\nLoại: author_reported\n\nVị trí: VII p.10; p.12 simulations; p.13 future work\n\nGiới hạn: Testbed thu log tấn công/training không tự xác nhận hiệu quả production của mọi kế hoạch sinh ra; không chuyển đơn vị hành động thành phút phục hồi thật.\n\nNguồn:\nIncident Response Planning Using a Lightweight Large Language Model with Reduced Hallucination; NDSS 2026 conference PDF, 20 pages including appendices",
+      "origin_kind": "pilot_claim_card"
+    },
+    "B_Q05C3": {
+      "id": "B_Q05C3",
+      "path": "cards.json#B_Q05C3",
+      "text": "# B_Q05C3\n\nNhận định: Bài gốc tách phân loại snapshot khỏi việc xác định replica bị compromise do tính đối xứng so sánh; còn nêu giới hạn cửa sổ quan sát và hoạt động bảo trì hiếm.\n\nLoại: author_reported\n\nVị trí: VIII.A pp.12–13\n\nGiới hạn: Không chuyển nhãn snapshot thành quy kết từng pod hoặc hành động cô lập an toàn.\n\nNguồn:\nREPLICAWATCHER: Training-less Anomaly Detection in Containerized Microservices; NDSS 2024 conference PDF, 17 pages",
+      "origin_kind": "pilot_claim_card"
+    },
+    "B_Q03C1": {
+      "id": "B_Q03C1",
+      "path": "cards.json#B_Q03C1",
+      "text": "# B_Q03C1\n\nNhận định: ProvX v2 đo hiệu quả can thiệp bằng thay đổi dự đoán của detector cố định và để việc ánh xạ cạnh sang hành động host an toàn phụ thuộc triển khai.\n\nLoại: author_reported\n\nVị trí: 6.3 MER; 7 Discussion\n\nGiới hạn: Không phủ nhận giá trị giải thích; không dùng MER như tỷ lệ chặn tấn công thực hoặc giảm downtime.\n\nNguồn:\nCutting the Fuse: Actionable APT Attack Blocking in Provenance-based IDS; arXiv:2508.06073v2, 2026-10-18; not assumed identical to proceedings",
+      "origin_kind": "pilot_claim_card"
+    },
+    "B_Q04C2": {
+      "id": "B_Q04C2",
+      "path": "cards.json#B_Q04C2",
+      "text": "# B_Q04C2\n\nNhận định: CaMeL tách control/data flow và cưỡng chế policy/capability, nhưng chỉnh sai nội dung text-to-text không dẫn tới flow bị cấm là non-goal được nêu rõ.\n\nLoại: author_reported\n\nVị trí: 2; 3.1 non-goals; 5 design overview; 9.3\n\nGiới hạn: Không gọi biện pháp này vô ích hay khẳng định prompt injection đã giải hoàn toàn; gắn với arXiv v2 được đọc.\n\nNguồn:\nDefeating Prompt Injections by Design; arXiv:2503.18813v2, 2025-06-24",
+      "origin_kind": "pilot_claim_card"
+    },
+    "B_Q04C3": {
+      "id": "B_Q04C3",
+      "path": "cards.json#B_Q04C3",
+      "text": "# B_Q04C3\n\nNhận định: Watchtower xét chỉ dẫn độc hại trong trường log và ảnh hưởng tới phân loại, tóm tắt, lời khuyên; phạm vi không cho agent gọi tool/thay SIEM state.\n\nLoại: author_reported\n\nVị trí: 2; 4; 5; 6.4\n\nGiới hạn: Preprint một model trên log tổng hợp; mock analyst không dự báo đáng tin hành vi model thật, chưa tái lập tại GraphFlow.\n\nNguồn:\nPoisoning the Watchtower: Prompt Injection Attacks Against LLM-Augmented Security Operations Through Adversarial Log Content; arXiv:2605.24421v1, 2026-05-23",
+      "origin_kind": "pilot_claim_card"
+    },
+    "B_Q05C1": {
+      "id": "B_Q05C1",
+      "path": "cards.json#B_Q05C1",
+      "text": "# B_Q05C1\n\nNhận định: REPLICAWATCHER giả định replica cùng phiên bản/hoạt động, đánh giá update-induced drift và thảo luận loại pod đang tạo/xóa bằng readiness probes khi rolling update.\n\nLoại: author_reported\n\nVị trí: IV; VI.A/C; VIII.B p.12\n\nGiới hạn: Đề xuất trong Discussion không mặc nhiên là phép đo đầy đủ mixed-version/load-skew hoặc bảo đảm luôn có đủ peer.\n\nNguồn:\nREPLICAWATCHER: Training-less Anomaly Detection in Containerized Microservices; NDSS 2024 conference PDF, 17 pages",
+      "origin_kind": "pilot_claim_card"
+    },
+    "B_Q04C1": {
+      "id": "B_Q04C1",
+      "path": "cards.json#B_Q04C1",
+      "text": "# B_Q04C1\n\nNhận định: AgentDojo và InjecAgent đánh giá indirect prompt injection qua dữ liệu/công cụ; AgentDojo nêu thất bại ở tác vụ hợp lệ cả khi chưa có tấn công.\n\nLoại: author_reported\n\nVị trí: Official benchmark abstracts\n\nGiới hạn: Các benchmark tool-agent tổng quát chưa chứng minh khả năng SOC. Không so ASR trực tiếp giữa các bài.\n\nNguồn:\nAgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents; NeurIPS 2024 Datasets and Benchmarks official proceedings abstract\nInjecAgent: Benchmarking Indirect Prompt Injections in Tool-Integrated Large Language Model Agents; Findings of ACL 2024 official metadata and abstract",
+      "origin_kind": "pilot_claim_card"
+    },
+    "B_Q05C2": {
+      "id": "B_Q05C2",
+      "path": "cards.json#B_Q05C2",
+      "text": "# B_Q05C2\n\nNhận định: Rolling update có thể đồng thời giảm ReplicaSet cũ và tăng ReplicaSet mới; triển khai side-by-side/canary là bối cảnh vận hành được tài liệu chính thức mô tả.\n\nLoại: official_documentation\n\nVị trí: Rolling Update Deployment; Min Ready Seconds; CI/CD service updates\n\nGiới hạn: Tài liệu lifecycle không đo FPR/detection; cần pin version/cấu hình cụ thể khi chạy lab.\n\nNguồn:\nKubernetes — Deployments; Live page checked 2026-11-08; page reports modified 2026-07-07\nCI/CD for microservices; Live page checked 2026-11-08",
+      "origin_kind": "pilot_claim_card"
+    },
+    "B_Q02C3": {
+      "id": "B_Q02C3",
+      "path": "cards.json#B_Q02C3",
+      "text": "# B_Q02C3\n\nNhận định: Trang tác giả ghi năm trong bảy dataset, còn PDF được liên kết ghi tám trong chín. Cần gắn kết luận với manifestation cụ thể.\n\nLoại: metadata_observation\n\nVị trí: Author landing abstract versus author-hosted PDF p.1\n\nGiới hạn: Chưa xác định lịch sử sửa đổi hay bản proceedings byte-identical; không sửa số cũ thành số mới chỉ từ khác biệt này.\n\nNguồn:\nSometimes Simpler is Better: A Comprehensive Analysis of State-of-the-Art Provenance-Based Intrusion Detection Systems; Author-hosted PDF fetched 2026-11-08, 20 pages; manifestation not assumed byte-identical to proceedings",
+      "origin_kind": "pilot_claim_card"
+    }
+  },
+  "packet_ids": {
+    "original": {
+      "N01": [
+        "K13",
+        "D03",
+        "K14",
+        "K18",
+        "P21"
+      ],
+      "N02": [
+        "P11",
+        "P12",
+        "P13",
+        "P09",
+        "K07"
+      ],
+      "N03": [
+        "K09",
+        "P21",
+        "K08",
+        "P10",
+        "P22"
+      ],
+      "N04": [
+        "K10",
+        "P14",
+        "K15",
+        "P17",
+        "P19"
+      ],
+      "N05": [
+        "K01",
+        "P01",
+        "P24",
+        "P16",
+        "P08"
+      ],
+      "N06": [
+        "K08",
+        "K18",
+        "K17",
+        "P12",
+        "P06"
+      ],
+      "N07": [
+        "K10",
+        "K03",
+        "P14",
+        "P17",
+        "P24"
+      ],
+      "N08": [
+        "K11",
+        "P16",
+        "P01",
+        "P14",
+        "P04"
+      ],
+      "N09": [
+        "P17",
+        "P18",
+        "P20",
+        "P14",
+        "D04"
+      ],
+      "N10": [
+        "P10",
+        "K18",
+        "P05",
+        "K12",
+        "P14"
+      ],
+      "N11": [
+        "K03",
+        "P09",
+        "P07",
+        "P22",
+        "P14"
+      ],
+      "N12": [
+        "P21",
+        "K16",
+        "P14",
+        "P04",
+        "P05"
+      ]
+    },
+    "augmented": {
+      "N01": [
+        "K13",
+        "D03",
+        "A_L01",
+        "A_L09",
+        "B_Q05C4"
+      ],
+      "N02": [
+        "B_Q02C1",
+        "P11",
+        "B_Q03C2",
+        "B_Q05C3",
+        "B_Q05C4"
+      ],
+      "N03": [
+        "B_Q02C1",
+        "B_Q03C1",
+        "K09",
+        "P22",
+        "P21"
+      ],
+      "N04": [
+        "B_Q03C2",
+        "K10",
+        "P14",
+        "B_Q05C3",
+        "P17"
+      ],
+      "N05": [
+        "B_Q04C2",
+        "K01",
+        "B_Q05C3",
+        "B_Q04C3",
+        "P24"
+      ],
+      "N06": [
+        "B_Q05C1",
+        "K08",
+        "K18",
+        "P06",
+        "K17"
+      ],
+      "N07": [
+        "B_Q05C4",
+        "K10",
+        "K03",
+        "P14",
+        "P24"
+      ],
+      "N08": [
+        "K11",
+        "P16",
+        "B_Q03C1",
+        "B_Q03C2",
+        "B_Q04C1"
+      ],
+      "N09": [
+        "P17",
+        "P18",
+        "P20",
+        "B_Q05C2",
+        "P14"
+      ],
+      "N10": [
+        "K18",
+        "P10",
+        "B_Q05C4",
+        "K12",
+        "P05"
+      ],
+      "N11": [
+        "K03",
+        "P09",
+        "B_Q04C2",
+        "P07",
+        "B_Q02C3"
+      ],
+      "N12": [
+        "P21",
+        "K16",
+        "P04",
+        "P19",
+        "P14"
+      ]
+    }
+  },
+  "answer_condition": "augmented",
+  "warning": "Packet text is reviewer-derived evidence, not newly read full text or proof of scientific truth."
+}

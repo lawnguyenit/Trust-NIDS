@@ -1,0 +1,737 @@
+{
+  "run_id": "PILOT_20261108_ANSWER_SUFFICIENCY",
+  "cards": [
+    {
+      "id": "A_L01",
+      "statement": "CloudTrail trails and event data stores do not log data events by default.",
+      "epistemic_type": "official_documentation",
+      "locator": "Opening paragraphs",
+      "limitation": "Not a statement that CloudTrail records nothing, or that every cloud has identical missingness.",
+      "sources": [
+        {
+          "id": "A_E01",
+          "title": "AWS CloudTrail — Logging data events",
+          "url": "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html",
+          "version": "live page checked 2026-11-08",
+          "read_depth": "sections_checked",
+          "publication_status": "official_documentation"
+        }
+      ],
+      "origin_path": "pilot_runs/2026-11-08_Q01/evidence.json",
+      "origin_sha256": "b1c7c7bad56b032aa8bcf028b99aa661f52a9a8b631fe38ac558d3123252df70",
+      "origin_claim_id": "L01",
+      "human_review": "pending",
+      "results_reproduced": false
+    },
+    {
+      "id": "A_L02",
+      "statement": "MotifTrace performs post-hoc multi-stage reconstruction with a POI input.",
+      "epistemic_type": "author_reported",
+      "locator": "Overview and threat model; Discussion",
+      "limitation": "Not a direct detector comparison and not proof of robustness to absent audit events.",
+      "sources": [
+        {
+          "id": "A_E03",
+          "title": "MotifTrace: multi-stage attack investigation via automated stage discovery and path reconstruction on provenance graphs",
+          "url": "https://link.springer.com/article/10.1186/s42400-026-00651-x",
+          "version": "Publisher HTML, published 2026-10-15",
+          "read_depth": "sections_checked",
+          "publication_status": "published_journal_paper"
+        }
+      ],
+      "origin_path": "pilot_runs/2026-11-08_Q01/evidence.json",
+      "origin_sha256": "b1c7c7bad56b032aa8bcf028b99aa661f52a9a8b631fe38ac558d3123252df70",
+      "origin_claim_id": "L02",
+      "human_review": "pending",
+      "results_reproduced": false
+    },
+    {
+      "id": "A_L03",
+      "statement": "An uncompromised audit/kernel trust assumption alone does not establish completeness of captured telemetry.",
+      "epistemic_type": "reviewer_inference",
+      "locator": "Threat-model sections",
+      "limitation": "Do not turn a scope assumption into an observed failure or missing-log evaluation.",
+      "sources": [
+        {
+          "id": "A_E02",
+          "title": "KnowHow: Automatically Applying High-Level CTI Knowledge for Interpretable and Accurate Provenance Analysis",
+          "url": "https://www.ndss-symposium.org/wp-content/uploads/2026-s199-paper.pdf",
+          "version": "NDSS 2026 conference PDF, 18 pages; not the extended arXiv version",
+          "read_depth": "sections_checked",
+          "publication_status": "published_conference_paper"
+        },
+        {
+          "id": "A_E04",
+          "title": "Kairos: Practical Intrusion Detection and Investigation using Whole-system Provenance",
+          "url": "https://tfjmp.org/publications/2024-sp.pdf",
+          "version": "Author-hosted IEEE S&P 2024 PDF, 24 pages including supplementary content",
+          "read_depth": "sections_checked",
+          "publication_status": "published_conference_paper"
+        }
+      ],
+      "origin_path": "pilot_runs/2026-11-08_Q01/evidence.json",
+      "origin_sha256": "b1c7c7bad56b032aa8bcf028b99aa661f52a9a8b631fe38ac558d3123252df70",
+      "origin_claim_id": "L03",
+      "human_review": "pending",
+      "results_reproduced": false
+    },
+    {
+      "id": "A_L04",
+      "statement": "KnowHow evaluates removal of attack steps at several retained-step ratios and reports graph/node detection effects.",
+      "epistemic_type": "author_reported",
+      "locator": "VI.F, p.14, Incomplete Attacks and Table XI",
+      "limitation": "Detection on edited attack sequences is not equivalent to reconstructing true missing events under a real collection mechanism; no replication here.",
+      "sources": [
+        {
+          "id": "A_E02",
+          "title": "KnowHow: Automatically Applying High-Level CTI Knowledge for Interpretable and Accurate Provenance Analysis",
+          "url": "https://www.ndss-symposium.org/wp-content/uploads/2026-s199-paper.pdf",
+          "version": "NDSS 2026 conference PDF, 18 pages; not the extended arXiv version",
+          "read_depth": "sections_checked",
+          "publication_status": "published_conference_paper"
+        }
+      ],
+      "origin_path": "pilot_runs/2026-11-08_Q01/evidence.json",
+      "origin_sha256": "b1c7c7bad56b032aa8bcf028b99aa661f52a9a8b631fe38ac558d3123252df70",
+      "origin_claim_id": "L04",
+      "human_review": "pending",
+      "results_reproduced": false
+    },
+    {
+      "id": "A_L05",
+      "statement": "Improv recovers missing runtime context using live kernel state and reconciles ordering in host audit provenance.",
+      "epistemic_type": "author_reported",
+      "locator": "III.B–C; IV.D",
+      "limitation": "Requires authoritative live state during processing; not a guarantee of recovering arbitrary deleted history or provider-managed cloud evidence.",
+      "sources": [
+        {
+          "id": "A_E05",
+          "title": "Minding the Gap: Bridging Causal Disconnects in System Provenance",
+          "url": "https://www.ndss-symposium.org/wp-content/uploads/prism2026-23.pdf",
+          "version": "PRISM 2026 workshop PDF, 10 pages; workshop date 2026-02-23; not an NDSS main-track paper",
+          "read_depth": "sections_checked",
+          "publication_status": "published_workshop_paper"
+        }
+      ],
+      "origin_path": "pilot_runs/2026-11-08_Q01/evidence.json",
+      "origin_sha256": "b1c7c7bad56b032aa8bcf028b99aa661f52a9a8b631fe38ac558d3123252df70",
+      "origin_claim_id": "L05",
+      "human_review": "pending",
+      "results_reproduced": false
+    },
+    {
+      "id": "A_L06",
+      "statement": "HunterAgent addresses fragmented traces with telemetry-grounded verification, separate inferred leads and budget-based stopping.",
+      "epistemic_type": "author_reported",
+      "locator": "III.B–D; IV.A.1; IV.F; Limitations",
+      "limitation": "Preprint claims under surviving orthogonal telemetry assumptions; not independently reproduced and not a universal solution.",
+      "sources": [
+        {
+          "id": "A_E06",
+          "title": "HunterAgent: Neuro-Symbolic Attack Trace Reconstruction under Anti-Forensics",
+          "url": "https://arxiv.org/html/2605.29269v1",
+          "version": "arXiv v1, submitted 2026-05-28; no peer-review status established in this run",
+          "read_depth": "sections_checked",
+          "publication_status": "preprint"
+        }
+      ],
+      "origin_path": "pilot_runs/2026-11-08_Q01/evidence.json",
+      "origin_sha256": "b1c7c7bad56b032aa8bcf028b99aa661f52a9a8b631fe38ac558d3123252df70",
+      "origin_claim_id": "L06",
+      "human_review": "pending",
+      "results_reproduced": false
+    },
+    {
+      "id": "A_L07",
+      "statement": "POI reporting delay with retained audit history must be distinguished from delayed event arrival, event-order errors and permanent event loss.",
+      "epistemic_type": "reviewer_inference",
+      "locator": "Discussion, Dependence on POI quality",
+      "limitation": "This is a scope distinction, not an experimentally measured equivalence or degradation curve.",
+      "sources": [
+        {
+          "id": "A_E03",
+          "title": "MotifTrace: multi-stage attack investigation via automated stage discovery and path reconstruction on provenance graphs",
+          "url": "https://link.springer.com/article/10.1186/s42400-026-00651-x",
+          "version": "Publisher HTML, published 2026-10-15",
+          "read_depth": "sections_checked",
+          "publication_status": "published_journal_paper"
+        }
+      ],
+      "origin_path": "pilot_runs/2026-11-08_Q01/evidence.json",
+      "origin_sha256": "b1c7c7bad56b032aa8bcf028b99aa661f52a9a8b631fe38ac558d3123252df70",
+      "origin_claim_id": "L07",
+      "human_review": "pending",
+      "results_reproduced": false
+    },
+    {
+      "id": "A_L08",
+      "statement": "Broad novelty for missing-evidence reconstruction, or for adding evidence-grounded stopping, is not defensible from the seed vault's omissions.",
+      "epistemic_type": "reviewer_inference",
+      "locator": "L04–L06 locators",
+      "limitation": "Overlap rejects a broad novelty inference; it does not show every instance of Q01 has been solved.",
+      "sources": [
+        {
+          "id": "A_E02",
+          "title": "KnowHow: Automatically Applying High-Level CTI Knowledge for Interpretable and Accurate Provenance Analysis",
+          "url": "https://www.ndss-symposium.org/wp-content/uploads/2026-s199-paper.pdf",
+          "version": "NDSS 2026 conference PDF, 18 pages; not the extended arXiv version",
+          "read_depth": "sections_checked",
+          "publication_status": "published_conference_paper"
+        },
+        {
+          "id": "A_E05",
+          "title": "Minding the Gap: Bridging Causal Disconnects in System Provenance",
+          "url": "https://www.ndss-symposium.org/wp-content/uploads/prism2026-23.pdf",
+          "version": "PRISM 2026 workshop PDF, 10 pages; workshop date 2026-02-23; not an NDSS main-track paper",
+          "read_depth": "sections_checked",
+          "publication_status": "published_workshop_paper"
+        },
+        {
+          "id": "A_E06",
+          "title": "HunterAgent: Neuro-Symbolic Attack Trace Reconstruction under Anti-Forensics",
+          "url": "https://arxiv.org/html/2605.29269v1",
+          "version": "arXiv v1, submitted 2026-05-28; no peer-review status established in this run",
+          "read_depth": "sections_checked",
+          "publication_status": "preprint"
+        }
+      ],
+      "origin_path": "pilot_runs/2026-11-08_Q01/evidence.json",
+      "origin_sha256": "b1c7c7bad56b032aa8bcf028b99aa661f52a9a8b631fe38ac558d3123252df70",
+      "origin_claim_id": "L08",
+      "human_review": "pending",
+      "results_reproduced": false
+    },
+    {
+      "id": "A_L09",
+      "statement": "A follow-up should specify collection mechanism, surviving evidence and investigator access before comparing host techniques in a cloud setting.",
+      "epistemic_type": "reviewer_inference",
+      "locator": "L01/L05/L06 and E09 abstract",
+      "limitation": "A proposed comparison protocol, not a validated cloud research gap.",
+      "sources": [
+        {
+          "id": "A_E01",
+          "title": "AWS CloudTrail — Logging data events",
+          "url": "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html",
+          "version": "live page checked 2026-11-08",
+          "read_depth": "sections_checked",
+          "publication_status": "official_documentation"
+        },
+        {
+          "id": "A_E05",
+          "title": "Minding the Gap: Bridging Causal Disconnects in System Provenance",
+          "url": "https://www.ndss-symposium.org/wp-content/uploads/prism2026-23.pdf",
+          "version": "PRISM 2026 workshop PDF, 10 pages; workshop date 2026-02-23; not an NDSS main-track paper",
+          "read_depth": "sections_checked",
+          "publication_status": "published_workshop_paper"
+        },
+        {
+          "id": "A_E06",
+          "title": "HunterAgent: Neuro-Symbolic Attack Trace Reconstruction under Anti-Forensics",
+          "url": "https://arxiv.org/html/2605.29269v1",
+          "version": "arXiv v1, submitted 2026-05-28; no peer-review status established in this run",
+          "read_depth": "sections_checked",
+          "publication_status": "preprint"
+        },
+        {
+          "id": "A_E09",
+          "title": "Identifying Evidence for Cloud Forensic Analysis",
+          "url": "https://csrc.nist.gov/pubs/conference/2017/08/31/identifying-evidence-for-cloud-forensic-analysis/final",
+          "version": "NIST author-affiliated record, published 2017-08-31, DOI 10.1007/978-3-319-67208-3_7",
+          "read_depth": "abstract_primary",
+          "publication_status": "published_conference_paper"
+        }
+      ],
+      "origin_path": "pilot_runs/2026-11-08_Q01/evidence.json",
+      "origin_sha256": "b1c7c7bad56b032aa8bcf028b99aa661f52a9a8b631fe38ac558d3123252df70",
+      "origin_claim_id": "L09",
+      "human_review": "pending",
+      "results_reproduced": false
+    },
+    {
+      "id": "A_L10",
+      "statement": "REPLICAWATCHER assumes same-version replicas, simultaneous updates and active incoming requests.",
+      "epistemic_type": "author_reported",
+      "locator": "IV, p.4",
+      "limitation": "Deployment-boundary context only; cannot establish missing-log reconstruction quality.",
+      "sources": [
+        {
+          "id": "A_E08",
+          "title": "REPLICAWATCHER: Training-less Anomaly Detection in Containerized Microservices",
+          "url": "https://www.ndss-symposium.org/wp-content/uploads/2024-286-paper.pdf",
+          "version": "NDSS 2024 conference PDF",
+          "read_depth": "sections_checked",
+          "publication_status": "published_conference_paper"
+        }
+      ],
+      "origin_path": "pilot_runs/2026-11-08_Q01/evidence.json",
+      "origin_sha256": "b1c7c7bad56b032aa8bcf028b99aa661f52a9a8b631fe38ac558d3123252df70",
+      "origin_claim_id": "L10",
+      "human_review": "pending",
+      "results_reproduced": false
+    },
+    {
+      "id": "B_Q02C1",
+      "statement": "Khung so sánh giữ chung scoring scope, test cuối tách biệt, chọn checkpoint/ngưỡng bằng development data và tách metric alerting khỏi phục hồi process tấn công.",
+      "epistemic_type": "author_reported",
+      "locator": "IV.A–C, IV.H, V.A, VI",
+      "limitation": "Không đồng nghĩa train→validation luôn tăng đơn điệu theo từng ngày; không đo trực tiếp thời gian làm việc của analyst.",
+      "sources": [
+        {
+          "id": "B_E02",
+          "title": "How Benchmarks and Evaluation Protocols Shape Conclusions in Provenance-Based Intrusion Detection",
+          "url": "https://arxiv.org/html/2608.01454v4",
+          "version": "arXiv:2608.01454v4, 2026-10-12",
+          "read_depth": "sections_checked",
+          "publication_status": "preprint_author_reported_accepted_NDSS2027"
+        }
+      ],
+      "origin_path": "pilot_runs/2026-11-08_Q02-Q05/casebook.json",
+      "origin_sha256": "48776fb749f38c185ad64fc7248797c87a441c88371d61f2e02698ad884e9c3a",
+      "origin_claim_id": "Q02C1",
+      "human_review": "pending",
+      "results_reproduced": false
+    },
+    {
+      "id": "B_Q02C2",
+      "statement": "Allowlist là đối chứng mạnh ở ngưỡng đã chọn; Theia cho thấy khác biệt có lợi cho mô hình Theseus so với các mô hình học được xét.",
+      "epistemic_type": "author_reported",
+      "locator": "V.A.2–4; VI",
+      "limitation": "Không suy thành allowlist thắng mọi metric hoặc deep learning không cần thiết; không có tái lập ở GraphFlow.",
+      "sources": [
+        {
+          "id": "B_E02",
+          "title": "How Benchmarks and Evaluation Protocols Shape Conclusions in Provenance-Based Intrusion Detection",
+          "url": "https://arxiv.org/html/2608.01454v4",
+          "version": "arXiv:2608.01454v4, 2026-10-12",
+          "read_depth": "sections_checked",
+          "publication_status": "preprint_author_reported_accepted_NDSS2027"
+        }
+      ],
+      "origin_path": "pilot_runs/2026-11-08_Q02-Q05/casebook.json",
+      "origin_sha256": "48776fb749f38c185ad64fc7248797c87a441c88371d61f2e02698ad884e9c3a",
+      "origin_claim_id": "Q02C2",
+      "human_review": "pending",
+      "results_reproduced": false
+    },
+    {
+      "id": "B_Q02C3",
+      "statement": "Trang tác giả ghi năm trong bảy dataset, còn PDF được liên kết ghi tám trong chín. Cần gắn kết luận với manifestation cụ thể.",
+      "epistemic_type": "metadata_observation",
+      "locator": "Author landing abstract versus author-hosted PDF p.1",
+      "limitation": "Chưa xác định lịch sử sửa đổi hay bản proceedings byte-identical; không sửa số cũ thành số mới chỉ từ khác biệt này.",
+      "sources": [
+        {
+          "id": "B_E01",
+          "title": "Sometimes Simpler is Better: A Comprehensive Analysis of State-of-the-Art Provenance-Based Intrusion Detection Systems",
+          "url": "https://tfjmp.org/publications/2025-usenixsec-2.pdf",
+          "version": "Author-hosted PDF fetched 2026-11-08, 20 pages; manifestation not assumed byte-identical to proceedings",
+          "read_depth": "sections_checked",
+          "publication_status": "published_conference_work_author_hosted_manifestation"
+        }
+      ],
+      "origin_path": "pilot_runs/2026-11-08_Q02-Q05/casebook.json",
+      "origin_sha256": "48776fb749f38c185ad64fc7248797c87a441c88371d61f2e02698ad884e9c3a",
+      "origin_claim_id": "Q02C3",
+      "human_review": "pending",
+      "results_reproduced": false
+    },
+    {
+      "id": "B_Q02C4",
+      "statement": "Đầu ra hữu ích cho dự án là một hợp đồng đánh giá có thể tái chạy: task/đơn vị nhãn, dữ liệu, split, calibration, baseline và ngân sách. Khung dùng chung giảm công lắp ráp nhưng không thay kiểm chất lượng dữ liệu.",
+      "epistemic_type": "reviewer_inference",
+      "locator": "E01 metrics; E02 methodology; E03/E04 abstracts",
+      "limitation": "Đây là thiết kế do người đọc tổng hợp; chưa có benchmark nội bộ hoặc kết quả hơn/kém mới.",
+      "sources": [
+        {
+          "id": "B_E01",
+          "title": "Sometimes Simpler is Better: A Comprehensive Analysis of State-of-the-Art Provenance-Based Intrusion Detection Systems",
+          "url": "https://tfjmp.org/publications/2025-usenixsec-2.pdf",
+          "version": "Author-hosted PDF fetched 2026-11-08, 20 pages; manifestation not assumed byte-identical to proceedings",
+          "read_depth": "sections_checked",
+          "publication_status": "published_conference_work_author_hosted_manifestation"
+        },
+        {
+          "id": "B_E02",
+          "title": "How Benchmarks and Evaluation Protocols Shape Conclusions in Provenance-Based Intrusion Detection",
+          "url": "https://arxiv.org/html/2608.01454v4",
+          "version": "arXiv:2608.01454v4, 2026-10-12",
+          "read_depth": "sections_checked",
+          "publication_status": "preprint_author_reported_accepted_NDSS2027"
+        },
+        {
+          "id": "B_E03",
+          "title": "What We Talk About When We Talk About Logs: Understanding the Effects of Dataset Quality on Endpoint Threat Detection Research",
+          "url": "https://sts.cs.illinois.edu/papers/paper/WhatWeTalkAboutWhenW20250512.html",
+          "version": "IEEE S&P 2025; author-lab abstract checked 2026-11-08",
+          "read_depth": "abstract_primary",
+          "publication_status": "published_conference_paper"
+        },
+        {
+          "id": "B_E04",
+          "title": "PIDSMaker: Building and Evaluating Provenance-based Intrusion Detection Systems",
+          "url": "https://tfjmp.org/publication/2026-kdd/",
+          "version": "Author landing page and arXiv:2601.22983v2 metadata/abstract",
+          "read_depth": "abstract_primary",
+          "publication_status": "author_reported_KDD2026_work"
+        }
+      ],
+      "origin_path": "pilot_runs/2026-11-08_Q02-Q05/casebook.json",
+      "origin_sha256": "48776fb749f38c185ad64fc7248797c87a441c88371d61f2e02698ad884e9c3a",
+      "origin_claim_id": "Q02C4",
+      "human_review": "pending",
+      "results_reproduced": false
+    },
+    {
+      "id": "B_Q03C1",
+      "statement": "ProvX v2 đo hiệu quả can thiệp bằng thay đổi dự đoán của detector cố định và để việc ánh xạ cạnh sang hành động host an toàn phụ thuộc triển khai.",
+      "epistemic_type": "author_reported",
+      "locator": "6.3 MER; 7 Discussion",
+      "limitation": "Không phủ nhận giá trị giải thích; không dùng MER như tỷ lệ chặn tấn công thực hoặc giảm downtime.",
+      "sources": [
+        {
+          "id": "B_E05",
+          "title": "Cutting the Fuse: Actionable APT Attack Blocking in Provenance-based IDS",
+          "url": "https://arxiv.org/html/2508.06073v2",
+          "version": "arXiv:2508.06073v2, 2026-10-18; not assumed identical to proceedings",
+          "read_depth": "sections_checked",
+          "publication_status": "arxiv_manifestation_of_author_reported_USENIX2026_work"
+        }
+      ],
+      "origin_path": "pilot_runs/2026-11-08_Q02-Q05/casebook.json",
+      "origin_sha256": "48776fb749f38c185ad64fc7248797c87a441c88371d61f2e02698ad884e9c3a",
+      "origin_claim_id": "Q03C1",
+      "human_review": "pending",
+      "results_reproduced": false
+    },
+    {
+      "id": "B_Q03C2",
+      "statement": "P14 đánh giá recovery time bằng chi phí hành động rời rạc và thí nghiệm mô phỏng; đánh giá vận hành vẫn được nêu là việc tiếp theo.",
+      "epistemic_type": "author_reported",
+      "locator": "VII p.10; p.12 simulations; p.13 future work",
+      "limitation": "Testbed thu log tấn công/training không tự xác nhận hiệu quả production của mọi kế hoạch sinh ra; không chuyển đơn vị hành động thành phút phục hồi thật.",
+      "sources": [
+        {
+          "id": "B_E06",
+          "title": "Incident Response Planning Using a Lightweight Large Language Model with Reduced Hallucination",
+          "url": "https://www.ndss-symposium.org/wp-content/uploads/2026-f358-paper.pdf",
+          "version": "NDSS 2026 conference PDF, 20 pages including appendices",
+          "read_depth": "sections_checked",
+          "publication_status": "published_conference_paper"
+        }
+      ],
+      "origin_path": "pilot_runs/2026-11-08_Q02-Q05/casebook.json",
+      "origin_sha256": "48776fb749f38c185ad64fc7248797c87a441c88371d61f2e02698ad884e9c3a",
+      "origin_claim_id": "Q03C2",
+      "human_review": "pending",
+      "results_reproduced": false
+    },
+    {
+      "id": "B_Q03C3",
+      "statement": "Một nghiên cứu cyber-defense dùng CybORG CAGE 4 xét cả hành động phòng vệ gây gián đoạn; tác giả chỉ ra reward thiên về availability có thể bỏ sót compromise chưa gây downtime.",
+      "epistemic_type": "author_reported",
+      "locator": "II.A; IV.A reward; V",
+      "limitation": "Bằng chứng trong simulator; không dùng thứ hạng LLM/RL đó để xếp hạng môi trường Cloud riêng.",
+      "sources": [
+        {
+          "id": "B_E07",
+          "title": "Large Language Models are Autonomous Cyber Defenders",
+          "url": "https://arxiv.org/html/2505.04843v2",
+          "version": "arXiv:2505.04843v2, 2025-07-19, journal reference/DOI provided on arXiv",
+          "read_depth": "sections_checked",
+          "publication_status": "author_reported_CAI2025_workshop_work"
+        }
+      ],
+      "origin_path": "pilot_runs/2026-11-08_Q02-Q05/casebook.json",
+      "origin_sha256": "48776fb749f38c185ad64fc7248797c87a441c88371d61f2e02698ad884e9c3a",
+      "origin_claim_id": "Q03C3",
+      "human_review": "pending",
+      "results_reproduced": false
+    },
+    {
+      "id": "B_Q03C4",
+      "statement": "Bài kiểm thực tiễn cần ít nhất bốn đầu ra riêng: model flip, hành động thực thi đúng, giảm tác hại bảo mật, và duy trì/phục hồi dịch vụ. Oracle kiểm kết quả phải độc lập với chính lời giải thích.",
+      "epistemic_type": "reviewer_inference",
+      "locator": "Các phạm vi đánh giá của Q03C1–C3",
+      "limitation": "Đây là yêu cầu thiết kế tổng hợp, chưa là pipeline đã chạy hoặc khoảng trống đã xác nhận.",
+      "sources": [
+        {
+          "id": "B_E05",
+          "title": "Cutting the Fuse: Actionable APT Attack Blocking in Provenance-based IDS",
+          "url": "https://arxiv.org/html/2508.06073v2",
+          "version": "arXiv:2508.06073v2, 2026-10-18; not assumed identical to proceedings",
+          "read_depth": "sections_checked",
+          "publication_status": "arxiv_manifestation_of_author_reported_USENIX2026_work"
+        },
+        {
+          "id": "B_E06",
+          "title": "Incident Response Planning Using a Lightweight Large Language Model with Reduced Hallucination",
+          "url": "https://www.ndss-symposium.org/wp-content/uploads/2026-f358-paper.pdf",
+          "version": "NDSS 2026 conference PDF, 20 pages including appendices",
+          "read_depth": "sections_checked",
+          "publication_status": "published_conference_paper"
+        },
+        {
+          "id": "B_E07",
+          "title": "Large Language Models are Autonomous Cyber Defenders",
+          "url": "https://arxiv.org/html/2505.04843v2",
+          "version": "arXiv:2505.04843v2, 2025-07-19, journal reference/DOI provided on arXiv",
+          "read_depth": "sections_checked",
+          "publication_status": "author_reported_CAI2025_workshop_work"
+        }
+      ],
+      "origin_path": "pilot_runs/2026-11-08_Q02-Q05/casebook.json",
+      "origin_sha256": "48776fb749f38c185ad64fc7248797c87a441c88371d61f2e02698ad884e9c3a",
+      "origin_claim_id": "Q03C4",
+      "human_review": "pending",
+      "results_reproduced": false
+    },
+    {
+      "id": "B_Q04C1",
+      "statement": "AgentDojo và InjecAgent đánh giá indirect prompt injection qua dữ liệu/công cụ; AgentDojo nêu thất bại ở tác vụ hợp lệ cả khi chưa có tấn công.",
+      "epistemic_type": "author_reported",
+      "locator": "Official benchmark abstracts",
+      "limitation": "Các benchmark tool-agent tổng quát chưa chứng minh khả năng SOC. Không so ASR trực tiếp giữa các bài.",
+      "sources": [
+        {
+          "id": "B_E08",
+          "title": "AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents",
+          "url": "https://proceedings.nips.cc/paper_files/paper/2024/hash/97091a5177d8dc64b1da8bf3e1f6fb54-Abstract-Datasets_and_Benchmarks_Track.html",
+          "version": "NeurIPS 2024 Datasets and Benchmarks official proceedings abstract",
+          "read_depth": "abstract_primary",
+          "publication_status": "published_conference_paper"
+        },
+        {
+          "id": "B_E09",
+          "title": "InjecAgent: Benchmarking Indirect Prompt Injections in Tool-Integrated Large Language Model Agents",
+          "url": "https://aclanthology.org/2024.findings-acl.624/",
+          "version": "Findings of ACL 2024 official metadata and abstract",
+          "read_depth": "abstract_primary",
+          "publication_status": "published_conference_paper"
+        }
+      ],
+      "origin_path": "pilot_runs/2026-11-08_Q02-Q05/casebook.json",
+      "origin_sha256": "48776fb749f38c185ad64fc7248797c87a441c88371d61f2e02698ad884e9c3a",
+      "origin_claim_id": "Q04C1",
+      "human_review": "pending",
+      "results_reproduced": false
+    },
+    {
+      "id": "B_Q04C2",
+      "statement": "CaMeL tách control/data flow và cưỡng chế policy/capability, nhưng chỉnh sai nội dung text-to-text không dẫn tới flow bị cấm là non-goal được nêu rõ.",
+      "epistemic_type": "author_reported",
+      "locator": "2; 3.1 non-goals; 5 design overview; 9.3",
+      "limitation": "Không gọi biện pháp này vô ích hay khẳng định prompt injection đã giải hoàn toàn; gắn với arXiv v2 được đọc.",
+      "sources": [
+        {
+          "id": "B_E10",
+          "title": "Defeating Prompt Injections by Design",
+          "url": "https://arxiv.org/html/2503.18813v2",
+          "version": "arXiv:2503.18813v2, 2025-06-24",
+          "read_depth": "sections_checked",
+          "publication_status": "arxiv_manifestation_venue_not_reconciled_in_this_run"
+        }
+      ],
+      "origin_path": "pilot_runs/2026-11-08_Q02-Q05/casebook.json",
+      "origin_sha256": "48776fb749f38c185ad64fc7248797c87a441c88371d61f2e02698ad884e9c3a",
+      "origin_claim_id": "Q04C2",
+      "human_review": "pending",
+      "results_reproduced": false
+    },
+    {
+      "id": "B_Q04C3",
+      "statement": "Watchtower xét chỉ dẫn độc hại trong trường log và ảnh hưởng tới phân loại, tóm tắt, lời khuyên; phạm vi không cho agent gọi tool/thay SIEM state.",
+      "epistemic_type": "author_reported",
+      "locator": "2; 4; 5; 6.4",
+      "limitation": "Preprint một model trên log tổng hợp; mock analyst không dự báo đáng tin hành vi model thật, chưa tái lập tại GraphFlow.",
+      "sources": [
+        {
+          "id": "B_E11",
+          "title": "Poisoning the Watchtower: Prompt Injection Attacks Against LLM-Augmented Security Operations Through Adversarial Log Content",
+          "url": "https://arxiv.org/html/2605.24421v1",
+          "version": "arXiv:2605.24421v1, 2026-05-23",
+          "read_depth": "sections_checked",
+          "publication_status": "preprint"
+        }
+      ],
+      "origin_path": "pilot_runs/2026-11-08_Q02-Q05/casebook.json",
+      "origin_sha256": "48776fb749f38c185ad64fc7248797c87a441c88371d61f2e02698ad884e9c3a",
+      "origin_claim_id": "Q04C3",
+      "human_review": "pending",
+      "results_reproduced": false
+    },
+    {
+      "id": "B_Q04C4",
+      "statement": "Cần kiểm riêng citation support, mức đúng của kết luận, tool authorization, công dụng hợp lệ và tác dụng của input đối kháng. Giảm planning hallucination không tự là bằng chứng chống log injection.",
+      "epistemic_type": "reviewer_inference",
+      "locator": "Q04C1–C3 and E06 conditional planning analysis",
+      "limitation": "Ma trận đánh giá tổng hợp, chưa là agent/RAG đã xây hoặc kết quả thực nghiệm mới.",
+      "sources": [
+        {
+          "id": "B_E08",
+          "title": "AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents",
+          "url": "https://proceedings.nips.cc/paper_files/paper/2024/hash/97091a5177d8dc64b1da8bf3e1f6fb54-Abstract-Datasets_and_Benchmarks_Track.html",
+          "version": "NeurIPS 2024 Datasets and Benchmarks official proceedings abstract",
+          "read_depth": "abstract_primary",
+          "publication_status": "published_conference_paper"
+        },
+        {
+          "id": "B_E09",
+          "title": "InjecAgent: Benchmarking Indirect Prompt Injections in Tool-Integrated Large Language Model Agents",
+          "url": "https://aclanthology.org/2024.findings-acl.624/",
+          "version": "Findings of ACL 2024 official metadata and abstract",
+          "read_depth": "abstract_primary",
+          "publication_status": "published_conference_paper"
+        },
+        {
+          "id": "B_E10",
+          "title": "Defeating Prompt Injections by Design",
+          "url": "https://arxiv.org/html/2503.18813v2",
+          "version": "arXiv:2503.18813v2, 2025-06-24",
+          "read_depth": "sections_checked",
+          "publication_status": "arxiv_manifestation_venue_not_reconciled_in_this_run"
+        },
+        {
+          "id": "B_E11",
+          "title": "Poisoning the Watchtower: Prompt Injection Attacks Against LLM-Augmented Security Operations Through Adversarial Log Content",
+          "url": "https://arxiv.org/html/2605.24421v1",
+          "version": "arXiv:2605.24421v1, 2026-05-23",
+          "read_depth": "sections_checked",
+          "publication_status": "preprint"
+        },
+        {
+          "id": "B_E06",
+          "title": "Incident Response Planning Using a Lightweight Large Language Model with Reduced Hallucination",
+          "url": "https://www.ndss-symposium.org/wp-content/uploads/2026-f358-paper.pdf",
+          "version": "NDSS 2026 conference PDF, 20 pages including appendices",
+          "read_depth": "sections_checked",
+          "publication_status": "published_conference_paper"
+        }
+      ],
+      "origin_path": "pilot_runs/2026-11-08_Q02-Q05/casebook.json",
+      "origin_sha256": "48776fb749f38c185ad64fc7248797c87a441c88371d61f2e02698ad884e9c3a",
+      "origin_claim_id": "Q04C4",
+      "human_review": "pending",
+      "results_reproduced": false
+    },
+    {
+      "id": "B_Q05C1",
+      "statement": "REPLICAWATCHER giả định replica cùng phiên bản/hoạt động, đánh giá update-induced drift và thảo luận loại pod đang tạo/xóa bằng readiness probes khi rolling update.",
+      "epistemic_type": "author_reported",
+      "locator": "IV; VI.A/C; VIII.B p.12",
+      "limitation": "Đề xuất trong Discussion không mặc nhiên là phép đo đầy đủ mixed-version/load-skew hoặc bảo đảm luôn có đủ peer.",
+      "sources": [
+        {
+          "id": "B_E12",
+          "title": "REPLICAWATCHER: Training-less Anomaly Detection in Containerized Microservices",
+          "url": "https://www.ndss-symposium.org/wp-content/uploads/2024-286-paper.pdf",
+          "version": "NDSS 2024 conference PDF, 17 pages",
+          "read_depth": "sections_checked",
+          "publication_status": "published_conference_paper"
+        }
+      ],
+      "origin_path": "pilot_runs/2026-11-08_Q02-Q05/casebook.json",
+      "origin_sha256": "48776fb749f38c185ad64fc7248797c87a441c88371d61f2e02698ad884e9c3a",
+      "origin_claim_id": "Q05C1",
+      "human_review": "pending",
+      "results_reproduced": false
+    },
+    {
+      "id": "B_Q05C2",
+      "statement": "Rolling update có thể đồng thời giảm ReplicaSet cũ và tăng ReplicaSet mới; triển khai side-by-side/canary là bối cảnh vận hành được tài liệu chính thức mô tả.",
+      "epistemic_type": "official_documentation",
+      "locator": "Rolling Update Deployment; Min Ready Seconds; CI/CD service updates",
+      "limitation": "Tài liệu lifecycle không đo FPR/detection; cần pin version/cấu hình cụ thể khi chạy lab.",
+      "sources": [
+        {
+          "id": "B_E13",
+          "title": "Kubernetes — Deployments",
+          "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/",
+          "version": "Live page checked 2026-11-08; page reports modified 2026-07-07",
+          "read_depth": "sections_checked",
+          "publication_status": "official_documentation"
+        },
+        {
+          "id": "B_E14",
+          "title": "CI/CD for microservices",
+          "url": "https://learn.microsoft.com/en-us/azure/architecture/microservices/ci-cd",
+          "version": "Live page checked 2026-11-08",
+          "read_depth": "sections_checked",
+          "publication_status": "official_documentation"
+        }
+      ],
+      "origin_path": "pilot_runs/2026-11-08_Q02-Q05/casebook.json",
+      "origin_sha256": "48776fb749f38c185ad64fc7248797c87a441c88371d61f2e02698ad884e9c3a",
+      "origin_claim_id": "Q05C2",
+      "human_review": "pending",
+      "results_reproduced": false
+    },
+    {
+      "id": "B_Q05C3",
+      "statement": "Bài gốc tách phân loại snapshot khỏi việc xác định replica bị compromise do tính đối xứng so sánh; còn nêu giới hạn cửa sổ quan sát và hoạt động bảo trì hiếm.",
+      "epistemic_type": "author_reported",
+      "locator": "VIII.A pp.12–13",
+      "limitation": "Không chuyển nhãn snapshot thành quy kết từng pod hoặc hành động cô lập an toàn.",
+      "sources": [
+        {
+          "id": "B_E12",
+          "title": "REPLICAWATCHER: Training-less Anomaly Detection in Containerized Microservices",
+          "url": "https://www.ndss-symposium.org/wp-content/uploads/2024-286-paper.pdf",
+          "version": "NDSS 2024 conference PDF, 17 pages",
+          "read_depth": "sections_checked",
+          "publication_status": "published_conference_paper"
+        }
+      ],
+      "origin_path": "pilot_runs/2026-11-08_Q02-Q05/casebook.json",
+      "origin_sha256": "48776fb749f38c185ad64fc7248797c87a441c88371d61f2e02698ad884e9c3a",
+      "origin_claim_id": "Q05C3",
+      "human_review": "pending",
+      "results_reproduced": false
+    },
+    {
+      "id": "B_Q05C4",
+      "statement": "Phép thử hữu ích phải ghi version group, readiness, traffic mix, phần thời gian/pod đủ điều kiện so sánh và phần không đủ bằng chứng; cần đọc thêm hướng single-instance nhưng không trộn thesis với paper gốc.",
+      "epistemic_type": "reviewer_inference",
+      "locator": "Q05C1–C3; E15 abstract/metadata",
+      "limitation": "Không tuyên bố readiness luôn gây blind spot hoặc baseline thất bại. Đây là thiết kế thử để kiểm các khả năng đó.",
+      "sources": [
+        {
+          "id": "B_E12",
+          "title": "REPLICAWATCHER: Training-less Anomaly Detection in Containerized Microservices",
+          "url": "https://www.ndss-symposium.org/wp-content/uploads/2024-286-paper.pdf",
+          "version": "NDSS 2024 conference PDF, 17 pages",
+          "read_depth": "sections_checked",
+          "publication_status": "published_conference_paper"
+        },
+        {
+          "id": "B_E13",
+          "title": "Kubernetes — Deployments",
+          "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/",
+          "version": "Live page checked 2026-11-08; page reports modified 2026-07-07",
+          "read_depth": "sections_checked",
+          "publication_status": "official_documentation"
+        },
+        {
+          "id": "B_E14",
+          "title": "CI/CD for microservices",
+          "url": "https://learn.microsoft.com/en-us/azure/architecture/microservices/ci-cd",
+          "version": "Live page checked 2026-11-08",
+          "read_depth": "sections_checked",
+          "publication_status": "official_documentation"
+        },
+        {
+          "id": "B_E15",
+          "title": "Training-less Anomaly-Based Intrusion Detection in Containerized Microservices",
+          "url": "https://research.utwente.nl/en/publications/training-less-anomaly-based-intrusion-detection-in-containerized-/",
+          "version": "University of Twente record, award/publication date 2025-11-21, DOI 10.3990/1.9789036569460",
+          "read_depth": "abstract_primary",
+          "publication_status": "published_PhD_thesis"
+        }
+      ],
+      "origin_path": "pilot_runs/2026-11-08_Q02-Q05/casebook.json",
+      "origin_sha256": "48776fb749f38c185ad64fc7248797c87a441c88371d61f2e02698ad884e9c3a",
+      "origin_claim_id": "Q05C4",
+      "human_review": "pending",
+      "results_reproduced": false
+    }
+  ]
+}
