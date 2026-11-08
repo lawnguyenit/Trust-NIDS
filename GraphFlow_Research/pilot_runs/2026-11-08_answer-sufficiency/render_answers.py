@@ -33,7 +33,7 @@ def render(document_name="answers.json"):
                 lines.extend([f'  - **{citation["evidence_id"]}:** “{citation["excerpt"]}”'])
         lines.extend(["", "**Phần thiếu/giới hạn:** " + answer["gap"], "", "**Bước bổ sung riêng:** " + answer["next_action"], "",
                       "**Tự rà:** " + answer["self_review"], ""])
-    return "\n".join(lines) + "\n"
+    return "\n".join(lines).rstrip() + "\n"
 
 
 def main():

@@ -256,4 +256,3 @@ Theo hồ sơ ngày 08/11/2026, P21 đã là bài xuất bản NDSS 2027 đượ
 **Bước bổ sung riêng:** Nếu cần trạng thái hiện hành để nộp review, kiểm danh sách hoặc proceedings chính thức rồi ghi một lần xác minh mới.
 
 **Tự rà:** Giữ riêng acceptance, publication year và source verification; không biến venue tương lai thành năm xuất bản hiện tại.
-

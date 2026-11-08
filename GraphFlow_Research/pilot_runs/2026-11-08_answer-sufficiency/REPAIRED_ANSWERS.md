@@ -53,4 +53,3 @@ KnowHow đã thử bỏ bớt bước tấn công chưa, và việc đó có ch�
 **Bước bổ sung riêng:** Chọn một task và cấu hình đo được rồi điền hợp đồng trước khi chạy; giữ riêng các kết quả safety, utility và coverage.
 
 **Tự rà:** Giữ cả hai mảnh và nhãn reviewer_inference; không nâng thành kết quả khoa học của riêng một paper.
-
