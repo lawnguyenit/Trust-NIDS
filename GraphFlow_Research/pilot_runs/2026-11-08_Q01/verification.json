@@ -1,0 +1,53 @@
+{
+  "run_id": "PILOT_20261108_Q01",
+  "as_of": "2026-11-08",
+  "ok": true,
+  "checks": {
+    "baseline_files_unchanged": true,
+    "protocol_unchanged": true,
+    "unique_ids": true,
+    "claim_provenance_and_limits": true,
+    "source_identity_and_reading": true,
+    "relations_resolve": true,
+    "hypotheses_resolve": true,
+    "no_false_approval_or_reproduction": true,
+    "original_question_still_unverified": true,
+    "local_markdown_links_resolve": true,
+    "probe_replay_succeeded": true,
+    "probe_replay_identical": true,
+    "original_validator_passed": true,
+    "results_match_current_script": true
+  },
+  "original_vault_file_count": 135,
+  "pilot_counts": {
+    "sources": 9,
+    "claims": 10,
+    "relations": 8,
+    "hypotheses": 3
+  },
+  "retrieval": {
+    "raw": {
+      "queries_with_relevant_in_top5": 6,
+      "total_queries": 6,
+      "posthoc_top1_relevant": 5
+    },
+    "glossary_expanded": {
+      "queries_with_relevant_in_top5": 6,
+      "total_queries": 6,
+      "posthoc_top1_relevant": 4
+    }
+  },
+  "vault_validator": {
+    "ok": true,
+    "markdown_files": 120,
+    "identified_notes": 117,
+    "errors": [],
+    "external_urls": "Not live-tested by this local validator; see reading audit",
+    "review": "Structural validation does not validate novelty or paper results."
+  },
+  "bad_local_links": [],
+  "limitations": [
+    "Integrity checks are not scientific validation.",
+    "Human acceptance and reproduction pending; answer probes manual, generator not tested."
+  ]
+}

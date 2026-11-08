@@ -30,9 +30,19 @@
 ## Kiểm chứng và chấp nhận
 
 - `verified_before`: validator vault thành công, đã đọc Q01, nguồn gần nhất và các claim liên quan.
-- `pending`: kiểm nguồn ngoài, chạy probe, ghi vòng thay đổi nhận định và kết quả validator sau thử.
+- `implemented`: hồ sơ bằng chứng riêng `evidence.json` gồm 9 nguồn, 10 claim, 8 quan hệ và 3 cách diễn giải/câu hỏi; ghi rõ claim của tác giả và suy luận của người đọc.
+- `verified`: probe BM25 trên 85 note/6 câu hỏi cho hit top-5 6/6 ở cả hai điều kiện; chưa có lợi ích top-5 từ glossary. Không suy thành kiểm chứng RAG/generator.
+- `verified`: đọc lại nguồn chính; phát hiện phần đánh giá relevant chưa được trích vào P11, prior art mới E05/E06 và giới hạn truy cập nguồn E07. Mức đọc là chọn phần/abstract như từng E ghi, chưa phải full-text audit.
+- `implemented`: quyết định giữ Q01 nhưng không nâng novelty, lưu G0/G1 bị overlap và G2 chưa xác minh. `README.md` và `SEARCH_LOG.md` trình bày đường dẫn bằng chứng/lịch sử.
+- `verified_after`: validator gốc vẫn pass (120 Markdown, 117 identified notes, 0 lỗi); cả 135 file vault khớp hash nền; probe tái chạy cho output giống byte; JSON/reference/ID/link của pilot hợp lệ. Kết quả máy đọc được ở `verification.json`, phạm vi/giới hạn ở `VERIFICATION.md`.
 - `not_accepted`: người dùng chưa xem kết quả ca thử; sự đồng ý chạy thử không phải chấp nhận kết luận.
 
 ## Điều kiện kết thúc ca thử
 
 Một chuỗi suy luận có nguồn và giới hạn; ít nhất một đối chiếu có khả năng làm mất tính mới; quyết định giữ/sửa/bác bỏ câu hỏi; phân loại lỗi cơ chế và bước thử tiếp theo. Không đòi kết quả phải là một gap mới.
+
+## Milestone Git
+
+- `3f11dd1`: đóng băng protocol/vault hash, lưu code và kết quả lexical probe; đã push lên `origin/codex/graphflow-q01-pilot`.
+- Checkpoint kết luận, log nguồn và xác minh cuối được commit tiếp sau đó; Git history là nơi tra hash chính xác để tránh ghi một commit tự tham chiếu.
+- Chỉ file ca thử được stage. Vault gốc và cấu hình Obsidian vẫn untracked như trước; chưa đồng nghĩa toàn bộ kho đã được backup lên upstream. Không có deployment.

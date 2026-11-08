@@ -49,7 +49,7 @@ def corpus():
 
 def rank(query, docs, k):
     # BM25, k1=1.2, b=0.75; identical ranker and corpus for both conditions.
-    terms = set(tokens(query))
+    terms = sorted(set(tokens(query)))
     avg = sum(sum(d["counts"].values()) for d in docs) / len(docs)
     df = {t: sum(t in d["counts"] for d in docs) for t in terms}
     ranked = []
@@ -81,7 +81,7 @@ def main():
         if frozen_path.exists():
             raise SystemExit("Refusing to overwrite frozen baseline; create a new run instead.")
         frozen_path.write_text(json.dumps({"vault_files": snapshot(), "protocol_sha256": digest(protocol_path)},
-                                         ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+                                         ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
         print("Frozen original vault and protocol.")
         return
     frozen = json.loads(frozen_path.read_text(encoding="utf-8"))
@@ -110,7 +110,7 @@ def main():
                                           "mean_relevant_recall": sum(r["relevant_recall"] for r in rows) / len(rows),
                                           "rows": rows}
     destination = HERE / "retrieval_results.json"
-    destination.write_text(json.dumps(output, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    destination.write_text(json.dumps(output, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(json.dumps({"corpus_notes": len(docs), "baseline_unchanged": True,
                       "conditions": {m: {"hits": c["queries_with_hit"], "of": c["total_queries"],
                                           "ranks": {r["id"]: [h["id"] for h in r["top_k"]] for r in c["rows"]}}
