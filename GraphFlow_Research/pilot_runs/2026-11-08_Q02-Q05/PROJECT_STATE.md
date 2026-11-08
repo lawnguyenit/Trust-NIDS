@@ -19,10 +19,19 @@
 ## Trạng thái kiểm chứng
 
 - `verified_before`: đã đọc Q02–Q05, nearest-paper notes và claim liên quan; dùng nguồn gốc như metadata về mức đã đọc, không tự coi là người dùng duyệt.
-- `in_progress`: khảo sát nguồn chính, đọc chọn phần quyết định, viết câu trả lời thực tế và truy vết suy luận cho từng Q.
-- `pending`: kiểm tính toàn vẹn, log delta, kết luận qua nhiều ca.
+- `implemented`: `sources.json` quản lý 15 nguồn (7 nguồn có sẵn, 8 nguồn ngoài; 10 đọc chọn phần, 5 abstract); `casebook.json` quản lý 4 ca, 16 claim và 7 quan hệ. Mọi câu trả lời có scope/claim/source/locator/limitation và phần chưa biết.
+- `implemented`: A02–A05 lưu câu trả lời tổng hợp thủ công thực tế; không ghi chúng như benchmark generator hoặc kết quả model độc lập.
+- `verified`: raw lexical probe 85 note/8 câu tiếng Việt tìm topic note 7/8. Trong 7 câu có nhãn P/K/D trước chạy, lọc candidate về 46 note P/K/D tăng evidence hit top-5 từ 4/7 lên 6/7; đây là adaptive development check, không giữ lại, không đủ chốt retriever chuẩn.
+- `implemented`: `render_casebook.py` sinh Q02–Q05 Markdown từ hai JSON owners; `MECHANISM_REVIEW.md` tổ chức các vai trò tương hỗ và bước tối tiếp; chưa đổi schema/vault gốc.
+- `verified_after`: hash 135 file vault và 12 file hồ sơ Q01 khớp nền; protocol không đổi; hai probe replay giống byte; source/claim/answer/relation/link và bản đọc sinh từ JSON được kiểm bằng `verify_run.py`. Kết quả cuối ở `verification.json`.
 - `not_accepted`: người dùng chưa duyệt kết quả mới. Không có câu hỏi nào được chọn làm đề tài trong run này.
 
 ## Điều kiện hoàn tất lượt này
 
 Q02–Q05 đều có chuỗi nguồn → claim → câu trả lời có phạm vi → nội dung cần kiểm tiếp, cùng ít nhất một đối chiếu có thể thay đổi cách hiểu. Không đòi mỗi Q phải sinh một gap mới. Ghi rõ phần chỉ có metadata/abstract, phần đọc chọn mục và phần chưa tái lập.
+
+## Checkpoint và phát hành
+
+- `ebf446e`: hồ sơ nguồn/casebook và hai probe đã commit/push lên `origin/codex/graphflow-q01-pilot`.
+- Bản đọc, log tìm kiếm và kiểm cuối được commit tiếp sau đó; xem Git history để tra hash cuối.
+- Chỉ file trong run được stage. Corpus và canvas/configuration của người dùng giữ nguyên, không được nhập ngầm vào upstream. Push hồ sơ không phải deployment hoặc backup toàn bộ vault.

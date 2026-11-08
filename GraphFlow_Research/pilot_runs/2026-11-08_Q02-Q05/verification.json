@@ -1,0 +1,90 @@
+{
+  "run_id": "PILOT_20261108_Q02_Q05",
+  "as_of": "2026-11-08",
+  "ok": true,
+  "checks": {
+    "json_parses": true,
+    "vault_unchanged": true,
+    "q01_record_unchanged": true,
+    "protocol_unchanged": true,
+    "ids_unique": true,
+    "four_requested_cases": true,
+    "source_identity_reading": true,
+    "claim_provenance_limits": true,
+    "answers_resolve_to_claims": true,
+    "relations_resolve": true,
+    "no_false_approval_or_reproduction": true,
+    "local_origins_exist": true,
+    "retrieval_probe.py_replay": true,
+    "retrieval_probe.py_hash_matches_output": true,
+    "evidence_routing_probe.py_replay": true,
+    "evidence_routing_probe.py_hash_matches_output": true,
+    "routing_scores_recomputed": true,
+    "case_notes_match_json": true,
+    "local_links_resolve": true,
+    "original_vault_validator": true
+  },
+  "commands": [
+    {
+      "argv": [
+        "C:\\Users\\lawng\\miniconda3\\python.exe",
+        "-B",
+        "D:\\Project\\Trust-NIDS\\GraphFlow_Research\\pilot_runs\\2026-11-08_Q02-Q05\\retrieval_probe.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "C:\\Users\\lawng\\miniconda3\\python.exe",
+        "-B",
+        "D:\\Project\\Trust-NIDS\\GraphFlow_Research\\pilot_runs\\2026-11-08_Q02-Q05\\evidence_routing_probe.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "C:\\Users\\lawng\\miniconda3\\python.exe",
+        "-B",
+        "D:\\Project\\Trust-NIDS\\GraphFlow_Research\\pilot_runs\\2026-11-08_Q02-Q05\\render_casebook.py",
+        "--check"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "C:\\Users\\lawng\\miniconda3\\python.exe",
+        "D:\\Project\\Trust-NIDS\\GraphFlow_Research\\GraphFlow_Research_Vault\\13_Tools\\validate_vault.py",
+        "D:\\Project\\Trust-NIDS\\GraphFlow_Research\\GraphFlow_Research_Vault"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "bad_local_links": [],
+  "counts": {
+    "vault_files_preserved": 135,
+    "q01_files_preserved": 12,
+    "sources": 15,
+    "claims": 16,
+    "relations": 7,
+    "cases": 4
+  },
+  "vault_validator": {
+    "ok": true,
+    "markdown_files": 120,
+    "identified_notes": 117,
+    "errors": [],
+    "external_urls": "Not live-tested by this local validator; see reading audit",
+    "review": "Structural validation does not validate novelty or paper results."
+  },
+  "retrieval": {
+    "raw_topic_hits": 7,
+    "raw_total": 8,
+    "evidence_evaluable": 7,
+    "raw_evidence_hits": 4,
+    "filtered_evidence_hits": 6
+  },
+  "limitations": [
+    "Source references and generated-note consistency are structural, not independent scientific validation.",
+    "Human approval pending; no paper result reproduced; no generator, detector or cloud deployment tested."
+  ]
+}
