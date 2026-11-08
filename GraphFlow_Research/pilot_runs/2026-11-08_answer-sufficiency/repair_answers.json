@@ -1,0 +1,32 @@
+{
+  "run_id":"PILOT_20261108_ANSWER_SUFFICIENCY_REPAIR",
+  "condition":"bounded_repair",
+  "author":"Same assistant, manually using only the saved combined repair packets",
+  "reviewer":"Same assistant; not independent",
+  "human_review":"pending",
+  "answers":[
+    {
+      "id":"N02","status":"scoped_supported_after_repair",
+      "answer":"Có. Bằng chứng vừa được tìm bổ sung ghi KnowHow đánh giá việc loại bớt bước tấn công theo các tỷ lệ bước còn lại và báo ảnh hưởng tới detection ở mức graph/node. Nhưng đó chưa phải bằng chứng khôi phục các sự kiện thực bị mất do cơ chế thu log; kết quả vẫn là tác giả báo cáo, chưa được tái lập ở đây.",
+      "assertions":[
+        {"text":"KnowHow có đánh giá loại bớt bước tấn công và báo ảnh hưởng tới graph/node detection.","epistemic_type":"author_reported_in_extraction","support":[{"evidence_id":"A_L04","excerpt":"KnowHow evaluates removal of attack steps at several retained-step ratios and reports graph/node detection effects."}]},
+        {"text":"Không đánh đồng thí nghiệm đó với dựng lại sự kiện thực bị mất dưới một cơ chế thu thập cụ thể hoặc với kết quả tái lập độc lập.","epistemic_type":"scope_limit","support":[{"evidence_id":"A_L04","excerpt":"Detection on edited attack sequences is not equivalent to reconstructing true missing events under a real collection mechanism; no replication here."}]}
+      ],
+      "gap":"Chưa có phép tái lập hoặc thí nghiệm xác nhận riêng về phục hồi record bị mất.",
+      "next_action":"Nếu chọn hướng thực nghiệm, định nghĩa cơ chế mất và oracle trước; không lấy phép bỏ bước làm thay cho mọi cơ chế missingness.",
+      "self_review":"Câu trả lời này chỉ có sau khi packet sửa đã chứa A_L04; không thay câu trả lời thiếu bằng chứng của lượt đầu."
+    },
+    {
+      "id":"N07","status":"scoped_supported_after_repair",
+      "answer":"Theo hai nhận định thiết kế đã tìm đủ, ghi chung task/đơn vị nhãn, dữ liệu, split, calibration, baseline và ngân sách; đồng thời ghi version group, readiness, traffic mix, phần pod/thời gian đủ điều kiện so sánh và phần thiếu bằng chứng. Đây là thiết kế tổng hợp để thử, chưa phải kết quả cho thấy một detector tốt hơn hoặc rollout chắc chắn làm mất giám sát.",
+      "assertions":[
+        {"text":"Phần hợp đồng đánh giá đề xuất task/đơn vị nhãn, dữ liệu, split, calibration, baseline và ngân sách.","epistemic_type":"reviewer_inference_carried_forward","support":[{"evidence_id":"B_Q02C4","excerpt":"task/đơn vị nhãn, dữ liệu, split, calibration, baseline và ngân sách."}]},
+        {"text":"Phần điều kiện giám sát đề xuất version group, readiness, traffic mix, pod/thời gian đủ điều kiện và phần không đủ bằng chứng.","epistemic_type":"reviewer_inference_carried_forward","support":[{"evidence_id":"B_Q05C4","excerpt":"version group, readiness, traffic mix, phần thời gian/pod đủ điều kiện so sánh và phần không đủ bằng chứng"}]},
+        {"text":"Các mục này là thiết kế do người đọc tổng hợp, chưa phải kết quả đo mới.","epistemic_type":"scope_limit","support":[{"evidence_id":"B_Q02C4","excerpt":"Đây là thiết kế do người đọc tổng hợp; chưa có benchmark nội bộ hoặc kết quả hơn/kém mới."}]}
+      ],
+      "gap":"Chưa có dịch vụ, dữ liệu, oracle và kết quả lab cụ thể; hai mảnh được nối ở mức thiết kế.",
+      "next_action":"Chọn một task và cấu hình đo được rồi điền hợp đồng trước khi chạy; giữ riêng các kết quả safety, utility và coverage.",
+      "self_review":"Giữ cả hai mảnh và nhãn reviewer_inference; không nâng thành kết quả khoa học của riêng một paper."
+    }
+  ]
+}

@@ -1,0 +1,216 @@
+{
+  "run_id": "PILOT_20261108_ANSWER_SUFFICIENCY_REPAIR",
+  "repair_protocol_sha256": "f0887bf45c71c2b852a7e40c3d1d51a38225694c3d24053d079cff96e658d0e8",
+  "parent_results_sha256": "b8287f6f3e5a1ea486b575d7df09a0adcc6ccbb9579397f63aa67c451fbebf2a",
+  "parent_answers_sha256": "261a6f12bb6c1925c3aa9eb14e8939f8eec52bbea13e999c16b5fc7d66e5c218",
+  "script_sha256": "a566f9207809126268dad93f938e6347e97a7b01a4b9ca2bc27adc805d65c8fc",
+  "rows": [
+    {
+      "id": "N02",
+      "original_missing_facets": [
+        "step_removal_evaluation_and_boundary"
+      ],
+      "searches": [
+        {
+          "query": "KnowHow removal of attack steps missing audit records reconstruction",
+          "top_k": [
+            {
+              "id": "A_L04",
+              "path": "cards.json#A_L04",
+              "score": 18.322844
+            },
+            {
+              "id": "A_L08",
+              "path": "cards.json#A_L08",
+              "score": 9.970207
+            },
+            {
+              "id": "A_L02",
+              "path": "cards.json#A_L02",
+              "score": 8.643172
+            }
+          ]
+        }
+      ],
+      "combined_packet_ids": [
+        "B_Q02C1",
+        "P11",
+        "B_Q03C2",
+        "B_Q05C3",
+        "B_Q05C4",
+        "A_L04",
+        "A_L08",
+        "A_L02"
+      ],
+      "reference_facets": [
+        {
+          "id": "step_removal_evaluation_and_boundary",
+          "matched_ids": [
+            "A_L04"
+          ]
+        }
+      ],
+      "all_reference_facets_retrieved": true
+    },
+    {
+      "id": "N07",
+      "original_missing_facets": [
+        "evaluation_contract"
+      ],
+      "searches": [
+        {
+          "query": "hợp đồng đánh giá detector task nhãn dữ liệu split calibration baseline ngân sách",
+          "top_k": [
+            {
+              "id": "B_Q02C4",
+              "path": "cards.json#B_Q02C4",
+              "score": 22.819507
+            },
+            {
+              "id": "P10",
+              "path": "02_Papers/P10.md",
+              "score": 8.287409
+            },
+            {
+              "id": "K09",
+              "path": "04_Claims/K09.md",
+              "score": 7.128407
+            }
+          ]
+        },
+        {
+          "query": "version group readiness traffic mix pod thời gian đủ điều kiện giám sát",
+          "top_k": [
+            {
+              "id": "B_Q05C4",
+              "path": "cards.json#B_Q05C4",
+              "score": 28.306887
+            },
+            {
+              "id": "B_Q05C1",
+              "path": "cards.json#B_Q05C1",
+              "score": 11.655386
+            },
+            {
+              "id": "P14",
+              "path": "02_Papers/P14.md",
+              "score": 8.241654
+            }
+          ]
+        }
+      ],
+      "combined_packet_ids": [
+        "B_Q05C4",
+        "K10",
+        "K03",
+        "P14",
+        "P24",
+        "B_Q02C4",
+        "P10",
+        "K09",
+        "B_Q05C1"
+      ],
+      "reference_facets": [
+        {
+          "id": "evaluation_contract",
+          "matched_ids": [
+            "B_Q02C4"
+          ]
+        },
+        {
+          "id": "monitoring_eligibility",
+          "matched_ids": [
+            "B_Q05C4"
+          ]
+        }
+      ],
+      "all_reference_facets_retrieved": true
+    }
+  ],
+  "evidence_pool": {
+    "B_Q02C1": {
+      "id": "B_Q02C1",
+      "path": "cards.json#B_Q02C1",
+      "text": "# B_Q02C1\n\nNhận định: Khung so sánh giữ chung scoring scope, test cuối tách biệt, chọn checkpoint/ngưỡng bằng development data và tách metric alerting khỏi phục hồi process tấn công.\n\nLoại: author_reported\n\nVị trí: IV.A–C, IV.H, V.A, VI\n\nGiới hạn: Không đồng nghĩa train→validation luôn tăng đơn điệu theo từng ngày; không đo trực tiếp thời gian làm việc của analyst.\n\nNguồn:\nHow Benchmarks and Evaluation Protocols Shape Conclusions in Provenance-Based Intrusion Detection; arXiv:2608.01454v4, 2026-10-12"
+    },
+    "P11": {
+      "id": "P11",
+      "path": "02_Papers/P11.md",
+      "text": "\n# KnowHow: Automatically Applying High-Level CTI Knowledge for Interpretable and Accurate Provenance Analysis\n\nÁnh xạ tri thức CTI ngôn ngữ tự nhiên sang sự kiện hệ thống bằng gIoC, rồi suy luận quan hệ thời gian của các bước tấn công.\n\n## Ranh giới kết luận\n\nMục II giả định kernel và tầng audit không bị xâm phạm. Bản arXiv mở rộng có chức năng bổ sung; không trộn kết quả giữa các phiên bản.\n\n## Truy nguyên\n\n- Tác giả: Yuhan Meng; Shaofei Li; Jiaping Gui; Peng Jiang; Ding Li.\n- Năm / nơi: 2026 — NDSS.\n- Trạng thái: `published_peer_reviewed`; kiểm ngày 2026-11-08.\n- Đã xem: PDF NDSS 2026: trang 1–2, abstract, I, II và chú thích về bản mở rộng; chưa đọc trọn 18 trang.\n- [Nguồn chính](https://www.ndss-symposium.org/ndss-paper/knowhow-automatically-applying-high-level-cti-knowledge-for-interpretable-and-accurate-provenance-analysis/).\n\nTác giả xác minh từ trang đầu PDF hội nghị: 5 người. arXiv:2509.05698 là bản mở rộng, có thể khác danh sách tác giả và chức năng.\n\n[Artifact do tác giả dẫn](https://github.com/myh0301/KNOWHOW) — chưa tải/chạy; quyền sử dụng phải kiểm tra trước khi tái dùng.\n\n## Liên kết\n\n[[C01]] · [[C02]] · [[C06]] · [[C07]]\n\n[[K06]] · [[K07]]\n\nCâu hỏi đọc tiếp: giả định, nhãn, split, metric và artifact nào cần xác minh trước khi dùng bài này làm căn cứ thực nghiệm?\n"
+    },
+    "B_Q03C2": {
+      "id": "B_Q03C2",
+      "path": "cards.json#B_Q03C2",
+      "text": "# B_Q03C2\n\nNhận định: P14 đánh giá recovery time bằng chi phí hành động rời rạc và thí nghiệm mô phỏng; đánh giá vận hành vẫn được nêu là việc tiếp theo.\n\nLoại: author_reported\n\nVị trí: VII p.10; p.12 simulations; p.13 future work\n\nGiới hạn: Testbed thu log tấn công/training không tự xác nhận hiệu quả production của mọi kế hoạch sinh ra; không chuyển đơn vị hành động thành phút phục hồi thật.\n\nNguồn:\nIncident Response Planning Using a Lightweight Large Language Model with Reduced Hallucination; NDSS 2026 conference PDF, 20 pages including appendices"
+    },
+    "B_Q05C3": {
+      "id": "B_Q05C3",
+      "path": "cards.json#B_Q05C3",
+      "text": "# B_Q05C3\n\nNhận định: Bài gốc tách phân loại snapshot khỏi việc xác định replica bị compromise do tính đối xứng so sánh; còn nêu giới hạn cửa sổ quan sát và hoạt động bảo trì hiếm.\n\nLoại: author_reported\n\nVị trí: VIII.A pp.12–13\n\nGiới hạn: Không chuyển nhãn snapshot thành quy kết từng pod hoặc hành động cô lập an toàn.\n\nNguồn:\nREPLICAWATCHER: Training-less Anomaly Detection in Containerized Microservices; NDSS 2024 conference PDF, 17 pages"
+    },
+    "B_Q05C4": {
+      "id": "B_Q05C4",
+      "path": "cards.json#B_Q05C4",
+      "text": "# B_Q05C4\n\nNhận định: Phép thử hữu ích phải ghi version group, readiness, traffic mix, phần thời gian/pod đủ điều kiện so sánh và phần không đủ bằng chứng; cần đọc thêm hướng single-instance nhưng không trộn thesis với paper gốc.\n\nLoại: reviewer_inference\n\nVị trí: Q05C1–C3; E15 abstract/metadata\n\nGiới hạn: Không tuyên bố readiness luôn gây blind spot hoặc baseline thất bại. Đây là thiết kế thử để kiểm các khả năng đó.\n\nNguồn:\nREPLICAWATCHER: Training-less Anomaly Detection in Containerized Microservices; NDSS 2024 conference PDF, 17 pages\nKubernetes — Deployments; Live page checked 2026-11-08; page reports modified 2026-07-07\nCI/CD for microservices; Live page checked 2026-11-08\nTraining-less Anomaly-Based Intrusion Detection in Containerized Microservices; University of Twente record, award/publication date 2025-11-21, DOI 10.3990/1.9789036569460"
+    },
+    "A_L04": {
+      "id": "A_L04",
+      "path": "cards.json#A_L04",
+      "text": "# A_L04\n\nNhận định: KnowHow evaluates removal of attack steps at several retained-step ratios and reports graph/node detection effects.\n\nLoại: author_reported\n\nVị trí: VI.F, p.14, Incomplete Attacks and Table XI\n\nGiới hạn: Detection on edited attack sequences is not equivalent to reconstructing true missing events under a real collection mechanism; no replication here.\n\nNguồn:\nKnowHow: Automatically Applying High-Level CTI Knowledge for Interpretable and Accurate Provenance Analysis; NDSS 2026 conference PDF, 18 pages; not the extended arXiv version"
+    },
+    "A_L08": {
+      "id": "A_L08",
+      "path": "cards.json#A_L08",
+      "text": "# A_L08\n\nNhận định: Broad novelty for missing-evidence reconstruction, or for adding evidence-grounded stopping, is not defensible from the seed vault's omissions.\n\nLoại: reviewer_inference\n\nVị trí: L04–L06 locators\n\nGiới hạn: Overlap rejects a broad novelty inference; it does not show every instance of Q01 has been solved.\n\nNguồn:\nKnowHow: Automatically Applying High-Level CTI Knowledge for Interpretable and Accurate Provenance Analysis; NDSS 2026 conference PDF, 18 pages; not the extended arXiv version\nMinding the Gap: Bridging Causal Disconnects in System Provenance; PRISM 2026 workshop PDF, 10 pages; workshop date 2026-02-23; not an NDSS main-track paper\nHunterAgent: Neuro-Symbolic Attack Trace Reconstruction under Anti-Forensics; arXiv v1, submitted 2026-05-28; no peer-review status established in this run"
+    },
+    "A_L02": {
+      "id": "A_L02",
+      "path": "cards.json#A_L02",
+      "text": "# A_L02\n\nNhận định: MotifTrace performs post-hoc multi-stage reconstruction with a POI input.\n\nLoại: author_reported\n\nVị trí: Overview and threat model; Discussion\n\nGiới hạn: Not a direct detector comparison and not proof of robustness to absent audit events.\n\nNguồn:\nMotifTrace: multi-stage attack investigation via automated stage discovery and path reconstruction on provenance graphs; Publisher HTML, published 2026-10-15"
+    },
+    "K10": {
+      "id": "K10",
+      "path": "04_Claims/K10.md",
+      "text": "\n# Cận hallucination có điều kiện\n\n**Nhận định:** Bảo đảm trong bài ứng phó dựa trên điều kiện của Prop.1–2 và đánh đổi tính toán.\n\n**Loại:** `author_reported`.\n\n**Căn cứ:** [[P14]].\n\n**Vị trí kiểm:** PDF, V.A/B; Prop.1–2.\n\n**Giới hạn:** Không thể áp dụng nguyên xi khi sai số động lực học và giả định lấy mẫu chưa được xác lập.\n\nKhái niệm: [[C05]].\n\nChưa có tái lập độc lập hoặc chuyên gia duyệt nhận định này trong GraphFlow.\n"
+    },
+    "K03": {
+      "id": "K03",
+      "path": "04_Claims/K03.md",
+      "text": "\n# Cần baseline đơn giản đủ mạnh\n\n**Nhận định:** Bilot báo cáo mạng đơn giản cạnh tranh trên năm trong bảy bộ DARPA được xét.\n\n**Loại:** `author_reported`.\n\n**Căn cứ:** [[P09]].\n\n**Vị trí kiểm:** Abstract nhà xuất bản.\n\n**Giới hạn:** Giới hạn trong thiết kế khảo sát của bài; chưa tái lập tại GraphFlow.\n\nKhái niệm: [[C09]].\n\nChưa có tái lập độc lập hoặc chuyên gia duyệt nhận định này trong GraphFlow.\n"
+    },
+    "P14": {
+      "id": "P14",
+      "path": "02_Papers/P14.md",
+      "text": "\n# Incident Response Planning Using a Lightweight Large Language Model with Reduced Hallucination\n\nKết hợp fine-tuning, truy hồi và lookahead để tạo kế hoạch ứng phó; có phân tích cận xác suất hallucination theo điều kiện.\n\n## Ranh giới kết luận\n\nMệnh đề 1 cần đủ mẫu, thời gian kỳ vọng hữu hạn và sai số mô phỏng đủ nhỏ so với khác biệt hành động. Mệnh đề 2 dùng mẫu Bernoulli i.i.d.; không là bảo đảm an toàn vô điều kiện.\n\n## Truy nguyên\n\n- Tác giả: Kim Hammar; Tansu Alpcan; Emil C. Lupu.\n- Năm / nơi: 2026 — NDSS.\n- Trạng thái: `published_peer_reviewed`; kiểm ngày 2026-11-08.\n- Đã xem: PDF NDSS: abstract; V.A/B, Prop.1–2 (tr.8–9); VIII và limitations/future work (tr.13); chưa đọc toàn bộ.\n- [Nguồn chính](https://www.ndss-symposium.org/ndss-paper/incident-response-planning-using-a-lightweight-large-language-model-with-reduced-hallucination/).\n\narXiv:2508.05188 năm 2025 là preprint; bài hội nghị năm 2026.\n\n[Artifact do tác giả dẫn](https://github.com/Kim-Hammar/llm_incident_response_ndss26) — chưa tải/chạy; quyền sử dụng phải kiểm tra trước khi tái dùng.\n\n## Liên kết\n\n[[C05]] · [[C06]] · [[C10]]\n\n[[K10]] · [[K15]]\n\nCâu hỏi đọc tiếp: giả định, nhãn, split, metric và artifact nào cần xác minh trước khi dùng bài này làm căn cứ thực nghiệm?\n"
+    },
+    "P24": {
+      "id": "P24",
+      "path": "02_Papers/P24.md",
+      "text": "\n# Analyzing the Past to Prepare for the Future: Writing a Literature Review\n\nNguồn phương pháp tham chiếu cho cách tổ chức literature review. Bản đồ khái niệm trong vault là thiết kế tổng hợp của dự án.\n\n## Ranh giới kết luận\n\nChỉ đối chiếu metadata ở nguồn xuất bản trong lượt này; PDF bị chặn. Không coi cách hiểu “Watson” là điều người dùng đã xác nhận.\n\n## Truy nguyên\n\n- Tác giả: Jane Webster; Richard T. Watson.\n- Năm / nơi: 2002 — MIS Quarterly, 26(2).\n- Trạng thái: `published_peer_reviewed`; kiểm ngày 2026-11-08.\n- Đã xem: Trang AIS: tác giả, tiêu đề, volume/issue; download PDF bị HTTP 403.\n- [Nguồn chính](https://aisel.aisnet.org/misq/vol26/iss2/3/) · [DOI](https://doi.org/10.2307/4132319).\n\n## Liên kết\n\n[[C09]]\n\n\n\nCâu hỏi đọc tiếp: giả định, nhãn, split, metric và artifact nào cần xác minh trước khi dùng bài này làm căn cứ thực nghiệm?\n"
+    },
+    "B_Q02C4": {
+      "id": "B_Q02C4",
+      "path": "cards.json#B_Q02C4",
+      "text": "# B_Q02C4\n\nNhận định: Đầu ra hữu ích cho dự án là một hợp đồng đánh giá có thể tái chạy: task/đơn vị nhãn, dữ liệu, split, calibration, baseline và ngân sách. Khung dùng chung giảm công lắp ráp nhưng không thay kiểm chất lượng dữ liệu.\n\nLoại: reviewer_inference\n\nVị trí: E01 metrics; E02 methodology; E03/E04 abstracts\n\nGiới hạn: Đây là thiết kế do người đọc tổng hợp; chưa có benchmark nội bộ hoặc kết quả hơn/kém mới.\n\nNguồn:\nSometimes Simpler is Better: A Comprehensive Analysis of State-of-the-Art Provenance-Based Intrusion Detection Systems; Author-hosted PDF fetched 2026-11-08, 20 pages; manifestation not assumed byte-identical to proceedings\nHow Benchmarks and Evaluation Protocols Shape Conclusions in Provenance-Based Intrusion Detection; arXiv:2608.01454v4, 2026-10-12\nWhat We Talk About When We Talk About Logs: Understanding the Effects of Dataset Quality on Endpoint Threat Detection Research; IEEE S&P 2025; author-lab abstract checked 2026-11-08\nPIDSMaker: Building and Evaluating Provenance-based Intrusion Detection Systems; Author landing page and arXiv:2601.22983v2 metadata/abstract"
+    },
+    "P10": {
+      "id": "P10",
+      "path": "02_Papers/P10.md",
+      "text": "\n# Cutting the Fuse: Actionable APT Attack Blocking in Provenance-based IDS\n\nProvX tìm tập cạnh cốt lõi bằng giải thích phản thực để đổi dự đoán cảnh báo và đề xuất bước chặn.\n\n## Ranh giới kết luận\n\nNguồn chính thức mô tả can thiệp mô phỏng ở mức mô hình. Đổi dự đoán detector chưa đủ chứng minh ngăn được tấn công trên hệ thống thật.\n\n## Truy nguyên\n\n- Tác giả: Weiheng Wu; Wei Qiao; Teng Li; Yebo Feng; Zhuo Ma; Jianfeng Ma; Yang Liu.\n- Năm / nơi: 2026 — USENIX Security.\n- Trạng thái: `published_peer_reviewed`; kiểm ngày 2026-11-08.\n- Đã xem: Trang chính thức: metadata và abstract.\n- [Nguồn chính](https://www.usenix.org/conference/usenixsecurity26/presentation/wu-weiheng).\n\n## Liên kết\n\n[[C04]] · [[C05]] · [[C10]]\n\n[[K09]]\n\nCâu hỏi đọc tiếp: giả định, nhãn, split, metric và artifact nào cần xác minh trước khi dùng bài này làm căn cứ thực nghiệm?\n"
+    },
+    "K09": {
+      "id": "K09",
+      "path": "04_Claims/K09.md",
+      "text": "\n# Can thiệp mô hình khác chặn hệ thống\n\n**Nhận định:** Đảo cảnh báo sau khi sửa cạnh chưa đủ để suy hiệu quả ngăn tấn công thực tế.\n\n**Loại:** `reviewer_inference`.\n\n**Căn cứ:** [[P10]].\n\n**Vị trí kiểm:** Abstract chính thức: model-level evaluation.\n\n**Giới hạn:** Bài có đề xuất blocking; không phủ nhận đóng góp giải thích của tác giả.\n\nKhái niệm: [[C10]].\n\nChưa có tái lập độc lập hoặc chuyên gia duyệt nhận định này trong GraphFlow.\n"
+    },
+    "B_Q05C1": {
+      "id": "B_Q05C1",
+      "path": "cards.json#B_Q05C1",
+      "text": "# B_Q05C1\n\nNhận định: REPLICAWATCHER giả định replica cùng phiên bản/hoạt động, đánh giá update-induced drift và thảo luận loại pod đang tạo/xóa bằng readiness probes khi rolling update.\n\nLoại: author_reported\n\nVị trí: IV; VI.A/C; VIII.B p.12\n\nGiới hạn: Đề xuất trong Discussion không mặc nhiên là phép đo đầy đủ mixed-version/load-skew hoặc bảo đảm luôn có đủ peer.\n\nNguồn:\nREPLICAWATCHER: Training-less Anomaly Detection in Containerized Microservices; NDSS 2024 conference PDF, 17 pages"
+    }
+  },
+  "limits": [
+    "Adaptive, label-informed query rewrites by the same assistant.",
+    "Fixed first-pass result retained; no independent performance claim."
+  ]
+}

@@ -19,10 +19,22 @@
 ## Các tầng trạng thái
 
 - `verified_before`: đã nạp trạng thái và code của các lượt trước; đọc lại claim/giới hạn làm cơ sở gán nhãn trước probe.
-- `planned`: freeze → chạy fixed retrieval → xem thiếu facet → viết câu trả lời chỉ dựa packet → kiểm trích dẫn và giới hạn → ghi điều học được.
+- `implemented`: protocol 12 câu/rubric/nhãn đóng băng trước probe; corpus 46 note so với 72 record (46 note + 26 card có lineage). Không chỉnh ranker/query sau khi thấy kết quả lượt đầu.
+- `verified`: reference-facet coverage là 3/10 và 8/10; hai câu abstention không vào mẫu số. Hai ca augmented miss là N02 và N07. Đây là coverage theo nhãn định trước, chưa là answer accuracy.
+- `implemented`: 12 câu trả lời thực tế và 22 mệnh đề nối excerpt, giữ 1 ca retrieval-insufficient, 1 partial, 1 conflict và 2 ca từ chối kết luận không đủ bằng chứng.
+- `implemented`: một vòng repair cho N02/N07 có protocol/output/answer riêng; cả hai lấy lại được facet cần. Kết quả đầu và câu trả lời đầu không đổi; không nâng score thành 10/10.
+- `verified`: bốn control lỗi cấu trúc bị từ chối; một control citation đúng nhưng mệnh đề ngược nghĩa vẫn qua kiểm cơ học và được đánh dấu sai khi cùng AI tự đối chiếu. Chưa có semantic judge độc lập.
+- `implemented`: `README.md` tổng hợp kết quả; `ANSWERS.md`/`REPAIRED_ANSWERS.md` sinh từ owner JSON; các kiểm cuối và giới hạn ở `VERIFICATION.md`/`verification.json`.
+- `verified_after`: replay và repair giống byte, cả 135 file vault + 12 file Q01 + 21 file Q02–Q05 khớp nền; trích dẫn/lineage/render/local links qua kiểm cấu trúc; validator vault vẫn 120 Markdown/117 identified notes/0 lỗi. Pass cấu trúc không che lỗi semantic control đã nêu.
 - `unknown`: hiệu quả generator tự động, đánh giá độc lập, khả năng chuyển sang câu/domain chưa thấy và kết quả vận hành thực.
 - `not_accepted`: người dùng chưa duyệt kết quả lượt này. Quyền tiếp tục không là chấp nhận kết luận.
 
 ## Điều kiện hoàn tất
 
 Đủ 12 câu có packet và câu trả lời thực tế (có thể partial/insufficient/conflict); mỗi nhận định có evidence ID/locator và giới hạn; phân loại retrieval miss, content not captured, missing local experiment và unresolved version. Không điền kiến thức ngoài packet để làm đẹp điểm. Giữ riêng mechanical reference-facet coverage với semantic sufficiency do AI tự rà.
+
+## Checkpoint
+
+- `a8cf3bb`: protocol, frozen inputs, 26 card và packet/kết quả lượt đầu đã commit/push lên `origin/codex/graphflow-q01-pilot` trước khi chốt đáp án/tự rà.
+- Checkpoint đáp án, repair và kiểm cuối theo sau; xem Git history cho hash cuối, tránh commit tự tham chiếu.
+- `not_accepted` vẫn giữ nguyên; việc này chưa chứng nhận RAG ổn định hoặc quyền hợp nhất toàn kho.

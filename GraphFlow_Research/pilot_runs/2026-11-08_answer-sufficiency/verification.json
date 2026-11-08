@@ -1,0 +1,126 @@
+{
+  "run_id": "PILOT_20261108_ANSWER_SUFFICIENCY",
+  "as_of": "2026-11-08",
+  "ok": true,
+  "mechanical_checks": {
+    "frozen_inputs_unchanged": true,
+    "cards_have_exact_lineage": true,
+    "cards_not_user_approved_or_reproduced": true,
+    "protocol_hash_matches_results": true,
+    "answer_mechanical_checks": true,
+    "replay_succeeded": true,
+    "replay_identical": true,
+    "current_script_hash_matches": true,
+    "structural_negative_controls_rejected": true,
+    "repair_citations_resolve": true,
+    "repair_did_not_overwrite_first_answers": true,
+    "repair_protocol_hash_matches": true,
+    "repair_replay_identical": true,
+    "original_vault_validator": true,
+    "render_matches_answers": true,
+    "local_links_resolve": true
+  },
+  "answer_errors": [],
+  "repair_errors": [],
+  "controls": [
+    {
+      "id": "outside_packet",
+      "origin": "manually injected validator control; not observed model output",
+      "mechanically_rejected": true,
+      "errors": [
+        "N02: citation outside packet: A_L04"
+      ]
+    },
+    {
+      "id": "fabricated_excerpt",
+      "origin": "manually injected validator control; not observed model output",
+      "mechanically_rejected": true,
+      "errors": [
+        "N03: excerpt not found in B_Q02C1"
+      ]
+    },
+    {
+      "id": "partial_labeled_complete",
+      "origin": "manually injected validator control; not observed model output",
+      "mechanically_rejected": true,
+      "errors": [
+        "N07: claiming full support despite missing reference facets"
+      ]
+    },
+    {
+      "id": "conflict_silently_resolved",
+      "origin": "manually injected validator control; not observed model output",
+      "mechanically_rejected": true,
+      "errors": [
+        "N11: violates predeclared abstention/conflict outcome"
+      ]
+    },
+    {
+      "id": "valid_citation_wrong_assertion",
+      "origin": "manually injected semantic control; not observed model output",
+      "mutated_text": "CloudTrail trails mặc định đã ghi đầy đủ mọi data event.",
+      "mechanically_rejected": false,
+      "same_agent_semantic_review": "Contradicts the unchanged cited K13 statement. Reject semantically even though IDs and quotes remain valid.",
+      "lesson": "Exact citation checks cannot establish entailment or answer correctness."
+    }
+  ],
+  "counts": {
+    "questions": 12,
+    "cards": 26,
+    "substantive_assertions_with_excerpt_links": 22,
+    "vault_files_preserved": 135,
+    "q01_files_preserved": 12,
+    "q02_q05_files_preserved": 21
+  },
+  "retrieval_reference_coverage": {
+    "original": {
+      "complete_reference_packets": 3,
+      "scored_questions": 10
+    },
+    "augmented": {
+      "complete_reference_packets": 8,
+      "scored_questions": 10
+    }
+  },
+  "commands": [
+    {
+      "argv": [
+        "C:\\Users\\lawng\\miniconda3\\python.exe",
+        "-B",
+        "D:\\Project\\Trust-NIDS\\GraphFlow_Research\\pilot_runs\\2026-11-08_answer-sufficiency\\run_probe.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "C:\\Users\\lawng\\miniconda3\\python.exe",
+        "-B",
+        "D:\\Project\\Trust-NIDS\\GraphFlow_Research\\pilot_runs\\2026-11-08_answer-sufficiency\\repair_probe.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "C:\\Users\\lawng\\miniconda3\\python.exe",
+        "D:\\Project\\Trust-NIDS\\GraphFlow_Research\\GraphFlow_Research_Vault\\13_Tools\\validate_vault.py",
+        "D:\\Project\\Trust-NIDS\\GraphFlow_Research\\GraphFlow_Research_Vault"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "vault_validator": {
+    "ok": true,
+    "markdown_files": 120,
+    "identified_notes": 117,
+    "errors": [],
+    "external_urls": "Not live-tested by this local validator; see reading audit",
+    "review": "Structural validation does not validate novelty or paper results."
+  },
+  "semantic_review": {
+    "mode": "Same assistant manually authored and reviewed answers; not independent.",
+    "semantic_accuracy": null,
+    "generator_tested": false,
+    "limits": "Subset coverage and exact substrings do not prove source truth, completeness, entailment or model performance."
+  },
+  "bad_local_links": []
+}

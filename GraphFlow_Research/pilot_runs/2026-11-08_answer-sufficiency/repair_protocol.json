@@ -1,0 +1,16 @@
+{
+  "run_id":"PILOT_20261108_ANSWER_SUFFICIENCY_REPAIR",
+  "parent_run":"PILOT_20261108_ANSWER_SUFFICIENCY",
+  "design_timing":"Adaptive repair after first-pass packets and manual answers were saved. Assistant knows reference labels; not a new held-out test.",
+  "purpose":"Check whether one bounded source-directed/decomposed lookup can supply the two missing reference facets; preserve original 3/10 and 8/10 results.",
+  "candidate_corpus":"The exact 72-document augmented corpus from the frozen parent run; no new external material or edits.",
+  "max_rounds":1,
+  "top_k_per_subquery":3,
+  "max_combined_ids":11,
+  "cases":[
+    {"id":"N02","subqueries":["KnowHow removal of attack steps missing audit records reconstruction"],"reason":"Translate the named-paper question and its missing evaluation facet into the language used by the stored extraction; no explicit evidence ID in query."},
+    {"id":"N07","subqueries":["hợp đồng đánh giá detector task nhãn dữ liệu split calibration baseline ngân sách","version group readiness traffic mix pod thời gian đủ điều kiện giám sát"],"reason":"Separate evaluation contract from observation eligibility using the diagnosed facets. Query text is agent-authored with knowledge of this corpus, not produced by an autonomous query generator."}
+  ],
+  "stop":"After this round, either answer the newly supported parts or keep partial/insufficient. Do not keep rewriting until every question scores perfectly.",
+  "reporting":"Report repaired packets and answers separately. Recovery here does not turn the initial reference-coverage result into 10/10 or estimate generalization."
+}

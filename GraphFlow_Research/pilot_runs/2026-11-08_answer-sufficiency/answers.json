@@ -1,0 +1,139 @@
+{
+  "run_id":"PILOT_20261108_ANSWER_SUFFICIENCY",
+  "condition":"augmented",
+  "author":"Current assistant, manually constrained to saved packets; not a separate generator execution",
+  "reviewer":"Same assistant; no independent semantic judge",
+  "human_review":"pending",
+  "answers":[
+    {
+      "id":"N01","status":"scoped_supported",
+      "answer":"Trong snapshot này, CloudTrail trails và event data stores không ghi data events mặc định; cần cấu hình ghi loại sự kiện đó. Điều này không có nghĩa CloudTrail không ghi gì.",
+      "assertions":[
+        {"text":"CloudTrail trails và event data stores không ghi data events mặc định; cần cấu hình thu thập loại này.","epistemic_type":"official_documentation_in_snapshot","support":[{"evidence_id":"K13","excerpt":"AWS CloudTrail trails và event data stores mặc định không ghi data events."},{"evidence_id":"D03","excerpt":"cần cấu hình thu thập loại sự kiện này."}]},
+        {"text":"Không suy thành CloudTrail không ghi gì.","epistemic_type":"scope_limit","support":[{"evidence_id":"K13","excerpt":"không nói CloudTrail không ghi gì."}]}
+      ],
+      "gap":"Không kiểm tra cấu hình của tài khoản thật hoặc độ mới của tài liệu ngoài snapshot.",
+      "next_action":"Khi chuyển sang lab, đọc cấu hình trail/event selectors thực tế; không lấy default làm trạng thái tài khoản.",
+      "self_review":"Các mệnh đề giữ đúng loại tài nguyên và giới hạn của K13; chưa phải kiểm độc lập tài liệu AWS."
+    },
+    {
+      "id":"N02","status":"insufficient_retrieval",
+      "answer":"Packet này chưa đủ để trả lời phần thí nghiệm bỏ bước hoặc khôi phục record. Note P11 được trả về mới ghi đã xem trang 1–2 và các mục mở đầu; tao không suy rằng toàn bài không có thí nghiệm chỉ vì note chưa chứa nó.",
+      "assertions":[
+        {"text":"Note P11 trong packet ghi mức đọc giới hạn ở phần đầu và chưa đọc trọn bài.","epistemic_type":"metadata_observation","support":[{"evidence_id":"P11","excerpt":"PDF NDSS 2026: trang 1–2, abstract, I, II và chú thích về bản mở rộng; chưa đọc trọn 18 trang."}]}
+      ],
+      "gap":"Facet step_removal_evaluation_and_boundary không có trong top 5, dù bộ card có một bằng chứng đã gán nhãn cho nó.",
+      "next_action":"Truy xuất lại theo danh tính nguồn/locator hoặc mở bằng chứng A_L04 ở bước bổ sung riêng; chưa đưa nội dung nhớ từ card đó vào câu trả lời hiện tại.",
+      "self_review":"Đã giữ câu trả lời thiếu bằng chứng thay vì dùng kiến thức đã biết ngoài packet. Đây là miss của đường truy xuất, không là bằng chứng KnowHow thiếu thí nghiệm."
+    },
+    {
+      "id":"N03","status":"scoped_supported",
+      "answer":"Chưa thể suy như vậy. Trong khung được trích, metric alerting được tách khỏi khả năng phục hồi process tấn công; cần xem đúng kết quả process-level cho mục tiêu điều tra. Nó cũng không tự đo thời gian analyst làm việc.",
+      "assertions":[
+        {"text":"Khung được trích tách metric alerting khỏi phục hồi process tấn công, nên báo động tốt một mình chưa trả lời được mục tiêu điều tra.","epistemic_type":"scoped_inference_from_author_report","support":[{"evidence_id":"B_Q02C1","excerpt":"tách metric alerting khỏi phục hồi process tấn công."}]},
+        {"text":"Không lấy các metric này làm thời gian làm việc thực của analyst.","epistemic_type":"scope_limit","support":[{"evidence_id":"B_Q02C1","excerpt":"không đo trực tiếp thời gian làm việc của analyst."}]}
+      ],
+      "gap":"Packet không có kết quả process-level của một detector triển khai trong SOC của người dùng.",
+      "next_action":"Chọn task/process ground truth và báo riêng metric phục hồi, alert burden và thời gian người dùng nếu muốn đo nó.",
+      "self_review":"Suy luận được ghi là suy luận có phạm vi, không biến metric thành bằng chứng hiệu quả người dùng."
+    },
+    {
+      "id":"N04","status":"scoped_supported",
+      "answer":"Không đổi trực tiếp sang phút downtime. Card của P14 ghi recovery time theo chi phí hành động rời rạc và mô phỏng; đánh giá vận hành vẫn là việc tiếp theo. Đơn vị hành động không tự là phút phục hồi ứng dụng thật.",
+      "assertions":[
+        {"text":"P14 ở hồ sơ này dùng chi phí hành động rời rạc và mô phỏng; đánh giá vận hành chưa được trích như kết quả hoàn tất.","epistemic_type":"author_reported_in_extraction","support":[{"evidence_id":"B_Q03C2","excerpt":"P14 đánh giá recovery time bằng chi phí hành động rời rạc và thí nghiệm mô phỏng; đánh giá vận hành vẫn được nêu là việc tiếp theo."}]},
+        {"text":"Không chuyển đơn vị hành động thành phút phục hồi thật.","epistemic_type":"scope_limit","support":[{"evidence_id":"B_Q03C2","excerpt":"không chuyển đơn vị hành động thành phút phục hồi thật."}]}
+      ],
+      "gap":"Chưa có ánh xạ chi phí thực thi hay số đo downtime cho ứng dụng cụ thể.",
+      "next_action":"Nếu cần phút downtime, đo thời gian và service health trong một kịch bản vận hành xác định, lưu riêng khỏi metric mô hình.",
+      "self_review":"Không phủ nhận testbed hoặc giá trị lập kế hoạch; chỉ chặn phép đổi đơn vị không có bằng chứng."
+    },
+    {
+      "id":"N05","status":"scoped_supported",
+      "answer":"Có thể vẫn sai nội dung. Card CaMeL nêu rõ việc làm sai văn bản mà không dẫn tới flow bị cấm là non-goal. Vì vậy chặn tool-flow trái policy chưa đủ bảo đảm báo cáo đúng; điều này cũng không có nghĩa cơ chế chặn flow vô ích.",
+      "assertions":[
+        {"text":"Trong phạm vi CaMeL được trích, chỉnh sai nội dung text-to-text không dẫn tới flow bị cấm là non-goal.","epistemic_type":"author_reported_in_extraction","support":[{"evidence_id":"B_Q04C2","excerpt":"chỉnh sai nội dung text-to-text không dẫn tới flow bị cấm là non-goal được nêu rõ."}]},
+        {"text":"Giới hạn đó không phủ nhận giá trị biện pháp hoặc chứng nhận mọi prompt injection đã được giải.","epistemic_type":"scope_limit","support":[{"evidence_id":"B_Q04C2","excerpt":"Không gọi biện pháp này vô ích hay khẳng định prompt injection đã giải hoàn toàn; gắn với arXiv v2 được đọc."}]}
+      ],
+      "gap":"Chưa có phép đo tính đúng của báo cáo hoặc policy cụ thể của trợ lý riêng.",
+      "next_action":"Chấm độ đúng/support của nội dung tách khỏi quyền gọi tool; giữ phiên bản/threat model của nguồn.",
+      "self_review":"Không biến non-goal của một phiên bản thành tuyên bố mọi hệ thống chắc chắn bị tấn công thành công."
+    },
+    {
+      "id":"N06","status":"scoped_supported",
+      "answer":"Theo card đã trích, REPLICAWATCHER bàn cách loại pod đang tạo/xóa bằng readiness probes khi rolling update. Nhưng đề xuất trong Discussion chưa tự thành phép đo đầy đủ cho mixed-version/load-skew hoặc bảo đảm luôn đủ peer để giám sát.",
+      "assertions":[
+        {"text":"Bài gốc có thảo luận loại pod đang tạo/xóa bằng readiness probes khi rolling update.","epistemic_type":"author_reported_in_extraction","support":[{"evidence_id":"B_Q05C1","excerpt":"thảo luận loại pod đang tạo/xóa bằng readiness probes khi rolling update."}]},
+        {"text":"Không xem riêng đề xuất đó là bảo đảm đầy đủ về mixed-version/load-skew hoặc đủ peer.","epistemic_type":"scope_limit","support":[{"evidence_id":"B_Q05C1","excerpt":"Đề xuất trong Discussion không mặc nhiên là phép đo đầy đủ mixed-version/load-skew hoặc bảo đảm luôn có đủ peer."}]}
+      ],
+      "gap":"Chưa có kết quả đo coverage hoặc kiểm implementation readiness/version handling trong artifact.",
+      "next_action":"Kiểm artifact và ghi eligible pod/time coverage cùng kết quả phát hiện trong một phép thử xác định.",
+      "self_review":"Giữ đề xuất đúng tư cách đề xuất; không tuyên bố chắc chắn có blind spot hay detector thất bại."
+    },
+    {
+      "id":"N07","status":"partial",
+      "answer":"Từ packet này, phần điều kiện vận hành có thể ghi là version group, readiness, traffic mix, phần pod/thời gian đủ điều kiện so sánh và phần không đủ bằng chứng. Đây là thiết kế do người đọc đề xuất. Packet chưa đủ để trình bày trọn hợp đồng đánh giá hai detector; còn thiếu mảnh về điều kiện đánh giá chung đã gán nhãn trước.",
+      "assertions":[
+        {"text":"Phần thiết kế được trả về đề xuất ghi version group, readiness, traffic mix, eligibility theo pod/thời gian và phần thiếu bằng chứng.","epistemic_type":"reviewer_inference_carried_forward","support":[{"evidence_id":"B_Q05C4","excerpt":"Phép thử hữu ích phải ghi version group, readiness, traffic mix, phần thời gian/pod đủ điều kiện so sánh và phần không đủ bằng chứng"}]},
+        {"text":"Đây là thiết kế kiểm khả năng, chưa phải kết quả readiness gây blind spot hay baseline thất bại.","epistemic_type":"scope_limit","support":[{"evidence_id":"B_Q05C4","excerpt":"Không tuyên bố readiness luôn gây blind spot hoặc baseline thất bại. Đây là thiết kế thử để kiểm các khả năng đó."}]}
+      ],
+      "gap":"Facet evaluation_contract không có trong top 5. Facet monitoring_eligibility có, nên chỉ trả lời phần tương ứng.",
+      "next_action":"Lấy thêm bằng chứng B_Q02C4 qua lượt truy xuất bổ sung riêng rồi mới nối hai phần; không dùng trí nhớ để chốt bản thiết kế đầy đủ trong câu này.",
+      "self_review":"Không gắn kết quả đủ một nửa thành câu trả lời đủ toàn bộ; giữ nhãn reviewer_inference của card."
+    },
+    {
+      "id":"N08","status":"scoped_supported",
+      "answer":"Không. Chỉ nhìn tỷ lệ tấn công thành công thấp có thể bỏ qua việc trợ lý không làm được nhiệm vụ hợp lệ. Cần đánh giá cả an toàn lẫn công dụng; đây là quy tắc đánh giá có nguồn trong kho, chưa là kết quả đo một trợ lý riêng.",
+      "assertions":[
+        {"text":"Thất bại ở nhiệm vụ hợp lệ có thể trông an toàn, nên phải báo cả an toàn lẫn công dụng.","epistemic_type":"reviewer_inference_carried_forward","support":[{"evidence_id":"K11","excerpt":"Agent thất bại ở nhiệm vụ hợp lệ có thể trông an toàn; cần báo cả hai mặt."}]},
+        {"text":"Quy tắc này không là một định lý bao quát mọi agent.","epistemic_type":"scope_limit","support":[{"evidence_id":"K11","excerpt":"Đây là suy luận đánh giá; chưa là định lý bao quát agent."}]}
+      ],
+      "gap":"Chưa có tập tác vụ hợp lệ, input đối kháng và kết quả agent riêng để tính trade-off.",
+      "next_action":"Lưu task completion cùng kết quả security trên cùng workflow, giữ oracle và mẫu đánh giá rõ.",
+      "self_review":"Không đánh đồng tỷ lệ từ chối cao với an toàn/hữu ích; không đưa ra tỷ lệ nào chưa đo."
+    },
+    {
+      "id":"N09","status":"insufficient_no_local_experiment",
+      "answer":"Tao chưa có bằng chứng trong gói này để báo một tỷ lệ false positive cho lab của mày. Không lấy số từ benchmark của paper thay cho lab riêng; cần dữ liệu hoặc kết quả đo của đúng cấu hình đó.",
+      "assertions":[
+        {"text":"Không thay số đo lab riêng bằng hiệu năng paper chưa được tái lập.","epistemic_type":"abstention_policy","support":[{"evidence_id":"POLICY_EVIDENCE","excerpt":"Số điểm/hiệu năng trong paper là tác giả báo cáo cho đến khi tái lập."}]}
+      ],
+      "gap":"Không có số đo đúng lab/cấu hình/nhãn của người dùng trong packet; không khẳng định người dùng chưa từng chạy thí nghiệm bên ngoài kho.",
+      "next_action":"Nhận hoặc tạo dữ liệu có nhãn benign/attack và trạng thái rollout cho đúng lab trước khi tính tỷ lệ; việc chạy lab chưa nằm trong lượt kiểm tài liệu này.",
+      "self_review":"Không đưa số tưởng tượng, không đồng nhất phạm vi kho với toàn bộ kinh nghiệm của người dùng."
+    },
+    {
+      "id":"N10","status":"insufficient_global_novelty",
+      "answer":"Chưa. Số bài trong kho không chứng minh toàn thế giới chưa có lời giải cho Q02. Mình có thể ghi phạm vi đã khảo sát và phần chưa biết; Q02 vẫn dùng được để học và thiết kế đánh giá.",
+      "assertions":[
+        {"text":"Không thấy lời giải trong tập đang có không cho phép viết chưa ai làm.","epistemic_type":"abstention_policy","support":[{"evidence_id":"POLICY_EVIDENCE","excerpt":"Không thấy một lời giải trong tập hiện có: viết “chưa thấy trong phạm vi đã tìm”, không viết “chưa ai làm”."}]},
+        {"text":"Nhãn substantiated_in_scope cũng không bảo đảm toàn thế giới chưa ai làm.","epistemic_type":"abstention_policy","support":[{"evidence_id":"POLICY_GATE","excerpt":"Tên nhãn này vẫn không bảo đảm toàn thế giới chưa ai làm."}]}
+      ],
+      "gap":"Chưa có khảo sát đủ phạm vi cho một đóng góp cụ thể; global absence không thể suy từ số note.",
+      "next_action":"Khi có ý tưởng đóng góp cụ thể mới lập hồ sơ prior art và phản chứng cho phạm vi đó; tiếp tục dùng Q02 như câu hỏi tổ chức tri thức.",
+      "self_review":"Từ chối tuyên bố novelty, không từ chối hoặc loại bỏ chính câu hỏi Q02."
+    },
+    {
+      "id":"N11","status":"conflict",
+      "answer":"Chưa chốt một con số duy nhất. Hồ sơ ghi trang tác giả là 5/7 còn PDF được liên kết là 8/9; chưa xác định lịch sử sửa đổi và bản proceedings tương ứng. Trong review tạm, ghi khác biệt kèm từng phiên bản hoặc dùng kết luận định tính có giới hạn, rồi xác minh trước khi chốt số.",
+      "assertions":[
+        {"text":"Hồ sơ đang ghi hai denominator khác nhau theo trang tác giả và PDF liên kết.","epistemic_type":"metadata_observation_in_extraction","support":[{"evidence_id":"B_Q02C3","excerpt":"Trang tác giả ghi năm trong bảy dataset, còn PDF được liên kết ghi tám trong chín."}]},
+        {"text":"Chưa đủ căn cứ âm thầm thay số cũ bằng số mới.","epistemic_type":"scope_limit","support":[{"evidence_id":"B_Q02C3","excerpt":"Chưa xác định lịch sử sửa đổi hay bản proceedings byte-identical; không sửa số cũ thành số mới chỉ từ khác biệt này."}]}
+      ],
+      "gap":"Cần xác minh version history và bản được chọn để trích; khác biệt không tự chứng minh tác giả sai hoặc kết quả bị bác bỏ.",
+      "next_action":"Đối chiếu bản proceedings/errata và artifact tương ứng trong một lượt kiểm nguồn riêng trước khi đưa con số cuối vào literature review.",
+      "self_review":"Không chọn 8/9 vì mới nhìn thấy sau hoặc coi 5/7 là sai chỉ do hai manifestation khác nhau."
+    },
+    {
+      "id":"N12","status":"scoped_supported",
+      "answer":"Trong hồ sơ ngày 08/11/2026, P21 đang được ghi là preprint 2026, với acceptance NDSS 2027 do tác giả báo cáo; hồ sơ chưa có xác nhận venue chính thức. Vì vậy chưa nâng nó thành bài đã xuất bản năm 2027 được xác minh chính thức.",
+      "assertions":[
+        {"text":"Kho tác giả ghi accepted NDSS 2027, còn bản công khai đang kiểm là preprint 2026.","epistemic_type":"metadata_observation","support":[{"evidence_id":"K16","excerpt":"Kho tác giả Theseus ghi accepted NDSS 2027; bản công khai đang kiểm là preprint 2026."}]},
+        {"text":"Hồ sơ này chưa ghi xác nhận venue chính thức.","epistemic_type":"scope_limit","support":[{"evidence_id":"K16","excerpt":"Chưa có xác nhận venue chính thức trong lượt này."}]}
+      ],
+      "gap":"Không cập nhật trạng thái venue trực tiếp ở lượt này; câu trả lời chỉ áp dụng cho snapshot đã đóng băng.",
+      "next_action":"Nếu cần trạng thái hiện hành để nộp review, kiểm danh sách hoặc proceedings chính thức rồi ghi một lần xác minh mới.",
+      "self_review":"Giữ riêng acceptance, publication year và source verification; không biến venue tương lai thành năm xuất bản hiện tại."
+    }
+  ]
+}
